@@ -11,9 +11,9 @@ const view = (state, {updateState}) => {
 			<h5>Base Path - "https://dev69661.service-now.com/api/now/table/"</h5>
 			<form>
 				<h3>table</h3>
-				<input type="text" onChange={ set_api_value( state, updateState ) } value={ state.table }></input>
+				<input type="text" name='table' placeholder='Enter table name here' on-change={ (e) => set_api_value( updateState, e ) } value={ state.table }></input>
 				<h3>query</h3>
-				<input type="text" onChange={ set_api_value( state, updateState ) } value={ state.query }></input>
+				<input type="text" name='query' placeholder='Add query here > ex. active=true' on-change={ (e) => set_api_value( updateState, e ) } value={ state.query }></input>
 			</form>
 		</div>
 	);
@@ -22,8 +22,8 @@ const view = (state, {updateState}) => {
 createCustomElement('x-71146-testing-project', {
 	renderer: {type: snabbdom},
 	initialState: {
-		table: 'testing',
-		query: 'active=true'	
+		table: '',
+		query: ''	
 	},
 	view,
 	styles
