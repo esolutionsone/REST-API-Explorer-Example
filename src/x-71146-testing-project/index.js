@@ -3,6 +3,7 @@ import snabbdom              from '@servicenow/ui-renderer-snabbdom';
 import styles                from './styles.scss';
 import { TextInput }         from './components/TextInput';
 import { ChoiceInput } 		 from './components/ChoiceInput'
+import actionHandlers        from './actionHandlers';
 
 const view = (state, {updateState}) => {
 	const methods = ['GET','POST','PUT','DELETE','PATCH'];
@@ -30,5 +31,6 @@ createCustomElement('x-71146-testing-project', {
 		path:  'https://dev69661.service-now.com/api/now/table/'
 	},
 	view,
-	styles
+	styles,
+	actionHandlers
 });
