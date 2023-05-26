@@ -11,7 +11,7 @@ export const TypeAheadReference = ({ state, label, name, table, dispatch }) => {
             <input
                 id={ name }
                 name={ name }
-                onkeyup={ (e) => fetch_tables( e, table, 20, dispatch ) }
+                onkeyup={ (e) => fetch_tables( e.target.value, table, 20, dispatch ) }
                 value={ state[name] }
             >
             </input>
