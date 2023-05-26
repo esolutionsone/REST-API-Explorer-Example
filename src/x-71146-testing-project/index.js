@@ -26,11 +26,12 @@ const view = (state, { updateState, dispatch }) => {
 createCustomElement('x-71146-testing-project', {
 	renderer: {type: snabbdom},
 	initialState: {
-		method: 'GET',
-		table:  '',
-		tables: {},
-		query:  '',
-		path:  'https://dev69661.service-now.com/api/now/table/'
+		method:         'GET',
+		table:          '',
+		tables:         {},
+		selected_table: '',
+		query:          '',
+		path:           'https://dev69661.service-now.com/api/now/table/'
 	},
 	view,
 	styles,
