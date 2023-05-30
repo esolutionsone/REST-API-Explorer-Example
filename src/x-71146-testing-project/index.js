@@ -1,9 +1,12 @@
 import {createCustomElement}  from '@servicenow/ui-core';
 import snabbdom               from '@servicenow/ui-renderer-snabbdom';
 import styles                 from './styles.scss';
+/* */
 import { TextInput }          from './components/TextInput';
 import { ChoiceInput } 		  from './components/ChoiceInput';
 import { TypeAheadReference } from './components/TypeAheadReference';
+/* Importing ServiceNow now-button component, this can be installed by running npm -i @service-now/now-button and details 
+can be found here https://developer.servicenow.com/dev.do#!/reference/next-experience/utah/now-components/now-button/overview */
 import { nowButton }          from '@servicenow/now-button'
 import actionHandlers         from './actionHandlers';
 import { send_rest }          from './helpers';
