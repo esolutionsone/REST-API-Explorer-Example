@@ -4,7 +4,9 @@ import styles                 from './styles.scss';
 import { TextInput }          from './components/TextInput';
 import { ChoiceInput } 		  from './components/ChoiceInput';
 import { TypeAheadReference } from './components/TypeAheadReference';
+import { nowButton }          from '@servicenow/now-button'
 import actionHandlers         from './actionHandlers';
+import { send_rest }          from './helpers';
 
 const view = (state, { updateState, dispatch }) => {
 	const methods = ['GET','POST','PUT','DELETE','PATCH'];
@@ -18,7 +20,8 @@ const view = (state, { updateState, dispatch }) => {
 				<TextInput            state={state} updateState={updateState} label='Query'  name='query'  placeholder='Add query here > ex. active=true' />
 			</form>
 			<h3>Request Details:</h3>
-			<h5>{state.method} - {state.path}{state.table != '' ? state.table : "<table>"}{state.query != '' ? '?sysparm_query=' + state.query : ''}</h5>
+			<h5>{state.method} - {state.path}{state.table != '' ? state.selected_table : "<table>"}{state.query != '' ? '?sysparm_query=' + state.query : ''}</h5>
+			<now-button label="Click me" variant="primary" size="md" on-click={ () => send_rest( updateState, state, dispatch ) }></now-button>
 		</div>
 	);
 };
@@ -28,10 +31,11 @@ createCustomElement('x-71146-testing-project', {
 	initialState: {
 		method:         'GET',
 		table:          '',
-		tables:         {},
+		tables:         [],
 		selected_table: '',
 		query:          '',
-		path:           'https://dev69661.service-now.com/api/now/table/'
+		path:           'api/now/table/',
+		results:        []
 	},
 	view,
 	styles,

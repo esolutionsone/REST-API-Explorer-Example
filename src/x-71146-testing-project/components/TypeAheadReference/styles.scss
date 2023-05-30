@@ -1,0 +1,23 @@
+.type-ahead-reference{
+
+}
+.type-ahead-reference input{
+}
+.type-ahead-reference ul::before{
+    content: '';
+}
+.type-ahead-reference ul{
+    list-style-type: none;
+    text-align: left;
+    margin: 0;
+    padding: 0;
+    border-top: 1px solid gray;
+}
+.type-ahead-reference li{
+    padding: 10px 5px ;
+    cursor: pointer;
+}
+.type-ahead-reference li:hover{
+    background: lightgray;
+    text-decoration: underline;
+}
