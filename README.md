@@ -20,7 +20,11 @@ The Custom Content for this component is defined in the "src/x-71146-testing-pro
 
 *Other folders that may be included in more complex projects:*
 
+---
+
 *Views*    
+
+---
 
 This folder could be defined with various views within to display a different view dependent on the state. Views can be an invaluable tool to de-clutter / simplify your core component as it grows in scope or complexity
 
@@ -28,4 +32,8 @@ This folder could be defined with various views within to display a different vi
 
 *Styles*
 
+---
+
 This folder could be defined with various style sheets to include in your main style sheet >> This could be a folder where your view styles (and potentially sub-component styles) could be defined >> This could make working with style sheets easier as they're all in one spot!
+
+---
