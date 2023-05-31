@@ -5,6 +5,7 @@ This component, lovingly titled "testing-project" behind the scenes, should allo
 This README will describe our file structure, tips and tricks, and the high-level "how-tos" and "whys" behind how we've built the component...each component is commented in line to explain what each component is doing, why, and if there are any considerations!
 
 The Custom Content for this component is defined in the "src/x-71146-testing-project" folder.
+
     - For a project of this size and complexity we recommend defining a "Components" folder to contain any subcomponents to use in your "core" component, a helpers.js file, and an actionHandlers.js file. The helper file will contain helper functions to be used in your core and sub-components whereas the actionHandler will be used to manage dispatch requests and send REST messages. 
 
     - The index.js file is the "core" component that will be deployed to your ServiceNow instance
