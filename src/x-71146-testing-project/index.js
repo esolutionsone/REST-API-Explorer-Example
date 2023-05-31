@@ -5,6 +5,7 @@ import styles                 from './styles.scss';
 import { TextInput }          from './components/TextInput';
 import { ChoiceInput } 		  from './components/ChoiceInput';
 import { TypeAheadReference } from './components/TypeAheadReference';
+import { ResponseTable } from './components/ResponseTable';
 /* Importing ServiceNow now-button component, this can be installed by running npm -i @service-now/now-button and details 
 can be found here https://developer.servicenow.com/dev.do#!/reference/next-experience/utah/now-components/now-button/overview */
 import { nowButton }          from '@servicenow/now-button'
@@ -12,6 +13,7 @@ import actionHandlers         from './actionHandlers';
 import { send_rest }          from './helpers';
 
 const view = (state, { updateState, dispatch }) => {
+	console.log(state);
 	const methods = ['GET','POST','PUT','DELETE','PATCH'];
 	return (
 		<div>
@@ -25,6 +27,7 @@ const view = (state, { updateState, dispatch }) => {
 			<h3>Request Details:</h3>
 			<h5>{state.method} - {state.path}{state.table != '' ? state.selected_table : "<table>"}{state.query != '' ? '?sysparm_query=' + state.query : ''}</h5>
 			<now-button label="Click me" variant="primary" size="md" on-click={ () => send_rest( updateState, state, dispatch ) }></now-button>
+			<ResponseTable state={state} updateState={updateState}/>
 		</div>
 	);
 };
@@ -38,7 +41,8 @@ createCustomElement('x-71146-testing-project', {
 		selected_table: '',
 		query:          '',
 		path:           'api/now/table/',
-		results:        []
+		results:        [],
+		showJson: 		false
 	},
 	view,
 	styles,
