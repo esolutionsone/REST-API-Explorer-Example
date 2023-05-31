@@ -17,6 +17,7 @@ The Custom Content for this component is defined in the "src/x-71146-testing-pro
         the helpers.js function or from another action type in the action handler
 
 *Other folders that may be included in more complex projects:*
+
 Views
 -----    
     - This folder could be defined with various views within to display a different view dependent on the state. Views can be an invaluable tool to de-clutter / simplify your core component as it grows in scope or complexity
