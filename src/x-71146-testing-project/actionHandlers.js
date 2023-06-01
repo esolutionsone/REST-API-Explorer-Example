@@ -31,7 +31,6 @@ export default {
         });
     },
     'SET_RESPONSE_VALE': ({ action, updateState }) => {
-        console.table(action.payload.result)
         updateState({
             results: action.payload.result
         })

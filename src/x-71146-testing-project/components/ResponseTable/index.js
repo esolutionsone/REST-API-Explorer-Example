@@ -1,10 +1,15 @@
+/* Importing "child component" */
 import { Record } from "./Record";
 
-export const ResponseTable = ({ state, updateState,  }) => {
+/* state and updateState are props that were passed down from the "parent component" (view) */
+export const ResponseTable = ({ state, updateState }) => {
+    /* results will hold the array of records that was requested by the user */
     const { results } = state;
     
     return (
         <div>
+            {/* this will map through each record and display one at a time. 
+            Props are passed down for "child component" (Record) to use. */}
             {results.map ((record, index) => {
                 return (
                     <Record 
