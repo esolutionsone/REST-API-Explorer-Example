@@ -2,5 +2,5 @@
 @import '@servicenow/sass-kit/host';
 /* Import styles for the TypeAhead Component */
 @import '../x-71146-testing-project/components/TypeAheadReference/styles.scss';
-
+@import './components/ResponseTable/style.scss'
 /* SCSS for the "testing-project" REST Explorer component...this is our "parent component" */

@@ -31,7 +31,10 @@ export default {
         });
     },
     'SET_RESPONSE_VALE': ({ action, updateState }) => {
-        console.log(action.payload.result)
+        console.table(action.payload.result)
+        updateState({
+            results: action.payload.result
+        })
     },
     'LOG_ERROR': ({ action }) => console.error("LOG_ERROR", action.payload.msg, action.payload.data),
 }

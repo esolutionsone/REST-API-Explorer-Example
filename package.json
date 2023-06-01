@@ -19,6 +19,7 @@
 		"@servicenow/cli-component-archetype": "22.0.0",
 		"@servicenow/library-translate": "quebec",
 		"@servicenow/now-button": "^19.8.2-ecd",
+		"@servicenow/now-icon": "^19.8.2-ecd",
 		"@servicenow/sass-kit": "quebec",
 		"@servicenow/sass-theme": "quebec",
 		"@servicenow/ui-core": "^19.4.2",
