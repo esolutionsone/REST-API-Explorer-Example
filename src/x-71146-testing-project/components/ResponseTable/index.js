@@ -1,24 +1,18 @@
+import { Record } from "./Record";
 
-export const ResponseTable = ({ state, updateState }) => {
-    const { showJson, results } = state;
-    const dropDownCLicked = () => {
-        updateState({
-            showJson: !showJson
-        })
-    }
+export const ResponseTable = ({ state, updateState,  }) => {
+    const { results } = state;
     
     return (
         <div>
-            {results.map (record => {
+            {results.map ((record, index) => {
                 return (
-                    <div>
-                        <div>{record.short_description}<span on-click={(e) => dropDownCLicked()}>V</span></div>
-                        {showJson ? 
-                            <div>{JSON.stringify(record, null, 4)}</div>
-                            :
-                            ''
-                        }
-                    </div>
+                    <Record 
+                        key={index} 
+                        state={state} 
+                        updateState={updateState} 
+                        record={record} 
+                    />
                 )
             })}
         </div>

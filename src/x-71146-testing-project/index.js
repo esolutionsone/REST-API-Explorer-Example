@@ -27,7 +27,7 @@ const view = (state, { updateState, dispatch }) => {
 			<h3>Request Details:</h3>
 			<h5>{state.method} - {state.path}{state.table != '' ? state.selected_table : "<table>"}{state.query != '' ? '?sysparm_query=' + state.query : ''}</h5>
 			<now-button label="Click me" variant="primary" size="md" on-click={ () => send_rest( updateState, state, dispatch ) }></now-button>
-			<ResponseTable state={state} updateState={updateState}/>
+			<ResponseTable state={state} updateState={updateState} />
 		</div>
 	);
 };
@@ -42,7 +42,7 @@ createCustomElement('x-71146-testing-project', {
 		query:          '',
 		path:           'api/now/table/',
 		results:        [],
-		showJson: 		false
+		showJson: 		[]
 	},
 	view,
 	styles,
