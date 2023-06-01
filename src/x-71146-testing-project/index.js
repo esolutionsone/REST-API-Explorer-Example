@@ -1,16 +1,26 @@
+/* Default imports for UI Builder Components */
 import {createCustomElement}  from '@servicenow/ui-core';
 import snabbdom               from '@servicenow/ui-renderer-snabbdom';
 import styles                 from './styles.scss';
-/* */
+/* Importing "child components" defined within the Components Folder */
 import { TextInput }          from './components/TextInput';
 import { ChoiceInput } 		  from './components/ChoiceInput';
 import { TypeAheadReference } from './components/TypeAheadReference';
 import { ResponseTable } from './components/ResponseTable';
-/* Importing ServiceNow now-button component, this can be installed by running npm -i @service-now/now-button and details 
-can be found here https://developer.servicenow.com/dev.do#!/reference/next-experience/utah/now-components/now-button/overview */
+/* 
+	Importing ServiceNow now-button component, this can be installed by running npm -i @service-now/now-button and details 
+	can be found here https://developer.servicenow.com/dev.do#!/reference/next-experience/utah/now-components/now-button/overview 
+*/
 import { nowButton }          from '@servicenow/now-button'
+/* 
+	Importing Utility scripts
+	Action Handlers handle our dispatches, REST calls, etc.
+	Helpers define functions to be called from our components (onclick, keydown, onchange, etc.) 
+*/
 import actionHandlers         from './actionHandlers';
 import { send_rest }          from './helpers';
+/* END IMPORTS */
+
 
 const view = (state, { updateState, dispatch }) => {
 	console.log(state);
