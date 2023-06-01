@@ -1,0 +1,31 @@
+.response-container {
+    border: solid 1px black;
+    margin-top: 10px;
+    padding: 5px;
+
+    .record-container {
+        border-bottom: solid 1px black;
+        .record-header {
+            font-size: larger;
+            .chevron-icon {
+                color: black;
+                transition: 0.4s all;
+                &:hover {
+                  cursor: pointer;
+                }
+            
+                &.active {
+                  transform: rotate(0deg);
+                }
+            
+                &.inactive {
+                  transform: rotate(180deg);
+                }
+            }
+        }
+    }
+    .record-details {
+        border: solid 1px black;
+    }
+}
+

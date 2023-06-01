@@ -34,14 +34,17 @@ export const Record = ({ key, state, updateState, record }) => {
     }
     
     return (
-        <div>
-            <div>
-                {record.short_description}
+        <div className="record-container">
+            <div className="record-header">
+                Short Desctiption: { record.short_description }
                 <now-icon 
-                    value={key} 
+                    value={ key } 
+                    className={ 
+                        `chevron-icon ` + (showJson.indexOf(key) === -1 ? "active" : "inactive")
+                    }
                     icon="chevron-down-fill" 
                     size="md" 
-                    on-click={(e) => dropDownClicked(e.target.value)}>
+                    on-click={ (e) => dropDownClicked(e.target.value) }>
                 </now-icon>
             </div>
             {/* using a ternary, we can conditionaly render the details for each record
@@ -49,7 +52,7 @@ export const Record = ({ key, state, updateState, record }) => {
             {showJson.indexOf(key) === -1 ? 
                 ''
                 :
-                <div>{JSON.stringify(record, null, 4)}</div>
+                <div className="record-details">{JSON.stringify(record, null, 4)}</div>
             }
         </div>
              

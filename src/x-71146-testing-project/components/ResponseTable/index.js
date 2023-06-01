@@ -7,19 +7,24 @@ export const ResponseTable = ({ state, updateState }) => {
     const { results } = state;
     
     return (
-        <div>
-            {/* this will map through each record and display one at a time. 
-            Props are passed down for "child component" (Record) to use. */}
-            {results.map ((record, index) => {
-                return (
-                    <Record 
-                        key={index} 
-                        state={state} 
-                        updateState={updateState} 
-                        record={record} 
-                    />
-                )
-            })}
+        <div className="response-container">
+            {/* this will conditionally render "No Results" if results list is empty */}
+            {results.length === 0 ? 
+                <div>No Results</div> 
+                : 
+                /* this will map through each record and display one at a time. 
+                Props are passed down for "child component" (Record) to use. */
+                results.map ((record, index) => {
+                    return (
+                        <Record 
+                            key={index} 
+                            state={state} 
+                            updateState={updateState} 
+                            record={record} 
+                        />
+                    )
+                })
+            }
         </div>
     )
 }
