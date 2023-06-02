@@ -3,10 +3,11 @@ import {createCustomElement}  from '@servicenow/ui-core';
 import snabbdom               from '@servicenow/ui-renderer-snabbdom';
 import styles                 from './styles.scss';
 /* Importing "child components" defined within the Components Folder */
+import { UserGreeting } 	  from './components/UserGreeting';
 import { TextInput }          from './components/TextInput';
 import { ChoiceInput } 		  from './components/ChoiceInput';
 import { TypeAheadReference } from './components/TypeAheadReference';
-import { ResponseTable } from './components/ResponseTable';
+import { ResponseTable } 	  from './components/ResponseTable';
 /* 
 	Importing ServiceNow now-button component, this can be installed by running npm -i @service-now/now-button and details 
 	can be found here https://developer.servicenow.com/dev.do#!/reference/next-experience/utah/now-components/now-button/overview 
@@ -23,11 +24,11 @@ import { send_rest }          from './helpers';
 
 
 const view = (state, { updateState, dispatch }) => {
-	console.log(state);
 	const methods = ['GET','POST','PUT','DELETE','PATCH'];
 	return (
 		<div>
 			<h1>Component REST API Explorer Testing:</h1>
+			<UserGreeting state={state} />
 			<form>
 				<ChoiceInput          state={state} updateState={updateState} label='Method' name='method' options={methods} />
 				<TextInput            state={state} updateState={updateState} label='Path'   name='path'   placeholder='Enter path' />
@@ -52,7 +53,8 @@ createCustomElement('x-71146-testing-project', {
 		query:          '',
 		path:           'api/now/table/',
 		results:        [],
-		showJson: 		[]
+		showJson: 		[],
+		user:           {}
 	},
 	view,
 	styles,
