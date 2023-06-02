@@ -29,36 +29,23 @@ Just use it dog
 ---
 
 ## File structure
-The Custom Content for this component is defined in the "src/x-71146-testing-project" folder.
+    - src                                 ➜ Source code for our custom component!
+        - x-71146-testing-project         ➜ Our Component (all custom code should be in here)
+            - tests                       ➜ Component tests 
+            - components                  ➜ Create a custom components folder that holds all sub-components
+                - ChoiceInput             ➜ Folder containing all ChoiceInput component files
+                - ResponseTable           ➜ Folder containing all ResponseTable component files
+                - TextInput               ➜ Folder containing all TextInput component files
+                - TypeAheadReference      ➜ Folder containing all TypeAheadReference component files
+            - actionHandlers.js           ➜ Our actionHandlers handle dispatches and REST calls!
+            - helper.js                   ➜ Our helper handles function calls in click, change, etc.
+            - index.js                    ➜ This is our "core component"
+            - styles.scss                 ➜ This is our core style sheet
+        - index.js                        ➜ Wrapper for your custom component (don't touch 😊)
 
 *For a project of this size and complexity we recommend defining a "Components" folder to contain any subcomponents to use in your "core" component, a helpers.js file, and an actionHandlers.js file. The helper file will contain helper functions to be used in your core and sub-components whereas the actionHandler will be used to manage dispatch requests and send REST messages.*
 
-    - src                                 ➜ the source code for our custom component!
-        - x-71146-testing-project         ➜ the component (all your custom code should be in here)
-            - tests                       ➜ this default component contains the tests, there is a placeholder by default but you could add your tests here!
-            - components                  ➜ Create a custom components folder that holds all sub-components
-                - ChoiceInput             ➜ 
-                - ResponseTable           ➜
-                - TextInput               ➜
-                - TypeAheadReference      ➜
-            - actionHandlers.js           ➜
-            - helper.js                   ➜
-            - index.js                    ➜
-            - styles.scss                 ➜
-        - index.js                        ➜
-
-
-
-    - src >> 
-        - x-71146-testing-project >> the folder where all of our custom component code should be created
-            - tests
-    index.js file is the "core" component that will be deployed to your ServiceNow instance
-    - The Styles.scss file is your main SCSS file *any sub-component SCSS file should be included 
-        in this file & core component SCSS can be defined here*
-    - The helpers.js file contains functions that the core and sub-components call to handle 
-        updates and state changes
-    - The actionHandlers.js file contains different action types that are either called within 
-        the helpers.js function or from another action type in the action handler
+The Styles.scss file is your main SCSS file *any sub-component SCSS file should be included in this file & core component SCSS can be defined here
 
 ---
 
