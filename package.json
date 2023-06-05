@@ -29,5 +29,11 @@
 	"devDependencies": {
 		"@servicenow/cli-archetype-dev": "22.0.0",
 		"@servicenow/cli-component-archetype-dev": "22.0.0"
-	}
+	},
+	"scripts": {
+		"dev": "snc ui-component develop",
+		"start": "npm run kill && echo 'Successfully Killed Port' && sleep 2; npm dev",
+		"deploy": "snc ui-component deploy --force",
+		"kill": "killall node"
+	  }
 }
