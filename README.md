@@ -1,4 +1,4 @@
-Component REST API Explorer - EXAMPLE COMPONENT 
+Component REST API Explorer - EXAMPLE COMPONENT
 ===============================================
 
 ## Intro
