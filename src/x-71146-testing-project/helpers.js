@@ -5,12 +5,27 @@ export const fetch_tables = debounce(( updateState, event, table, limit, dispatc
     processFetch(event, table, limit, dispatch);
     updateState({tables:[]});
 });
-export const send_rest = ( updateState, state, dispatch ) => {
-    dispatch("SEND_REST", {
-        tableName:     state.selected_table,
-        method:        state.method,
-        sysparm_query: state.query
-    })   
+export const send_rest = ( updateState, state, dispatch, method ) => {
+    if ( method === "GET"){
+        dispatch("REST_GET", {
+            tableName:     state.selected_table,
+            sysparm_query: state.query
+        })   
+    }
+    else if ( method === "POST"){
+        dispatch("REST_POST", {
+            tableName: state.selected_table,
+            body:      state.request_body     
+        })
+    }
+}
+export const add_row_fields = ( updateState, state ) => {
+    const { request_fields } = state;
+    let new_request_fields = [...request_fields];
+    new_request_fields.push("field"+(request_fields.length+1));
+    updateState({
+        request_fields: new_request_fields,
+    })
 }
 let processFetch = ( event, table, limit, dispatch ) => {
     dispatch("FETCH_TABLES", {

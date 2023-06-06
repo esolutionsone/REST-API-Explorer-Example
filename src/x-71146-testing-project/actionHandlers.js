@@ -11,11 +11,18 @@ export default {
             sysparm_query: 'sys_id=javascript:gs.getUserID()'
         });
     },
-    'SEND_REST': createHttpEffect("api/now/table/:tableName", {
-        method:            "GET",//[ "method" ],
+    'REST_GET': createHttpEffect("api/now/table/:tableName", {
+        method:            "GET",
         pathParams:        [ "tableName" ],
         queryParams:       [ 'sysparm_query' ],
-        successActionType: "SET_RESPONSE_VALE",
+        successActionType: "GET_RESPONSE_VALE",
+        errorActionType:   "LOG_ERROR"
+    }),
+    'REST_POST': createHttpEffect("api/now/table/:tableName", {
+        method:            "POST",
+        pathParams:        [ "tableName" ],
+        requestBody:       [ "body" ],
+        successActionType: "POST_RESPONSE_VALUE",
         errorActionType:   "LOG_ERROR"
     }),
     'FETCH_TABLES': createHttpEffect("api/now/table/:tableName", {
@@ -37,9 +44,14 @@ export default {
           tables: action.payload.result
         });
     },
-    'SET_RESPONSE_VALE': ({ action, updateState }) => {
+    'GET_RESPONSE_VALE': ({ action, updateState }) => {
         updateState({
             results: action.payload.result
+        })
+    },
+    'POST_RESPONSE_VALUE': ({ action, updateState }) => {
+        updateState({
+            post_response: action.payload.result
         })
     },
     'SET_USER_ID': ({ action, updateState }) => {

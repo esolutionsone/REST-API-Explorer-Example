@@ -8,6 +8,7 @@ import { TextInput }          from './components/TextInput';
 import { ChoiceInput } 		  from './components/ChoiceInput';
 import { TypeAheadReference } from './components/TypeAheadReference';
 import { ResponseTable } 	  from './components/ResponseTable';
+import { PostFields } 		  from './components/PostFields';
 /* 
 	Importing ServiceNow now-button component, this can be installed by running npm -i @service-now/now-button and details 
 	can be found here https://developer.servicenow.com/dev.do#!/reference/next-experience/utah/now-components/now-button/overview 
@@ -24,21 +25,26 @@ import { send_rest }          from './helpers';
 
 
 const view = (state, { updateState, dispatch }) => {
-	const methods = ['GET','POST','PUT','DELETE','PATCH'];
+	const methods = ['GET','POST']//,'PUT','DELETE','PATCH'];
 	return (
 		<div>
 			<h1>Component REST API Explorer Testing:</h1>
 			<UserGreeting state={state} />
 			<form>
-				<ChoiceInput          state={state} updateState={updateState} label='Method' name='method' options={methods} />
-				<TextInput            state={state} updateState={updateState} label='Path'   name='path'   placeholder='Enter path' />
-				<TypeAheadReference   state={state} updateState={updateState} label='Table'  name='table'  placeholder='Enter table name here' table='sys_db_object' dispatch={dispatch} />
-				<TextInput            state={state} updateState={updateState} label='Query'  name='query'  placeholder='Add query here > ex. active=true' />
+				<ChoiceInput          state={ state } updateState={ updateState } label='Method' name='method' options={ methods } />
+				<TextInput            state={ state } updateState={ updateState } label='Path'   name='path'   placeholder='Enter path' />
+				<TypeAheadReference   state={ state } updateState={ updateState } label='Table'  name='table'  placeholder='Enter table name here' table='sys_db_object' dispatch={dispatch} />
+				<TextInput            state={ state } updateState={ updateState } label='Query'  name='query'  placeholder='Add query here > ex. active=true' />
+				<PostFields 		  state={ state } updateState={ updateState }/>
 			</form>
 			<h3>Request Details:</h3>
 			<h5>{state.method} - {state.path}{state.table != '' ? state.selected_table : "<table>"}{state.query != '' ? '?sysparm_query=' + state.query : ''}</h5>
-			<now-button label="Click me" variant="primary" size="md" on-click={ () => send_rest( updateState, state, dispatch ) }></now-button>
+			<now-button label="SEND GET" variant="primary" size="md"  on-click={ () => send_rest( updateState, state, dispatch, "GET" ) }></now-button>
+			<now-button label="SEND POST" variant="primary" size="md" on-click={ () => send_rest( updateState, state, dispatch, "POST" ) }></now-button>
 			<ResponseTable state={state} updateState={updateState} />
+			{
+				<div>{ state.post_response }</div>
+			}
 		</div>
 	);
 };
@@ -54,7 +60,10 @@ createCustomElement('x-71146-testing-project', {
 		path:           'api/now/table/',
 		results:        [],
 		showJson: 		[],
-		user:           {}
+		user:           {},
+		request_fields: ["field1"],
+		request_body:   {"short_description":"testing 123 from rest","description":"testing description, neato"},
+		post_response:  {}
 	},
 	view,
 	styles,
