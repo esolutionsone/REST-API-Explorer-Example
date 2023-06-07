@@ -3,10 +3,13 @@ import {createCustomElement}  from '@servicenow/ui-core';
 import snabbdom               from '@servicenow/ui-renderer-snabbdom';
 import styles                 from './styles.scss';
 /* Importing "child components" defined within the Components Folder */
+import { UserGreeting } 	  from './components/UserGreeting';
 import { TextInput }          from './components/TextInput';
 import { ChoiceInput } 		  from './components/ChoiceInput';
 import { TypeAheadReference } from './components/TypeAheadReference';
-import { ResponseTable }      from './components/ResponseTable';
+import { ResponseTable } 	  from './components/ResponseTable';
+import { PostFields } 		  from './components/PostFields';
+import { Record } 			  from './components/ResponseTable/Record';
 /* 
 	Importing ServiceNow now-button component, this can be installed by running npm -i @service-now/now-button and details 
 	can be found here https://developer.servicenow.com/dev.do#!/reference/next-experience/utah/now-components/now-button/overview 
@@ -23,41 +26,20 @@ import { send_rest }          from './helpers';
 
 
 const view = (state, { updateState, dispatch }) => {
-	console.log(state);
-	const methods = ['GET','POST','PUT','DELETE','PATCH'];
 	return (
 		<div className="main-container">
 			<h1>Component REST API Explorer Testing:</h1>
 			<div className="form-container">
-				<form>
-					<ChoiceInput
-						state={state} 
-						updateState={updateState} 
-						label='Method' 
-						name='method' 
-						options={methods} 
-					/>
-					<TextInput
-						state={state} 
-						updateState={updateState} 
-						label='Path'   
-						name='path'   
-						placeholder='Enter path' />
-					<TypeAheadReference
-						state={state} 
-						updateState={updateState} 
-						label='Table'  
-						name='table'  
-						placeholder='Enter table name here' 
-						table='sys_db_object' 
-						dispatch={dispatch} />
-					<TextInput
-						state={state} 
-						updateState={updateState} 
-						label='Query'  
-						name='query'  
-						placeholder='Add query here > ex. active=true' />
-				</form>
+			<UserGreeting state={state} />
+			<form>
+				<ChoiceInput          state={ state } updateState={ updateState } label='Method' name='method' />
+				<TextInput            state={ state } updateState={ updateState } label='Path'   name='path'   placeholder='Enter path' />
+				<TypeAheadReference   state={ state } updateState={ updateState } label='Table'  name='table'  placeholder='Enter table name here' table='sys_db_object' dispatch={dispatch} />
+				<TextInput            state={ state } updateState={ updateState } label='Query'  name='query'  placeholder='Add query here > ex. active=true' />
+				<PostFields 		  state={ state } updateState={ updateState }/>
+			</form>
+			
+				
 			</div>
 			<h3>Request Details:</h3>
 			<h5>{state.method} - {state.path}{state.table != '' ? 
@@ -69,8 +51,7 @@ const view = (state, { updateState, dispatch }) => {
 												: 
 												''
 											} </h5>
-			<now-button 
-				label="Click me" 
+			<now-button label="SEND" 
 				variant="primary" 
 				size="md" 
 				on-click={ 
@@ -78,6 +59,15 @@ const view = (state, { updateState, dispatch }) => {
 				}>
 			</now-button>
 			<ResponseTable state={state} updateState={updateState} />
+			{
+				state.post_response != null ?
+					<div>
+						<h4>POST Response:</h4>
+						<Record key={0} state={state} updateState={updateState} record={state.post_response}/>
+					</div>
+				:
+					""
+			}
 		</div>
 	);
 };
@@ -85,14 +75,20 @@ const view = (state, { updateState, dispatch }) => {
 createCustomElement('x-71146-testing-project', {
 	renderer: {type: snabbdom},
 	initialState: {
-		method:         'GET',
-		table:          '',
-		tables:         [],
-		selected_table: '',
-		query:          '',
-		path:           'api/now/table/',
-		results:        [],
-		showJson: 		[]
+		method:         	  'GET',
+		methods:			  ['GET','POST'],
+		table:          	  '',
+		tables:         	  [],
+		selected_table: 	  '',
+		query:          	  '',
+		path:           	  'api/now/table/',
+		results:        	  [],
+		showJson: 			  [],
+		user:           	  {},
+		request_fields: 	  [{"field_index":"field1","value_index":"value1","field":"","value":""}],
+		request_fields_index: 1,
+		request_body:   	  {short_description:"hello testing"},
+		post_response:  	  null
 	},
 	view,
 	styles,
