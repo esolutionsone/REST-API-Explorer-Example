@@ -26,6 +26,7 @@ import { send_rest }          from './helpers';
 
 
 const view = (state, { updateState, dispatch }) => {
+	console.log(state);
 	return (
 		<div className="main-container">
 			<h1>Component REST API Explorer Testing:</h1>
