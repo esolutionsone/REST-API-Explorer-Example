@@ -5,8 +5,15 @@
 
     .record-container {
         border-bottom: solid 1px black;
+		&:last-child{
+			border-bottom: none;
+		}
         .record-header {
             font-size: larger;
+			.record-title {
+				font-size: x-large;
+				font-weight: bold;
+			}
             .chevron-icon {
                 color: black;
                 transition: all 0.6s;
@@ -23,13 +30,19 @@
         }
         .record-details {
             transition: all .6s ;
-            overflow: hidden;
+            width: 100%;
+			overflow-y: scroll;
             &.show {
-              height: 300px;
+              height: 500px;
             }
             &.hide {
               height: 0px;
             }
         }
+		textarea {
+			height: 500px;
+			resize: none; 
+			background-color: #dddddd;
+		}
     }
 }

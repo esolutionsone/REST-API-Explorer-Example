@@ -2,8 +2,8 @@ import { set_api_value } from "../../helpers"
 
 export const TextInput = ({ state, updateState, label, name, placeholder }) => {
     return (
-        <div>
-            <label for={ name }>{ label }</label>
+        <div  className="text-input-container">
+            <label for={ name }>{ label }:</label>
             <input
                 type="text"
                 id={ name }

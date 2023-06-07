@@ -7,6 +7,7 @@ export const Record = ({ key, state, updateState, record }) => {
     /* a function that will either add the clicked records index to showJson 
     or remove it from showJson */
     const dropDownClicked = (clickedKey) => {
+        //alert(JSON.stringify(record, null, 4))
         /* if showJson is empty, add the index for the record that was clicked */
         if (showJson.length === 0) {
             updateState({
@@ -36,7 +37,8 @@ export const Record = ({ key, state, updateState, record }) => {
     return (
         <div className="record-container">
             <div className="record-header">
-                Short Desctiption: { record.short_description }
+                <span className="record-title">Short Desctiption: </span>
+                { record.short_description }
                 <now-icon 
                     value={ key } 
                     className={ 
@@ -51,9 +53,9 @@ export const Record = ({ key, state, updateState, record }) => {
             if they're index number exist in showJson */}
             {showJson.indexOf(key) === -1 ? 
                 /* using classes "hide" and "show" I can animate the collapse/uncollapse of the details */
-                <div className="record-details hide">{JSON.stringify(record, null, 4)}</div>
+                <div className="record-details hide">{JSON.stringify(record, undefined, "\t")}</div>
                 :
-                <div className="record-details show">{JSON.stringify(record, null, 4)}</div>
+                <textarea className="record-details show" value={JSON.stringify(record, undefined, "\t")} readonly></textarea>
             }
         </div>
     )

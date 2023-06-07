@@ -1,5 +1,10 @@
 .type-ahead-reference{
-
+    
+    margin-bottom: 5px;
+    .type-ahead-container {
+        display: flex;
+        justify-content: space-between;
+    }
 }
 .type-ahead-reference input{
 }
