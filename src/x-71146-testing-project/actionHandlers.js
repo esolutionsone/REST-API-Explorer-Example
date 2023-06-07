@@ -1,21 +1,28 @@
 import { actionTypes } from "@servicenow/ui-core";
 import { createHttpEffect } from "@servicenow/ui-effect-http";
 
-//const { COMPONENT_BOOTSTRAPPED } = actionTypes;
+const { COMPONENT_BOOTSTRAPPED } = actionTypes;
 
 export default {
-/*    [COMPONENT_BOOTSTRAPPED]: ({ dispatch }) => {
-        dispatch('FETCH_TABLES', {
-            tableName: "sys_db_object",
-            sysparm_limit: 20,
-            sysparm_query: ''
+    [COMPONENT_BOOTSTRAPPED]: ({ dispatch }) => {
+        dispatch('GET_USER', {
+            tableName: "sys_user",
+            sysparm_limit: 1,
+            sysparm_query: 'sys_id=javascript:gs.getUserID()'
         });
-    },*/
-    'SEND_REST':createHttpEffect("api/now/table/:tableName", {
-        method:            "GET",//[ "method" ],
+    },
+    'REST_GET': createHttpEffect("api/now/table/:tableName", {
+        method:            "GET",
         pathParams:        [ "tableName" ],
         queryParams:       [ 'sysparm_query' ],
-        successActionType: "SET_RESPONSE_VALE",
+        successActionType: "GET_RESPONSE_VALE",
+        errorActionType:   "LOG_ERROR"
+    }),
+    'REST_POST': createHttpEffect("api/now/table/:tableName", {
+        method:            "POST",
+        pathParams:        [ "tableName" ],
+        dataParam:         "data",
+        successActionType: "POST_RESPONSE_VALUE",
         errorActionType:   "LOG_ERROR"
     }),
     'FETCH_TABLES': createHttpEffect("api/now/table/:tableName", {
@@ -25,15 +32,31 @@ export default {
         successActionType: "SET_TABLES_VALUE",
         errorActionType:   "LOG_ERROR",
     }),
+    'GET_USER': createHttpEffect("api/now/table/:tableName", {
+        method:            'GET',
+        pathParams:        ['tableName'],
+        queryParams:       ['sysparm_query'],
+        successActionType: 'SET_USER_ID',
+        errorActionType:   'LOG_ERROR'
+    }),
     'SET_TABLES_VALUE': ({ action, updateState }) => {
         updateState({
           tables: action.payload.result
         });
     },
-    'SET_RESPONSE_VALE': ({ action, updateState }) => {
-        console.table(action.payload.result)
+    'GET_RESPONSE_VALE': ({ action, updateState }) => {
         updateState({
             results: action.payload.result
+        })
+    },
+    'POST_RESPONSE_VALUE': ({ action, updateState }) => {
+        updateState({
+            post_response: action.payload.result
+        })
+    },
+    'SET_USER_ID': ({ action, updateState }) => {
+        updateState({
+            user: action.payload.result
         })
     },
     'LOG_ERROR': ({ action }) => console.error("LOG_ERROR", action.payload.msg, action.payload.data),
