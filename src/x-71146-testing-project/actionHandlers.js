@@ -50,6 +50,7 @@ export default {
         })
     },
     'POST_RESPONSE_VALUE': ({ action, updateState }) => {
+        console.log(action.payload.result);
         updateState({
             post_response: action.payload.result
         })

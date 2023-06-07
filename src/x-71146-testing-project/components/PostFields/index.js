@@ -1,19 +1,41 @@
 import { TextInput }      from "../TextInput";
-import { add_row_fields } from "../../helpers";
+import { update_row_fields } from "../../helpers";
 
 export const PostFields = ({ state, updateState }) => {
     return (
-        <div className="post_fields_container">
+        <div className="post-fields-container">
             {
-                state.request_fields.map((field, index) =>
-                    <div className="">
-                        <TextInput  state={ state } updateState={ updateState } label='' name={ `field${index}` } placeholder='Field' /> - 
-                        <TextInput  state={ state } updateState={ updateState } label='' name={ `value${index}` } placeholder='Value' />
-                        <now-button label="x" variant="red" size="md"  on-click={ () => remove_row_field( updateState, state, index ) } />    
-                    </div>
-                )
+                state.request_fields.map((field, index) => {
+                    return (
+                        <div className="post-fields-row">
+                            <TextInput  
+                                state={ state } 
+                                updateState={ updateState } 
+                                label='' 
+                                name={ field["field_index"] } 
+                                placeholder='Field' 
+                                value={ field["field"] } /> 
+                            <span className="post-fields-spacing">-</span> 
+                            <TextInput  
+                                state={ state } 
+                                updateState={ updateState } 
+                                label='' 
+                                name={ field["value_index"] } 
+                                placeholder='Value' 
+                                value={ field["value"] } />
+                            {
+                                (state.request_fields.length > 1) ? 
+                                    <span className="post-fields-spacing">
+                                        <now-button-iconic icon="trash-outline" variant="tertiary" size="sm"  on-click={ () => update_row_fields( updateState, state, "remove", index ) } />
+                                    </span>
+                                :
+                                ''
+                            }
+                        </div>
+                    )
+                })
             }
-            <now-button label="+" variant="primary" size="md"  on-click={ () => add_row_fields( updateState, state ) } />             
+            <now-button-iconic icon="plus-outline" variant="primary" size="sm"  on-click={ () => update_row_fields( updateState, state, "add" ) } />             
         </div>
     );
 }
