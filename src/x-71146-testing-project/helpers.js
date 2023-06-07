@@ -16,14 +16,14 @@ export const fetch_tables = debounce(( updateState, event, table, limit, dispatc
     processFetch(event, table, limit, dispatch);
     updateState({tables:[]});
 });
-export const send_rest = ( updateState, state, dispatch, method ) => {
-    if ( method === "GET"){
+export const send_rest = ( updateState, state, dispatch ) => {
+    if ( state.method === "GET"){
         dispatch("REST_GET", {
             tableName:     state.selected_table,
             sysparm_query: state.query
         })   
     }
-    else if ( method === "POST"){
+    else if ( state.method === "POST"){
         let post_request_body = {};
         state.request_fields.forEach( field => {
             post_request_body[field['field']] = field['value'];

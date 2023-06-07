@@ -1,7 +1,19 @@
 /* Default import for ServiceNow */
 @import '@servicenow/sass-kit/host';
-/* Import styles for the TypeAhead Component */
-@import '../x-71146-testing-project/components/TypeAheadReference/styles.scss';
+/* Import styles for the ChoiceInput Component */
+@import './components/ChoiceInput/style.scss';
+/* Import styles for the ResponseTable Component */
 @import './components/ResponseTable/style.scss';
+/* Import styles for the TextInput Component */
+@import './components/TextInput/style.scss';
+/* Import styles for the TypeAhead Component */
+@import './components/TypeAheadReference/styles.scss';
+
 @import './components/PostFields/styles.scss';
 /* SCSS for the "testing-project" REST Explorer component...this is our "parent component" */
+
+.main-container {
+    .form-container {
+        width: 250px;
+    }
+}

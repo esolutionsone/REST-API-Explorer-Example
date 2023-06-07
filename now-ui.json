@@ -4,11 +4,38 @@
 	        "innerComponents": [],
 			"uiBuilder": {
 				"associatedTypes": ["global.core", "global.landing-page"],
-				"label": "My Component",
+				"label": "REST API Explorer",
 				"icon": "document-outline",
-				"description": "A description of my component",
+				"description": "REST API Explorer",
 				"category": "primitives"
-			}
+			},
+			"properties": [
+				{
+				  "name": "table",
+				  "label": "Table",
+				  "fieldType": "table_name",
+				  "readOnly": false,
+				  "defaultValue": "",
+				  "description": "Select the table data to display in the list. Optionally, you can add a fixed filter to display specific records from the selected table. Users can't edit or remove a fixed filter.",
+				  "selectable": false,
+				  "valueType": "string",
+				  "mandatory": true
+				},
+				{
+				  "name": "query",
+				  "label": "filter",
+				  "fieldType": "condition_string",
+				  "readOnly": false,
+				  "typeMetadata": {
+					"table": "@table"
+				  },
+				  "defaultValue": "",
+				  "description": "Users can edit or remove this filter. If you set a fixed filter, this filter adds more conditions that further specify which records to display.",
+				  "selectable": false,
+				  "valueType": "string",
+				  "mandatory": false
+				}
+			  ]
 	    }
 	},
 	"scopeName": "x_71146_testing_2"
