@@ -1,7 +1,7 @@
 export const set_api_value = ( updateState, state, event ) => {
-    console.log(event)
     /* If the name is in the state, it's one of the form values, if not it's one of the post fields! */
-    if (event.target.name in state){updateState({[event.target.name]:event.target.value});console.log('updating form field');}
+    if (event.target.name in state){updateState({[event.target.name]:event.target.value});}
+    else if(state.methods.includes(event.target.value)){updateState({ method: event.target.value });}
     else {
         const { request_fields } = state;
         let new_request_fields = [...request_fields];
@@ -26,13 +26,12 @@ export const send_rest = ( updateState, state, dispatch, method ) => {
     else if ( method === "POST"){
         let post_request_body = {};
         state.request_fields.forEach( field => {
-            post_request_body['"'+field['field']+"'"] = field['value'];
+            post_request_body[field['field']] = field['value'];
         });
-        updateState({ request_body: post_request_body})
-        console.log(state);
+        updateState({ request_body: post_request_body });
         dispatch("REST_POST", {
             tableName: state.selected_table,
-            body:      post_request_body
+            data:      post_request_body
         })
     }
 }

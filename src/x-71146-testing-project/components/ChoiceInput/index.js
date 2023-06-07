@@ -5,10 +5,10 @@ export const ChoiceInput = ({ state, updateState, label, name }) => {
         <div>
             <label for={ name }>{ label }</label>
             <select
-                id={ name }
-                name={ name }
-                on-change={ (e) => set_api_value( updateState, e ) }
-                value={ state.method }
+                id        = { name }
+                name      = { name }
+                on-change = { (e) => set_api_value( updateState, state, e ) }
+                value     = { state.method }
             >
                 {
                     state.methods.map((option)=>{

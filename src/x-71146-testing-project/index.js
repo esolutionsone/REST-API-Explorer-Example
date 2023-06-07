@@ -9,6 +9,7 @@ import { ChoiceInput } 		  from './components/ChoiceInput';
 import { TypeAheadReference } from './components/TypeAheadReference';
 import { ResponseTable } 	  from './components/ResponseTable';
 import { PostFields } 		  from './components/PostFields';
+import { Record } 			  from './components/ResponseTable/Record';
 /* 
 	Importing ServiceNow now-button component, this can be installed by running npm -i @service-now/now-button and details 
 	can be found here https://developer.servicenow.com/dev.do#!/reference/next-experience/utah/now-components/now-button/overview 
@@ -42,10 +43,13 @@ const view = (state, { updateState, dispatch }) => {
 			<now-button label="SEND POST" variant="primary" size="md" on-click={ () => send_rest( updateState, state, dispatch, "POST" ) }></now-button>
 			<ResponseTable state={state} updateState={updateState} />
 			{
-				/*state.post_response != {} ?
-					<div>{ state.post_response }</div>
+				state.post_response != null ?
+					<div>
+						<h4>POST Response:</h4>
+						<Record key={0} state={state} updateState={updateState} record={state.post_response}/>
+					</div>
 				:
-					""*/
+					""
 			}
 		</div>
 	);
@@ -66,8 +70,8 @@ createCustomElement('x-71146-testing-project', {
 		user:           	  {},
 		request_fields: 	  [{"field_index":"field1","value_index":"value1","field":"","value":""}],
 		request_fields_index: 1,
-		request_body:   	  {"short_description":"hello testing"},
-		post_response:  	  {}
+		request_body:   	  {short_description:"hello testing"},
+		post_response:  	  null
 	},
 	view,
 	styles,
