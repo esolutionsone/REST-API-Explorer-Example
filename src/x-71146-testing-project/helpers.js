@@ -17,6 +17,7 @@ export const fetch_tables = debounce(( updateState, event, table, limit, dispatc
     updateState({tables:[]});
 });
 export const send_rest = ( updateState, state, dispatch ) => {
+    
     if ( state.method === "GET"){
         dispatch("REST_GET", {
             tableName:     state.selected_table,

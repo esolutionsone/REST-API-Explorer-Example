@@ -31,19 +31,40 @@ const view = (state, { updateState, dispatch }) => {
 		<div className="main-container">
 			<h1>Component REST API Explorer Testing:</h1>
 			<div className="form-container">
-			<UserGreeting state={state} />
-			<form>
-				<ChoiceInput          state={ state } updateState={ updateState } label='Method' name='method' />
-				<TextInput            state={ state } updateState={ updateState } label='Path'   name='path'   placeholder='Enter path' />
-				<TypeAheadReference   state={ state } updateState={ updateState } label='Table'  name='table'  placeholder='Enter table name here' table='sys_db_object' dispatch={dispatch} />
-				<TextInput            state={ state } updateState={ updateState } label='Query'  name='query'  placeholder='Add query here > ex. active=true' />
-				<PostFields 		  state={ state } updateState={ updateState }/>
-			</form>
-			
-				
+				<UserGreeting state={state} />
+				<form>
+					<ChoiceInput
+						state		={ state } 
+						updateState ={ updateState } 
+						label		='Method' 
+						name		='method' />
+					<TextInput
+						state		={ state } 
+						updateState ={ updateState } 
+						label		='Path:'   
+						name		='path'   
+						placeholder ='Enter path' />
+					<TypeAheadReference   
+						state		={ state } 
+						updateState ={ updateState } 
+						label		='Table'  
+						name		='table'  
+						placeholder ='Enter table name here' 
+						table		='sys_db_object' 
+						dispatch	={dispatch} />
+					<TextInput
+						state		={ state } 
+						updateState ={ updateState } 
+						label		='Query'  
+						name		='query'  
+						placeholder	='Add query here > ex. active=true' />
+					<PostFields
+						state		={ state } 
+						updateState ={ updateState } />
+				</form>
 			</div>
 			<h3>Request Details:</h3>
-			<h5>{state.method} - {state.path}{state.table != '' ? 
+			<h5>{state.method} - {state.path}{ state.table != '' ? 
 												state.selected_table 
 												: 
 												"<table>"
@@ -52,23 +73,29 @@ const view = (state, { updateState, dispatch }) => {
 												: 
 												''
 											} </h5>
-			<now-button label="SEND" 
-				variant="primary" 
-				size="md" 
-				on-click={ 
+			<now-button 
+				label	 ="SEND" 
+				variant  ="primary" 
+				size	 ="md" 
+				on-click ={ 
 					() => send_rest( updateState, state, dispatch ) 
 				}>
 			</now-button>
-			<ResponseTable state={state} updateState={updateState} />
-			{
-				state.post_response != null ?
-					<div>
-						<h4>POST Response:</h4>
-						<Record key={0} state={state} updateState={updateState} record={state.post_response}/>
-					</div>
+			{ state.post_response != null ?
+				<div className="response-container">
+					<h4>POST Response:</h4>
+					<Record 
+						key			={0} 
+						state		={state} 
+						updateState ={updateState} 
+						record		={state.post_response} />
+				</div>
 				:
-					""
+				<ResponseTable 
+					state		={state} 
+					updateState ={updateState} />
 			}
+			
 		</div>
 	);
 };

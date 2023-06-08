@@ -51,11 +51,17 @@ export const Record = ({ key, state, updateState, record }) => {
             </div>
             {/* using a ternary, we can conditionaly render the details for each record
             if they're index number exist in showJson */}
-            {showJson.indexOf(key) === -1 ? 
+            { showJson.indexOf(key) === -1 ? 
                 /* using classes "hide" and "show" I can animate the collapse/uncollapse of the details */
-                <div className="record-details hide">{JSON.stringify(record, undefined, "\t")}</div>
+                <div className="record-details hide">
+                    { JSON.stringify(record, undefined, "\t") }
+                </div>
                 :
-                <textarea className="record-details show" value={JSON.stringify(record, undefined, "\t")} readonly></textarea>
+                <textarea 
+                    className ="record-details show" 
+                    value     ={ JSON.stringify(record, undefined, "\t") } 
+                    readonly>
+                </textarea>
             }
         </div>
     )
