@@ -21,7 +21,7 @@ export const TextInput = ({ state, updateState, label, name, placeholder, value 
                     name        ={ name }
                     placeholder ={ placeholder }
                     on-change   ={ (e) => set_api_value( updateState, state, e ) }
-                    value       ={ value != '' ? value : state[name] }
+                    value       ={ value != '' || value != undefined ? value : state[name] }
                 ></input>
             }
         </div>

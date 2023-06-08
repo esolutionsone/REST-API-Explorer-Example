@@ -81,19 +81,26 @@ const view = (state, { updateState, dispatch }) => {
 					() => send_rest( updateState, state, dispatch ) 
 				}>
 			</now-button>
-			{ state.post_response != null ?
-				<div className="response-container">
-					<h4>POST Response:</h4>
-					<Record 
-						key			={0} 
-						state		={state} 
-						updateState ={updateState} 
-						record		={state.post_response} />
-				</div>
+			{ state.post_response === null && state.results.length === 0 ?
+				state.method === 'POST' ?
+					<div className="response-container">
+						<h4>POST Response:</h4>
+						<Record 
+							key			={0} 
+							state		={state} 
+							updateState ={updateState} 
+							record		={state.post_response} />
+					</div>
+					:
+					<div  className="response-container">
+						<h4>GET Response:</h4>
+						<ResponseTable 
+							state		={state} 
+							updateState ={updateState} />
+					</div>
+				
 				:
-				<ResponseTable 
-					state		={state} 
-					updateState ={updateState} />
+				<div className="response-container">No Results</div>
 			}
 			
 		</div>

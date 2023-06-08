@@ -10,11 +10,9 @@ export const ChoiceInput = ({ state, updateState, label, name }) => {
                 on-change = { (e) => set_api_value( updateState, state, e ) }
                 value     = { state.method }
             >
-                {
-                    state.methods.map((option)=>{
-                        return <option value={option}>{option}</option>
-                    })
-                }
+                { state.methods.map((option)=>{
+                    return <option value={option}>{option}</option>
+                })}
             </select>
         </div>
     )
