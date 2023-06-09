@@ -54,7 +54,8 @@ export const send_rest = ( updateState, state, dispatch ) => {
         results:        [],
         post_response:  null,
         request_body:   {},
-        request_fields: [{"field_index":"field15","value_index":"value15","field":"","value":""}]
+        request_fields: [{"field_index":"field15","value_index":"value15","field":"","value":""}],
+        loading: true
     })
     
     if ( state.method === "GET"){

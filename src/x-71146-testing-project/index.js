@@ -10,6 +10,7 @@ import { TypeAheadReference } from './components/TypeAheadReference';
 import { ResponseTable } 	  from './components/ResponseTable';
 import { PostFields } 		  from './components/PostFields';
 import { Record } 			  from './components/ResponseTable/Record';
+import { LoadingIcon } 		  from './components/LoadingIcon/LoadingIcon';
 /* 
 	Importing ServiceNow now-button component, this can be installed by running npm -i @service-now/now-button and details 
 	can be found here https://developer.servicenow.com/dev.do#!/reference/next-experience/utah/now-components/now-button/overview 
@@ -26,6 +27,11 @@ import { send_rest }          from './helpers';
 
 
 const view = (state, { updateState, dispatch }) => {
+	const { loading } = state;
+	//Load state while waiting for initial fetch
+	if (loading){
+		return <LoadingIcon style={{transform: 'scale(.5)'}}/>
+	}
 	console.log(state);
 	return (
 		<div className="main-container">
@@ -103,6 +109,7 @@ const view = (state, { updateState, dispatch }) => {
 createCustomElement('x-71146-testing-project', {
 	renderer: {type: snabbdom},
 	initialState: {
+		loading:			  true,
 		method:         	  'GET',
 		methods:			  ['GET','POST'],
 		table:          	  '',
