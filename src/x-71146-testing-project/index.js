@@ -26,27 +26,48 @@ import { send_rest }          from './helpers';
 
 
 const view = (state, { updateState, dispatch }) => {
+	console.log(state);
 	return (
 		<div className="main-container">
 			<h1>Component REST API Explorer Testing:</h1>
 			<div className="form-container">
-			<UserGreeting state={state} />
-			<form>
-				<ChoiceInput          state={ state } updateState={ updateState } label='Method' name='method' />
-				<TextInput            state={ state } updateState={ updateState } label='Path'   name='path'   placeholder='Enter path' />
-				<TypeAheadReference   state={ state } updateState={ updateState } label='Table'  name='table'  placeholder='Enter table name here' table='sys_db_object' dispatch={dispatch} />
-				{
+				<UserGreeting state={state} />
+				<form>
+					<ChoiceInput
+						state		={ state } 
+						updateState ={ updateState } 
+						label		='Method:' 
+						name		='method' />
+					<TextInput
+						state		={ state } 
+						updateState ={ updateState } 
+						label		='Path:'   
+						name		='path'   
+						placeholder ='Enter path' />
+					<TypeAheadReference   
+						state		={ state } 
+						updateState ={ updateState } 
+						label		='Table:'  
+						name		='table'  
+						placeholder ='Enter table name here' 
+						table		='sys_db_object' 
+						dispatch	={dispatch} />
+					<TextInput
+						state		={ state } 
+						updateState ={ updateState } 
+						label		='Display Field:'  
+						name		='displayField'  
+						placeholder	='Add field to display' />
 					{
-						"GET":  <TextInput   state={ state } updateState={ updateState } label='Query'  name='query'  placeholder='Add query here > ex. active=true' />,
-						"POST": <PostFields  state={ state } updateState={ updateState } />
-					}[state.method]
-				}
-			</form>
-			
-				
+						{
+							"GET":  <TextInput   state={ state } updateState={ updateState } label='Query'  name='query'  placeholder='Add query here > ex. active=true' />,
+							"POST": <PostFields  state={ state } updateState={ updateState } />
+						}[state.method]
+					}
+				</form>
 			</div>
 			<h3>Request Details:</h3>
-			<h5>{state.method} - {state.path}{state.table != '' ? 
+			<div>{state.method} - {state.path}{ state.table != '' ? 
 												state.selected_table 
 												: 
 												"<table>"
@@ -54,11 +75,12 @@ const view = (state, { updateState, dispatch }) => {
 												'?sysparm_query=' + state.query 
 												: 
 												''
-											} </h5>
-			<now-button label="SEND" 
-				variant="primary" 
-				size="md" 
-				on-click={ 
+											} </div>
+			<now-button 
+				label	 ="SEND" 
+				variant  ="primary" 
+				size	 ="md" 
+				on-click ={ 
 					() => send_rest( updateState, state, dispatch ) 
 				}>
 			</now-button>
@@ -87,6 +109,7 @@ createCustomElement('x-71146-testing-project', {
 		tables:         	  [],
 		selected_table: 	  '',
 		query:          	  '',
+		displayField:		  '',
 		path:           	  'api/now/table/',
 		results:        	  [],
 		showJson: 			  [],

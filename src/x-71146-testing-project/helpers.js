@@ -1,3 +1,33 @@
+
+export const dropDownClicked = ( clickedKey, showJson, updateState ) => {
+    /* a function that will either add the clicked records index to showJson 
+    or remove it from showJson */
+
+    /* if showJson is empty, add the index for the record that was clicked */
+    if (showJson.length === 0) {
+        updateState({
+            showJson: [clickedKey]
+        })
+        return;
+    } 
+    /* loops through each index stored in showJson and compares it to the
+    clicked records' index. If the clicked index doesn't exist in showJson,
+    add it to showJson otherwise if it does exist, remove it */
+    showJson.forEach(jsonKey => {
+        if (jsonKey !== clickedKey) {
+            updateState({
+                showJson: [...showJson, clickedKey]
+            })
+            return;
+        } else {
+            const index = showJson.indexOf(clickedKey);
+            showJson.splice(index, 1);
+            updateState({
+                showJson: [...showJson]
+            })
+        }
+    });
+}
 export const set_api_value = ( updateState, state, event ) => {
     /* If the name is in the state, it's one of the form values, if not it's one of the post fields! */
     if (event.target.name in state){updateState({[event.target.name]:event.target.value});}
@@ -9,7 +39,9 @@ export const set_api_value = ( updateState, state, event ) => {
             if      ( event.target.name == field['field_index'] ){ new_request_fields[index]['field'] = event.target.value; }
             else if ( event.target.name == field['value_index'] ){ new_request_fields[index]['value'] = event.target.value; }
         });
-        updateState({request_fields:new_request_fields});
+        updateState({
+            request_fields:new_request_fields
+        });
     }
 }
 export const fetch_tables = debounce(( updateState, event, table, limit, dispatch) => {
@@ -17,6 +49,14 @@ export const fetch_tables = debounce(( updateState, event, table, limit, dispatc
     updateState({tables:[]});
 });
 export const send_rest = ( updateState, state, dispatch ) => {
+    updateState({
+        showJson:       [],
+        results:        [],
+        post_response:  null,
+        request_body:   {},
+        request_fields: [{"field_index":"field15","value_index":"value15","field":"","value":""}]
+    })
+    
     if ( state.method === "GET"){
         dispatch("REST_GET", {
             tableName:     state.selected_table,
@@ -61,10 +101,10 @@ let processFetch = ( event, table, limit, dispatch ) => {
 }
 export const select_table = ( updateState, name, label ) => {
     updateState({
-                    table:          label,
-                    selected_table: name,
-                    tables:         []
-                });
+        table:          label,
+        selected_table: name,
+        tables:         []
+    });
 }
 function debounce(func, timeout = 300){
     let timer;

@@ -4,7 +4,7 @@ import { Record } from "./Record";
 /* state and updateState are props that were passed down from the "parent component" (view) */
 export const ResponseTable = ({ state, updateState }) => {
     /* results will hold the array of records that was requested by the user */
-    const { results } = state;
+    const { results, displayField } = state;
     
     return (
         <div className="response-container">
@@ -14,16 +14,20 @@ export const ResponseTable = ({ state, updateState }) => {
                 : 
                 /* this will map through each record and display one at a time. 
                 Props are passed down for "child component" (Record) to use. */
-                results.map ((record, index) => {
-                    return (
-                        <Record 
-                            key={index} 
-                            state={state} 
-                            updateState={updateState} 
-                            record={record} 
-                        />
-                    )
-                })
+                <div>
+                    <h3>{ displayField }:</h3>
+                    { results.map ((record, index) => {
+                        return (
+                            <Record 
+                                key={index} 
+                                state={state} 
+                                updateState={updateState} 
+                                record={record} 
+                            />
+                        )
+                    })}
+                </div>
+                
             }
         </div>
     )
