@@ -20,6 +20,7 @@ export const TextInput = ({ state, updateState, label, name, placeholder, value 
                     id          ={ name }
                     name        ={ name }
                     placeholder ={ placeholder }
+                    on-blur     ={ (e) => console.log('on blur works') }
                     on-change   ={ (e) => set_api_value( updateState, state, e ) }
                     value       ={ value != '' || value != undefined ? value : state[name] }
                 ></input>

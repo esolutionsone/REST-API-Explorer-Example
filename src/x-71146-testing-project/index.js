@@ -36,7 +36,7 @@ const view = (state, { updateState, dispatch }) => {
 					<ChoiceInput
 						state		={ state } 
 						updateState ={ updateState } 
-						label		='Method' 
+						label		='Method:' 
 						name		='method' />
 					<TextInput
 						state		={ state } 
@@ -47,7 +47,7 @@ const view = (state, { updateState, dispatch }) => {
 					<TypeAheadReference   
 						state		={ state } 
 						updateState ={ updateState } 
-						label		='Table'  
+						label		='Table:'  
 						name		='table'  
 						placeholder ='Enter table name here' 
 						table		='sys_db_object' 
@@ -55,16 +55,22 @@ const view = (state, { updateState, dispatch }) => {
 					<TextInput
 						state		={ state } 
 						updateState ={ updateState } 
-						label		='Query'  
+						label		='Query:'  
 						name		='query'  
 						placeholder	='Add query here > ex. active=true' />
+					<TextInput
+						state		={ state } 
+						updateState ={ updateState } 
+						label		='Display Field:'  
+						name		='displayField'  
+						placeholder	='Add field to display' />
 					<PostFields
 						state		={ state } 
 						updateState ={ updateState } />
 				</form>
 			</div>
 			<h3>Request Details:</h3>
-			<h5>{state.method} - {state.path}{ state.table != '' ? 
+			<div>{state.method} - {state.path}{ state.table != '' ? 
 												state.selected_table 
 												: 
 												"<table>"
@@ -72,7 +78,7 @@ const view = (state, { updateState, dispatch }) => {
 												'?sysparm_query=' + state.query 
 												: 
 												''
-											} </h5>
+											} </div>
 			<now-button 
 				label	 ="SEND" 
 				variant  ="primary" 
@@ -81,28 +87,23 @@ const view = (state, { updateState, dispatch }) => {
 					() => send_rest( updateState, state, dispatch ) 
 				}>
 			</now-button>
-			{ state.post_response === null && state.results.length === 0 ?
-				state.method === 'POST' ?
-					<div className="response-container">
-						<h4>POST Response:</h4>
-						<Record 
-							key			={0} 
-							state		={state} 
-							updateState ={updateState} 
-							record		={state.post_response} />
-					</div>
-					:
-					<div  className="response-container">
-						<h4>GET Response:</h4>
-						<ResponseTable 
-							state		={state} 
-							updateState ={updateState} />
-					</div>
-				
+			{ state.post_response != null ?
+				<div className="response-container">
+					<h4>POST Response:</h4>
+					<Record 
+						key			={0} 
+						state		={state} 
+						updateState ={updateState} 
+						record		={state.post_response} />
+				</div>
 				:
-				<div className="response-container">No Results</div>
+				<div  className="response-container">
+					<h4>GET Response:</h4>
+					<ResponseTable 
+						state		={state} 
+						updateState ={updateState} />
+				</div>
 			}
-			
 		</div>
 	);
 };
@@ -116,6 +117,7 @@ createCustomElement('x-71146-testing-project', {
 		tables:         	  [],
 		selected_table: 	  '',
 		query:          	  '',
+		displayField:		  '',
 		path:           	  'api/now/table/',
 		results:        	  [],
 		showJson: 			  [],

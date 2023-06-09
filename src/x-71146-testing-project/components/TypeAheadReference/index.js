@@ -4,7 +4,7 @@ export const TypeAheadReference = ({ updateState, state, label, name, table, dis
     return (
         <div className="type-ahead-reference">
             <div className="type-ahead-container">
-                <label for={ name }>{ label }:</label>
+                <label for={ name }>{ label }</label>
                 <input
                     id      ={ name }
                     name    ={ name }
