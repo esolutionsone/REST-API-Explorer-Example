@@ -27,9 +27,9 @@ import { send_rest }          from './helpers';
 
 
 const view = (state, { updateState, dispatch }) => {
-	const { loading } = state;
+	const { loading, user } = state;
 	//Load state while waiting for initial fetch
-	if (loading){
+	if (user.length === 0){
 		return <LoadingIcon style={{transform: 'scale(.5)'}}/>
 	}
 	console.log(state);
@@ -90,16 +90,20 @@ const view = (state, { updateState, dispatch }) => {
 					() => send_rest( updateState, state, dispatch ) 
 				}>
 			</now-button>
-			{	
+			{ loading ?
+				<LoadingIcon style={{transform: 'scale(.5)'}}/>
+				:
 				{
 					"GET": 	<ResponseTable state={state} updateState={updateState} />,
 					"POST": state.post_response != null ?
-								<div>
+								<div className="response-container">
 									<h4>POST Response:</h4>
 									<Record key={0} state={state} updateState={updateState} record={state.post_response}/>
 								</div>
 							: 
-								""
+							<div className="response-container">
+								<div>No Results</div> 
+							</div>
 				}[state.method]
 			}
 		</div>
@@ -120,7 +124,7 @@ createCustomElement('x-71146-testing-project', {
 		path:           	  'api/now/table/',
 		results:        	  [],
 		showJson: 			  [],
-		user:           	  {},
+		user:           	  [],
 		request_fields: 	  [{"field_index":"field1","value_index":"value1","field":"","value":""}],
 		request_fields_index: 1,
 		request_body:   	  {short_description:"hello testing"},
