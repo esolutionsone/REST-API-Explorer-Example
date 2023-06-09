@@ -55,18 +55,15 @@ const view = (state, { updateState, dispatch }) => {
 					<TextInput
 						state		={ state } 
 						updateState ={ updateState } 
-						label		='Query:'  
-						name		='query'  
-						placeholder	='Add query here > ex. active=true' />
-					<TextInput
-						state		={ state } 
-						updateState ={ updateState } 
 						label		='Display Field:'  
 						name		='displayField'  
 						placeholder	='Add field to display' />
-					<PostFields
-						state		={ state } 
-						updateState ={ updateState } />
+					{
+						{
+							"GET":  <TextInput   state={ state } updateState={ updateState } label='Query'  name='query'  placeholder='Add query here > ex. active=true' />,
+							"POST": <PostFields  state={ state } updateState={ updateState } />
+						}[state.method]
+					}
 				</form>
 			</div>
 			<h3>Request Details:</h3>
@@ -87,22 +84,17 @@ const view = (state, { updateState, dispatch }) => {
 					() => send_rest( updateState, state, dispatch ) 
 				}>
 			</now-button>
-			{ state.post_response != null ?
-				<div className="response-container">
-					<h4>POST Response:</h4>
-					<Record 
-						key			={0} 
-						state		={state} 
-						updateState ={updateState} 
-						record		={state.post_response} />
-				</div>
-				:
-				<div  className="response-container">
-					<h4>GET Response:</h4>
-					<ResponseTable 
-						state		={state} 
-						updateState ={updateState} />
-				</div>
+			{	
+				{
+					"GET": 	<ResponseTable state={state} updateState={updateState} />,
+					"POST": state.post_response != null ?
+								<div>
+									<h4>POST Response:</h4>
+									<Record key={0} state={state} updateState={updateState} record={state.post_response}/>
+								</div>
+							: 
+								""
+				}[state.method]
 			}
 		</div>
 	);
