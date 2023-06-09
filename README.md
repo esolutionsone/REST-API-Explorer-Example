@@ -15,10 +15,13 @@ This README will describe our **file structure, tips and tricks, and the high-le
 - [File structure](#file-structure)
 - [Components](#components)
     - [Rest API Explorer](#rest-api-explorer)
-    - [Text Input](#text-input)
     - [Choice Input](#choice-input)
+    - [Post Fields](#post-fields)
+    - [Response Table](#response-table)
+    - [Text Input](#text-input)
     - [TypeAheadReference](#type-ahead-reference)
-    - [ResponseTable](#response-table)
+    - [User Greeting](#user-greeting)
+- [Properties](#properties)
 - [Considerations](#considerations)
 
 ---
@@ -34,9 +37,11 @@ Just use it dog
             - tests                       ➜ Component tests 
             - components                  ➜ Create a custom components folder that holds all sub-components
                 - ChoiceInput             ➜ Folder containing all ChoiceInput component files
+                - Post Fields             ➜ Folder containing all PostFields component files
                 - ResponseTable           ➜ Folder containing all ResponseTable component files
                 - TextInput               ➜ Folder containing all TextInput component files
                 - TypeAheadReference      ➜ Folder containing all TypeAheadReference component files
+                - User Greeting           ➜ Folder containing all UserGreeting component files
             - actionHandlers.js           ➜ Our actionHandlers handle dispatches and REST calls!
             - helper.js                   ➜ Our helper handles function calls in click, change, etc.
             - index.js                    ➜ This is our "core component"
@@ -55,16 +60,22 @@ The "Testing Project" Component (ie. the REST API Explorer component) and the su
 ### Rest API Explorer
 text
 
-### Text Input
+## Choice Input
 text
 
-## Choice Input
+### Post Fields
+text
+
+### Response Table
+text
+
+### Text Input
 text
 
 ### Type Ahead Reference
 text 
 
-### Response Table
+### User Greeting
 text
 
 ---
@@ -72,6 +83,14 @@ text
 ## Considerations
 
 *Other folders that may be included in more complex projects:*
+
+**Why did you do that like that?**
+
+As the goal of this component is split between showing how to do various things in a custom component AND a neat little component to use in your UI builder environment...some things may not be optimal (or may seem completely unnecessary). We've tried to illustrate why we're doing things the way we are inline in each component file. While there may be more optimal / "react-ish" ways to write some of the code, we determined they could be harder to read through and understand for someone new to Custom SN Components / React / Snabdom!
+
+**Ok but if I wanted to make it better how could I?**
+
+You could break out the form, results, etc. into their own sub-component. You could create a Views folder to contain different views for GET & POST. You could add additonal methods PUT, DELETE, & PATCH (this would require updating the actionHandlers too! How fun 😃).
 
 **Views**
 

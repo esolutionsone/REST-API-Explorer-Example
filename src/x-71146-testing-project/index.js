@@ -35,8 +35,12 @@ const view = (state, { updateState, dispatch }) => {
 				<ChoiceInput          state={ state } updateState={ updateState } label='Method' name='method' />
 				<TextInput            state={ state } updateState={ updateState } label='Path'   name='path'   placeholder='Enter path' />
 				<TypeAheadReference   state={ state } updateState={ updateState } label='Table'  name='table'  placeholder='Enter table name here' table='sys_db_object' dispatch={dispatch} />
-				<TextInput            state={ state } updateState={ updateState } label='Query'  name='query'  placeholder='Add query here > ex. active=true' />
-				<PostFields 		  state={ state } updateState={ updateState }/>
+				{
+					{
+						"GET":  <TextInput   state={ state } updateState={ updateState } label='Query'  name='query'  placeholder='Add query here > ex. active=true' />,
+						"POST": <PostFields  state={ state } updateState={ updateState } />
+					}[state.method]
+				}
 			</form>
 			
 				
@@ -58,15 +62,17 @@ const view = (state, { updateState, dispatch }) => {
 					() => send_rest( updateState, state, dispatch ) 
 				}>
 			</now-button>
-			<ResponseTable state={state} updateState={updateState} />
-			{
-				state.post_response != null ?
-					<div>
-						<h4>POST Response:</h4>
-						<Record key={0} state={state} updateState={updateState} record={state.post_response}/>
-					</div>
-				:
-					""
+			{	
+				{
+					"GET": 	<ResponseTable state={state} updateState={updateState} />,
+					"POST": state.post_response != null ?
+								<div>
+									<h4>POST Response:</h4>
+									<Record key={0} state={state} updateState={updateState} record={state.post_response}/>
+								</div>
+							: 
+								""
+				}[state.method]
 			}
 		</div>
 	);
