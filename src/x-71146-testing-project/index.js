@@ -26,12 +26,11 @@ import { send_rest }          from './helpers';
 
 
 const view = (state, { updateState, dispatch }) => {
-	console.log(state);
 	return (
 		<div className="main-container">
 			<h1>Component REST API Explorer Testing:</h1>
+			<UserGreeting state={state} />
 			<div className="form-container">
-				<UserGreeting state={state} />
 				<form>
 					<ChoiceInput
 						state		={ state } 
@@ -66,36 +65,40 @@ const view = (state, { updateState, dispatch }) => {
 					}
 				</form>
 			</div>
-			<h3>Request Details:</h3>
-			<div>{state.method} - {state.path}{ state.table != '' ? 
-												state.selected_table 
-												: 
-												"<table>"
-											}{state.query != '' ?
-												'?sysparm_query=' + state.query 
-												: 
-												''
-											} </div>
-			<now-button 
-				label	 ="SEND" 
-				variant  ="primary" 
-				size	 ="md" 
-				on-click ={ 
-					() => send_rest( updateState, state, dispatch ) 
-				}>
-			</now-button>
-			{	
-				{
-					"GET": 	<ResponseTable state={state} updateState={updateState} />,
-					"POST": state.post_response != null ?
-								<div>
-									<h4>POST Response:</h4>
-									<Record key={0} state={state} updateState={updateState} record={state.post_response}/>
-								</div>
-							: 
-								""
-				}[state.method]
-			}
+			<div className='request-container'>
+				<h3>Request Details:</h3>
+				<div className='request-url'>{state.method} - {state.path}{ state.table != '' ? 
+													state.selected_table 
+													: 
+													"<table>"
+												}{state.query != '' ?
+													'?sysparm_query=' + state.query 
+													: 
+													''
+												} </div>
+				<now-button 
+					label	 ="SEND" 
+					variant  ="primary" 
+					size	 ="md" 
+					on-click ={ 
+						() => send_rest( updateState, state, dispatch ) 
+					}>
+				</now-button>
+			</div>
+			<div className='response-area'>
+				{	
+					{
+						"GET": 	<ResponseTable state={state} updateState={updateState} />,
+						"POST": state.post_response != null ?
+									<div className='post-response'>
+										<h4>POST Response:</h4>
+										<Record className="test" key={0} state={state} updateState={updateState} record={state.post_response}/>
+									</div>
+								: 
+									""
+					}[state.method]
+				}
+			</div>
 		</div>
 	);
 };
@@ -113,7 +116,7 @@ createCustomElement('x-71146-testing-project', {
 		path:           	  'api/now/table/',
 		results:        	  [],
 		showJson: 			  [],
-		user:           	  {},
+		user:           	  null,
 		request_fields: 	  [{"field_index":"field1","value_index":"value1","field":"","value":""}],
 		request_fields_index: 1,
 		request_body:   	  {short_description:"hello testing"},
