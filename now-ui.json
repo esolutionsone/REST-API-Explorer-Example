@@ -34,7 +34,16 @@
 				  "selectable": false,
 				  "valueType": "string",
 				  "mandatory": false
-				}
+				},
+				{
+					"name": "title",
+					"label": "Title",
+					"fieldType": "string",
+					"readOnly": false,
+					"defaultValue": "",
+					"description": "Enter a title for the component.",
+					"mandatory": false
+				  }
 			  ]
 	    }
 	},

@@ -28,6 +28,7 @@ import { send_rest }          from './helpers';
 
 const view = (state, { updateState, dispatch }) => {
 	const { loading, user } = state;
+	const { title } = state.properties;
 	//Load state while waiting for initial fetch
 	if (user.length === 0){
 		return <LoadingIcon style={{transform: 'scale(.5)'}}/>
@@ -35,7 +36,7 @@ const view = (state, { updateState, dispatch }) => {
 	console.log(state);
 	return (
 		<div className="main-container">
-			<h1>Component REST API Explorer Testing:</h1>
+			<h1>{ title }</h1>
 			<div className="form-container">
 				<UserGreeting state={state} />
 				<form>
@@ -129,6 +130,11 @@ createCustomElement('x-71146-testing-project', {
 		request_fields_index: 1,
 		request_body:   	  {short_description:"hello testing"},
 		post_response:  	  null
+	},
+	properties : {
+		table: { default: "incident" },
+		query: { default: "" },
+		title: { default: "Component REST API Explorer Testing:"}
 	},
 	view,
 	styles,
