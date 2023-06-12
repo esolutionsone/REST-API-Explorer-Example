@@ -29,79 +29,89 @@ import { send_rest }          from './helpers';
 
 const view = (state, { updateState, dispatch }) => {
 	const { loading, user } = state;
-	const { title } = state.properties;
+	const { title, backgroundColor, color, headerTextColor, backgroundImageUrl } = state.properties;
 	//Load state while waiting for initial fetch
-	if (user.length === 0){
-		return <LoadingIcon style={{transform: 'scale(.5)'}}/>
+	if (user === null){
+		return <LoadingIcon style={{transform: 'scale(.5)', backgroundColor: 'white'}}/>
 	}
-	console.log(state);
 	return (
-		<div className="main-container">
-			<h1>{ title }</h1>
-			<div className="form-container">
+		<div 
+			style={{
+				backgroundColor : backgroundColor,
+				color: 			  color
+			}} 
+			className="main-container">
+			<div 
+				style={ backgroundImageUrl != '' ? { backgroundImage: `url(${ backgroundImageUrl })` }: '' } 
+				className="hero-container">
+				<h1 style={{ color: headerTextColor, margin: '1rem 2rem' }}>{ title }</h1>
 				<UserGreeting state={state} />
-				<form>
-					<ChoiceInput
-						state		={ state } 
-						updateState ={ updateState } 
-						label		='Method:' 
-						name		='method' />
-					<TextInput
-						state		={ state } 
-						updateState ={ updateState } 
-						label		='Path:'   
-						name		='path'   
-						placeholder ='Enter path' />
-					<TypeAheadReference   
-						state		={ state } 
-						updateState ={ updateState } 
-						label		='Table:'  
-						name		='table'  
-						placeholder ='Enter table name here' 
-						table		='sys_db_object' 
-						dispatch	={dispatch} />
-					<TextInput
-						state		={ state } 
-						updateState ={ updateState } 
-						label		='Display Field:'  
-						name		='displayField'  
-						placeholder	='Add field to display' />
-					{
+				<div className="form-container">
+					<form>
+						<ChoiceInput
+							state		={ state } 
+							updateState ={ updateState } 
+							label		='Method:' 
+							name		='method' />
+						<TextInput
+							state		={ state } 
+							updateState ={ updateState } 
+							label		='Path:'   
+							name		='path'   
+							placeholder ='Enter path' />
+						<TypeAheadReference   
+							state		={ state } 
+							updateState ={ updateState } 
+							label		='Table:'  
+							name		='table'  
+							placeholder ='Enter table name here' 
+							table		='sys_db_object' 
+							dispatch	={dispatch} />
+						<TextInput
+							state		={ state } 
+							updateState ={ updateState } 
+							label		='Display Field:'  
+							name		='displayField'  
+							placeholder	='Add field to display' />
 						{
-							"GET":  <TextInput   state={ state } updateState={ updateState } label='Query'  name='query'  placeholder='Add query here > ex. active=true' />,
-							"POST": <PostFields  state={ state } updateState={ updateState } />
-						}[state.method]
-					}
-				</form>
+							{
+								"GET":  <TextInput   state={ state } updateState={ updateState } label='Query'  name='query'  placeholder='Add query here > ex. active=true' />,
+								"POST": <PostFields  state={ state } updateState={ updateState } />
+							}[state.method]
+						}
+					</form>
+				</div>
 			</div>
-			<h3>Request Details:</h3>
-
-			<RequestDetails state={ state }/>
-			
-			<now-button 
-				label	 ="SEND" 
-				variant  ="primary" 
-				size	 ="md" 
-				on-click ={ 
-					() => send_rest( updateState, state, dispatch ) 
-				}>
-			</now-button>
-			{ loading ?
-				<LoadingIcon style={{transform: 'scale(.5)'}}/>
-				:
-				{
-					"GET": 	<ResponseTable state={state} updateState={updateState} />,
-					"POST": state.post_response != null ?
-								<div className="response-container">
-									<h4>POST Response:</h4>
-									<Record key={0} state={state} updateState={updateState} record={state.post_response}/>
-								</div>
-							: 
-							<div className="response-container">
-								<div>No Results</div> 
-							</div>
-				}[state.method]
-			}
+			<div className='request-container'>
+				<h3>Request Details:</h3>
+				<RequestDetails state={ state }/>
+				<now-button 
+					label	 ="SEND" 
+					variant  ="primary" 
+					size	 ="md" 
+					on-click ={ 
+						() => send_rest( updateState, state, dispatch ) 
+					}>
+				</now-button>
+			</div>
+			<div className='response-area'>
+				{loading ?
+					<LoadingIcon style={{transform: 'scale(.5)'}}/>
+					:
+					{
+						"GET": 	<ResponseTable state={state} updateState={updateState} />,
+						"POST": state.post_response != null ?
+									<div className='post-response response-container'>
+										<h4>POST Response:</h4>
+										<Record className="test" key={0} state={state} updateState={updateState} record={state.post_response}/>
+									</div>
+								: 
+									<div className="response-container">
+											<div>No Results</div> 
+									</div>
+					}[state.method]
+				}
+			</div>
 		</div>
 	);
 };
@@ -109,7 +119,7 @@ const view = (state, { updateState, dispatch }) => {
 createCustomElement('x-71146-testing-project', {
 	renderer: {type: snabbdom},
 	initialState: {
-		loading:			  false,
+		loading:			  true,
 		method:         	  'GET',
 		methods:			  ['GET','POST'],
 		table:          	  '',
@@ -120,13 +130,17 @@ createCustomElement('x-71146-testing-project', {
 		path:           	  'api/now/table/',
 		results:        	  [],
 		showJson: 			  [],
-		user:           	  [],
+		user:           	  null,
 		request_fields: 	  [{"field_index":"field1","value_index":"value1","field":"","value":""}],
 		request_fields_index: 1,
 		request_body:   	  {short_description:"hello testing"},
-		post_response:  	  null
+		post_response:  	  null,
 	},
-	properties : {
+	properties: {
+		backgroundColor:	  { default: '#000' },
+		color:				  { default: '#fff' },
+		headerTextColor:	  { default: '#fff' },
+		backgroundImageUrl:   { default: '' },
 		table: { default: "incident" },
 		query: { default: "" },
 		title: { default: "Component REST API Explorer Testing:"}

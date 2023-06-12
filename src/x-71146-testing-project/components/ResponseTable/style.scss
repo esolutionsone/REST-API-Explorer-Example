@@ -1,10 +1,11 @@
 .response-container {
-	border: solid 1px black;
-	margin-top: 10px;
-	padding: 5px;
+	border: 1px solid #fff;
+    margin: 2.5rem 5rem 0 5rem;
+    padding: 0.5rem 1rem;
+    color: #fff;
 
 	.record-container {
-		border-bottom: solid 1px black;
+		border-bottom: solid 1px #fff;
 		&:last-child{
 			border-bottom: none;
 		}
@@ -15,7 +16,7 @@
 				font-weight: bold;
 			}
 			.chevron-icon {
-				color: black;
+				color: #fff;
 				transition: all 0.6s;
 				&:hover {
 					cursor: pointer;
@@ -41,7 +42,7 @@
 			}
 		}
 		textarea {
-			height: 500px;
+			height: 500px;		
 			resize: none; 
 			background-color: #dddddd;
 		}

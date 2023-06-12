@@ -12,7 +12,7 @@ export const RequestDetails = ({ state }) => {
 
     return (
         <div>
-            <div>{ method } - { path }{ table != '' ? 
+            <div className='request-url'>{ method } - { path }{ table != '' ? 
                                             selected_table 
                                             : 
                                             "<table>"
