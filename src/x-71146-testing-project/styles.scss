@@ -1,5 +1,7 @@
 /* Default import for ServiceNow */
 @import '@servicenow/sass-kit/host';
+/* import styles for the LoadingIcon Component*/
+@import './components/LoadingIcon/LoadingIcon.scss';
 /* Import styles for the ChoiceInput Component */
 @import './components/ChoiceInput/style.scss';
 /* Import styles for the ResponseTable Component */
@@ -10,6 +12,8 @@
 @import './components/TypeAheadReference/styles.scss';
 
 @import './components/PostFields/styles.scss';
+
+@import './components/RequestDetails/style.scss';
 /* SCSS for the "testing-project" REST Explorer component...this is our "parent component" */
 
 .main-container {

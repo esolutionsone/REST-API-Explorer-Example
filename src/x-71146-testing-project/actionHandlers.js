@@ -46,17 +46,20 @@ export default {
     },
     'GET_RESPONSE_VALE': ({ action, updateState }) => {
         updateState({
-            results: action.payload.result
+            results: action.payload.result,
+            loading: false
         })
     },
     'POST_RESPONSE_VALUE': ({ action, updateState }) => {
         updateState({
-            post_response: action.payload.result
+            post_response: action.payload.result,
+            loading: false
         })
     },
     'SET_USER_ID': ({ action, updateState }) => {
         updateState({
-            user: action.payload.result
+            user: action.payload.result,
+            loading: false
         })
     },
     'LOG_ERROR': ({ action }) => console.error("LOG_ERROR", action.payload.msg, action.payload.data),

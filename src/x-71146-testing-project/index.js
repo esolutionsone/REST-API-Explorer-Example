@@ -10,6 +10,8 @@ import { TypeAheadReference } from './components/TypeAheadReference';
 import { ResponseTable } 	  from './components/ResponseTable';
 import { PostFields } 		  from './components/PostFields';
 import { Record } 			  from './components/ResponseTable/Record';
+import { LoadingIcon } 		  from './components/LoadingIcon/LoadingIcon';
+import { RequestDetails } from './components/RequestDetails';
 /* 
 	Importing ServiceNow now-button component, this can be installed by running npm -i @service-now/now-button and details 
 	can be found here https://developer.servicenow.com/dev.do#!/reference/next-experience/utah/now-components/now-button/overview 
@@ -26,7 +28,12 @@ import { send_rest }          from './helpers';
 
 
 const view = (state, { updateState, dispatch }) => {
-	const { backgroundColor, color, headerTextColor, backgroundImageUrl } = state.properties;
+	const { loading, user } = state;
+	const { title, backgroundColor, color, headerTextColor, backgroundImageUrl } = state.properties;
+	//Load state while waiting for initial fetch
+	if (user === null){
+		return <LoadingIcon style={{transform: 'scale(.5)', backgroundColor: 'white'}}/>
+	}
 	return (
 		<div 
 			style={{
@@ -37,7 +44,7 @@ const view = (state, { updateState, dispatch }) => {
 			<div 
 				style={ backgroundImageUrl != '' ? { backgroundImage: `url(${ backgroundImageUrl })` }: '' } 
 				className="hero-container">
-				<h1 style={{ color: headerTextColor, margin: '1rem 2rem' }}>Component REST API Explorer Testing:</h1>
+				<h1 style={{ color: headerTextColor, margin: '1rem 2rem' }}>{ title }</h1>
 				<UserGreeting state={state} />
 				<div className="form-container">
 					<form>
@@ -77,15 +84,7 @@ const view = (state, { updateState, dispatch }) => {
 			</div>
 			<div className='request-container'>
 				<h3>Request Details:</h3>
-				<div className='request-url'>{state.method} - {state.path}{ state.table != '' ? 
-													state.selected_table 
-													: 
-													"<table>"
-												}{state.query != '' ?
-													'?sysparm_query=' + state.query 
-													: 
-													''
-												} </div>
+				<RequestDetails state={ state }/>
 				<now-button 
 					label	 ="SEND" 
 					variant  ="primary" 
@@ -96,16 +95,20 @@ const view = (state, { updateState, dispatch }) => {
 				</now-button>
 			</div>
 			<div className='response-area'>
-				{	
+				{loading ?
+					<LoadingIcon style={{transform: 'scale(.5)'}}/>
+					:
 					{
 						"GET": 	<ResponseTable state={state} updateState={updateState} />,
 						"POST": state.post_response != null ?
-									<div className='post-response'>
+									<div className='post-response response-container'>
 										<h4>POST Response:</h4>
 										<Record className="test" key={0} state={state} updateState={updateState} record={state.post_response}/>
 									</div>
 								: 
-									""
+									<div className="response-container">
+											<div>No Results</div> 
+									</div>
 					}[state.method]
 				}
 			</div>
@@ -116,6 +119,7 @@ const view = (state, { updateState, dispatch }) => {
 createCustomElement('x-71146-testing-project', {
 	renderer: {type: snabbdom},
 	initialState: {
+		loading:			  true,
 		method:         	  'GET',
 		methods:			  ['GET','POST'],
 		table:          	  '',
@@ -136,7 +140,10 @@ createCustomElement('x-71146-testing-project', {
 		backgroundColor:	  { default: '#000' },
 		color:				  { default: '#fff' },
 		headerTextColor:	  { default: '#fff' },
-		backgroundImageUrl:   { default: '' }
+		backgroundImageUrl:   { default: '' },
+		table: { default: "incident" },
+		query: { default: "" },
+		title: { default: "Component REST API Explorer Testing:"}
 	},
 	view,
 	styles,

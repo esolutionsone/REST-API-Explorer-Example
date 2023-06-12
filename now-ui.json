@@ -36,6 +36,15 @@
 				  "mandatory": false
 				},
 				{
+					"name": "title",
+					"label": "Title",
+					"fieldType": "string",
+					"readOnly": false,
+					"defaultValue": "",
+					"description": "Enter a title for the component.",
+					"mandatory": false
+				},
+				{
 					"name": "Background Color",
 					"label": "background_color",
 					"fieldType": "string",
@@ -78,7 +87,7 @@
 					"selectable": false,
 					"valueType": "string",
 					"mandatory": false
-				  }
+				    }
 			  ]
 	    }
 	},

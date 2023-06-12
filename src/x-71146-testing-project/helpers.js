@@ -46,7 +46,8 @@ export const fetch_tables = debounce(( updateState, event, table, limit, dispatc
     updateState({tables:[]});
 });
 export const send_rest = debounce(( updateState, state, dispatch) => {
-        processREST(updateState, state, dispatch);
+    updateState({loading: true});
+    processREST(updateState, state, dispatch);
 });
 export const update_row_fields = ( updateState, state, action, index = 0 ) => {
     const { request_fields } = state;
@@ -73,7 +74,6 @@ let processFetch = ( event, table, limit, dispatch ) => {
     });
 }
 let processREST =  ( updateState, state, dispatch ) => {
-    console.log('banananananaa');
     if ( state.method === "GET"){
         dispatch("REST_GET", {
             tableName:     state.selected_table,
