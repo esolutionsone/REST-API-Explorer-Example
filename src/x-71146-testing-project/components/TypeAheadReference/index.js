@@ -15,18 +15,24 @@ export const TypeAheadReference = ({ updateState, state, label, name, table, dis
                 >
                 </input>
             </div>
-            { state && 
-                state.tables.map((table) =>
-                    <ul>
-                        <li 
-                            key={table.sys_id} 
-                            on-click={ 
-                                () => select_table( updateState, table.name, table.label ) 
-                            }>
-                                {table.label}
-                        </li>
+            { 
+                state.tables.length > 0 ?
+                    <ul className="drop-down-list">
+                        { 
+                            state.tables.map((table) =>
+                                
+                                    <li 
+                                        key={table.sys_id} 
+                                        on-click={ 
+                                            () => select_table( updateState, table.name, table.label ) 
+                                        }>
+                                            {table.label}
+                                    </li>
+                            )
+                        }
                     </ul>
-                )
+                :
+                        ""
             }
         </div>
     )

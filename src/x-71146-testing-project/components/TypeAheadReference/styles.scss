@@ -11,18 +11,23 @@
 .type-ahead-reference ul::before{
     content: '';
 }
-.type-ahead-reference ul{
+.type-ahead-reference ul {
     list-style-type: none;
-    text-align: left;
-    margin: 0;
+    margin: 0px 0 0 15rem;
+    border: 1px solid grey;
     padding: 0;
-    border-top: 1px solid gray;
+    max-height: 5rem;
+    overflow: scroll;
 }
 .type-ahead-reference li{
-    padding: 10px 5px ;
+    padding: 5px 5px;
     cursor: pointer;
+    font-size: .75rem;
 }
 .type-ahead-reference li:hover{
     background: lightgray;
     text-decoration: underline;
+}
+.drop-down-list {
+    
 }

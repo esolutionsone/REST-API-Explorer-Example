@@ -26,76 +26,89 @@ import { send_rest }          from './helpers';
 
 
 const view = (state, { updateState, dispatch }) => {
-	console.log(state);
+	const { backgroundColor, color, headerTextColor, backgroundImageUrl } = state.properties;
 	return (
-		<div className="main-container">
-			<h1>Component REST API Explorer Testing:</h1>
-			<div className="form-container">
+		<div 
+			style={{
+				backgroundColor : backgroundColor,
+				color: 			  color
+			}} 
+			className="main-container">
+			<div 
+				style={ backgroundImageUrl != '' ? { backgroundImage: `url(${ backgroundImageUrl })` }: '' } 
+				className="hero-container">
+				<h1 style={{ color: headerTextColor, margin: '1rem 2rem' }}>Component REST API Explorer Testing:</h1>
 				<UserGreeting state={state} />
-				<form>
-					<ChoiceInput
-						state		={ state } 
-						updateState ={ updateState } 
-						label		='Method:' 
-						name		='method' />
-					<TextInput
-						state		={ state } 
-						updateState ={ updateState } 
-						label		='Path:'   
-						name		='path'   
-						placeholder ='Enter path' />
-					<TypeAheadReference   
-						state		={ state } 
-						updateState ={ updateState } 
-						label		='Table:'  
-						name		='table'  
-						placeholder ='Enter table name here' 
-						table		='sys_db_object' 
-						dispatch	={dispatch} />
-					<TextInput
-						state		={ state } 
-						updateState ={ updateState } 
-						label		='Display Field:'  
-						name		='displayField'  
-						placeholder	='Add field to display' />
-					{
+				<div className="form-container">
+					<form>
+						<ChoiceInput
+							state		={ state } 
+							updateState ={ updateState } 
+							label		='Method:' 
+							name		='method' />
+						<TextInput
+							state		={ state } 
+							updateState ={ updateState } 
+							label		='Path:'   
+							name		='path'   
+							placeholder ='Enter path' />
+						<TypeAheadReference   
+							state		={ state } 
+							updateState ={ updateState } 
+							label		='Table:'  
+							name		='table'  
+							placeholder ='Enter table name here' 
+							table		='sys_db_object' 
+							dispatch	={dispatch} />
+						<TextInput
+							state		={ state } 
+							updateState ={ updateState } 
+							label		='Display Field:'  
+							name		='displayField'  
+							placeholder	='Add field to display' />
 						{
-							"GET":  <TextInput   state={ state } updateState={ updateState } label='Query'  name='query'  placeholder='Add query here > ex. active=true' />,
-							"POST": <PostFields  state={ state } updateState={ updateState } />
-						}[state.method]
-					}
-				</form>
+							{
+								"GET":  <TextInput   state={ state } updateState={ updateState } label='Query'  name='query'  placeholder='Add query here > ex. active=true' />,
+								"POST": <PostFields  state={ state } updateState={ updateState } />
+							}[state.method]
+						}
+					</form>
+				</div>
 			</div>
-			<h3>Request Details:</h3>
-			<div>{state.method} - {state.path}{ state.table != '' ? 
-												state.selected_table 
-												: 
-												"<table>"
-											}{state.query != '' ?
-												'?sysparm_query=' + state.query 
-												: 
-												''
-											} </div>
-			<now-button 
-				label	 ="SEND" 
-				variant  ="primary" 
-				size	 ="md" 
-				on-click ={ 
-					() => send_rest( updateState, state, dispatch ) 
-				}>
-			</now-button>
-			{	
-				{
-					"GET": 	<ResponseTable state={state} updateState={updateState} />,
-					"POST": state.post_response != null ?
-								<div>
-									<h4>POST Response:</h4>
-									<Record key={0} state={state} updateState={updateState} record={state.post_response}/>
-								</div>
-							: 
-								""
-				}[state.method]
-			}
+			<div className='request-container'>
+				<h3>Request Details:</h3>
+				<div className='request-url'>{state.method} - {state.path}{ state.table != '' ? 
+													state.selected_table 
+													: 
+													"<table>"
+												}{state.query != '' ?
+													'?sysparm_query=' + state.query 
+													: 
+													''
+												} </div>
+				<now-button 
+					label	 ="SEND" 
+					variant  ="primary" 
+					size	 ="md" 
+					on-click ={ 
+						() => send_rest( updateState, state, dispatch ) 
+					}>
+				</now-button>
+			</div>
+			<div className='response-area'>
+				{	
+					{
+						"GET": 	<ResponseTable state={state} updateState={updateState} />,
+						"POST": state.post_response != null ?
+									<div className='post-response'>
+										<h4>POST Response:</h4>
+										<Record className="test" key={0} state={state} updateState={updateState} record={state.post_response}/>
+									</div>
+								: 
+									""
+					}[state.method]
+				}
+			</div>
 		</div>
 	);
 };
@@ -113,11 +126,17 @@ createCustomElement('x-71146-testing-project', {
 		path:           	  'api/now/table/',
 		results:        	  [],
 		showJson: 			  [],
-		user:           	  {},
+		user:           	  null,
 		request_fields: 	  [{"field_index":"field1","value_index":"value1","field":"","value":""}],
 		request_fields_index: 1,
 		request_body:   	  {short_description:"hello testing"},
-		post_response:  	  null
+		post_response:  	  null,
+	},
+	properties: {
+		backgroundColor:	  { default: '#000' },
+		color:				  { default: '#fff' },
+		headerTextColor:	  { default: '#fff' },
+		backgroundImageUrl:   { default: '' }
 	},
 	view,
 	styles,

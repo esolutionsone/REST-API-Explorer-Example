@@ -1,4 +1,3 @@
-
 export const dropDownClicked = ( clickedKey, showJson, updateState ) => {
     /* a function that will either add the clicked records index to showJson 
     or remove it from showJson */
@@ -39,42 +38,16 @@ export const set_api_value = ( updateState, state, event ) => {
             if      ( event.target.name == field['field_index'] ){ new_request_fields[index]['field'] = event.target.value; }
             else if ( event.target.name == field['value_index'] ){ new_request_fields[index]['value'] = event.target.value; }
         });
-        updateState({
-            request_fields:new_request_fields
-        });
+        updateState({request_fields:new_request_fields});
     }
 }
 export const fetch_tables = debounce(( updateState, event, table, limit, dispatch) => {
     processFetch(event, table, limit, dispatch);
     updateState({tables:[]});
 });
-export const send_rest = ( updateState, state, dispatch ) => {
-    updateState({
-        showJson:       [],
-        results:        [],
-        post_response:  null,
-        request_body:   {},
-        request_fields: [{"field_index":"field15","value_index":"value15","field":"","value":""}]
-    })
-    
-    if ( state.method === "GET"){
-        dispatch("REST_GET", {
-            tableName:     state.selected_table,
-            sysparm_query: state.query
-        })   
-    }
-    else if ( state.method === "POST"){
-        let post_request_body = {};
-        state.request_fields.forEach( field => {
-            post_request_body[field['field']] = field['value'];
-        });
-        updateState({ request_body: post_request_body });
-        dispatch("REST_POST", {
-            tableName: state.selected_table,
-            data:      post_request_body
-        })
-    }
-}
+export const send_rest = debounce(( updateState, state, dispatch) => {
+        processREST(updateState, state, dispatch);
+});
 export const update_row_fields = ( updateState, state, action, index = 0 ) => {
     const { request_fields } = state;
     let index_num = state.request_fields_index;
@@ -99,12 +72,32 @@ let processFetch = ( event, table, limit, dispatch ) => {
         sysparm_query: 'labelSTARTSWITH'+event
     });
 }
+let processREST =  ( updateState, state, dispatch ) => {
+    console.log('banananananaa');
+    if ( state.method === "GET"){
+        dispatch("REST_GET", {
+            tableName:     state.selected_table,
+            sysparm_query: state.query
+        })   
+    }
+    else if ( state.method === "POST"){
+        let post_request_body = {};
+        state.request_fields.forEach( field => {
+            post_request_body[field['field']] = field['value'];
+        });
+        updateState({ request_body: post_request_body });
+        dispatch("REST_POST", {
+            tableName: state.selected_table,
+            data:      post_request_body
+        })
+    }
+}
 export const select_table = ( updateState, name, label ) => {
     updateState({
-        table:          label,
-        selected_table: name,
-        tables:         []
-    });
+                    table:          label,
+                    selected_table: name,
+                    tables:         []
+                });
 }
 function debounce(func, timeout = 300){
     let timer;
