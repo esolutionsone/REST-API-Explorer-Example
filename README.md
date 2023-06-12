@@ -35,7 +35,7 @@ Just use it dog
     - src                                 ➜ Source code for our custom component!
         - x-71146-testing-project         ➜ Our Component (all custom code should be in here)
             - tests                       ➜ Component tests 
-            - components                  ➜ Create a custom components folder that holds all sub-components
+            - components                  ➜ Folder that holds all sub-components
                 - ChoiceInput             ➜ Folder containing all ChoiceInput component files
                 - Post Fields             ➜ Folder containing all PostFields component files
                 - ResponseTable           ➜ Folder containing all ResponseTable component files
@@ -77,6 +77,11 @@ text
 
 ### User Greeting
 text
+
+---
+
+### Properties
+test
 
 ---
 
