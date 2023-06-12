@@ -11,6 +11,7 @@ import { ResponseTable } 	  from './components/ResponseTable';
 import { PostFields } 		  from './components/PostFields';
 import { Record } 			  from './components/ResponseTable/Record';
 import { LoadingIcon } 		  from './components/LoadingIcon/LoadingIcon';
+import { RequestDetails } from './components/RequestDetails';
 /* 
 	Importing ServiceNow now-button component, this can be installed by running npm -i @service-now/now-button and details 
 	can be found here https://developer.servicenow.com/dev.do#!/reference/next-experience/utah/now-components/now-button/overview 
@@ -74,15 +75,9 @@ const view = (state, { updateState, dispatch }) => {
 				</form>
 			</div>
 			<h3>Request Details:</h3>
-			<div>{state.method} - {state.path}{ state.table != '' ? 
-												state.selected_table 
-												: 
-												"<table>"
-											}{state.query != '' ?
-												'?sysparm_query=' + state.query 
-												: 
-												''
-											} </div>
+
+			<RequestDetails state={ state }/>
+			
 			<now-button 
 				label	 ="SEND" 
 				variant  ="primary" 
@@ -114,7 +109,7 @@ const view = (state, { updateState, dispatch }) => {
 createCustomElement('x-71146-testing-project', {
 	renderer: {type: snabbdom},
 	initialState: {
-		loading:			  true,
+		loading:			  false,
 		method:         	  'GET',
 		methods:			  ['GET','POST'],
 		table:          	  '',
