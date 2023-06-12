@@ -13,35 +13,34 @@
 /* SCSS for the "testing-project" REST Explorer component...this is our "parent component" */
 
 .main-container {
-    margin: -1.5rem -0.5rem;
-    background-image: url('./assets/background-image.jpg');
-    background-size: cover;
-    background-color: #000;
-    background-position: calc(50% + 6rem) calc(50% - 3rem);
-    min-height: 30rem;
-    color: #fff;
-    padding: 1rem 3rem;
+    margin:     -1.5rem -0.5rem;
+    min-height: 102vh;
+    padding:    1rem 3rem;
+    .hero-container{
+        background-image:    url('./assets/background-image.jpg');
+        background-size:     cover;
+        background-position: calc(50% + 5rem) calc(50% + -5rem);
+        min-height:          20rem;
+    }
     .form-container {
-        width: 35rem;
-        margin: 0 2rem;
-        padding: 1.5rem 2rem 1.5rem 1rem;
-        background: #fff;
-        color: #000;
-        font-weight: 600;
-        border-radius: 0.4rem;
+        width:            35rem;
+        margin:           0 2rem;
+        padding:          1.5rem 2rem 1.5rem 1rem;
+        font-weight:      600;
+        border-radius:    0.4rem;
+        background-color: #fff;
+        color:            #000;
     }
     .request-container {
-        margin: 0 -3rem -3rem;
-        background-color: #000;
+        margin:  0 -3rem -3rem;
         padding: 0 5rem 2.25rem 5rem;
         .request-url {
             padding: 0 0 1.5rem 0;
         }
     }
     .response-area {
-        background: #000;
-        margin: -1rem -3rem;
-        height: auto;
+        margin:     -1rem -3rem;
+        height:     auto;
         min-height: 22rem;
     }
     .post-response {
