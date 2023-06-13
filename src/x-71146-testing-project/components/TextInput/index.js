@@ -1,4 +1,4 @@
-import { set_api_value } from "../../helpers"
+import { setApiValue } from "../../helpers"
 
 export const TextInput = ({ state, updateState, label, name, placeholder, value = '' }) => {
     const { required } = state;
@@ -11,20 +11,20 @@ export const TextInput = ({ state, updateState, label, name, placeholder, value 
                     id          ={ name }
                     name        ={ name }
                     placeholder ={ placeholder }
-                    on-change   ={ (e) => set_api_value( updateState, state, e ) }
+                    on-change   ={ (e) => setApiValue( updateState, state, e ) }
                     value       ={ value != '' ? value : state[name] }
-                    readonly
-                ></input>
+                    readonly >
+                    </input>
                 :
                 <input
                     type        ="text"
                     id          ={ name }
                     name        ={ name }
                     placeholder ={ placeholder }
-                    on-change   ={ (e) => set_api_value( updateState, state, e ) }
+                    on-change   ={ (e) => setApiValue( updateState, state, e ) }
                     value       ={ value != '' || value != undefined ? value : state[name] }
-                    className={ required ? "denied" : "" }
-                ></input>
+                    className   ={ required ? "denied" : "" } >
+                </input>
             }
         </div>
     )

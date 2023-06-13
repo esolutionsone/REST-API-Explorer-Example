@@ -1,4 +1,4 @@
-import { fetch_tables, select_table } from "../../helpers"
+import { fetchTables, selectTable } from "../../helpers"
 
 export const TypeAheadReference = ({ updateState, state, label, name, table, dispatch }) => {
     const { required } = state;
@@ -7,34 +7,29 @@ export const TypeAheadReference = ({ updateState, state, label, name, table, dis
             <div className="type-ahead-container">
                 <label for={ name }>{ label }</label>
                 <input
-                    id      ={ name }
-                    name    ={ name }
-                    onkeyup ={ 
-                        (e) => fetch_tables( updateState, e.target.value, table, 20, dispatch ) 
-                    }
-                    value   ={ state[name] }
-                    className={ required ? "denied" : "" }
-                >
+                    id        ={ name }
+                    name      ={ name }
+                    value     ={ state[name] }
+                    className ={ required ? "denied" : "" }
+                    onkeyup   ={ 
+                        (e) => fetchTables( updateState, e.target.value, table, 20, dispatch ) 
+                    } >
                 </input>
             </div>
-            { 
-                state.tables.length > 0 ?
-                    <ul className="drop-down-list">
-                        { 
-                            state.tables.map((table) =>
-                                
-                                    <li 
-                                        key={table.sys_id} 
-                                        on-click={ 
-                                            () => select_table( updateState, table.name, table.label ) 
-                                        }>
-                                            {table.label}
-                                    </li>
-                            )
-                        }
-                    </ul>
+            { state.tables.length > 0 ?
+                <ul className="drop-down-list">
+                    { state.tables.map((table) =>
+                        <li 
+                            key={table.sys_id} 
+                            on-click={ 
+                                () => selectTable( updateState, table.name, table.label ) 
+                            } >
+                                {table.label}
+                        </li>
+                    )}
+                </ul>
                 :
-                        ""
+                "" 
             }
         </div>
     )

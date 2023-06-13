@@ -1,18 +1,20 @@
-import { set_api_value } from "../../helpers"
+import { setApiValue } from "../../helpers"
 
 export const ChoiceInput = ({ state, updateState, label, name }) => {
+    const { method, methods } = state;
     return (
         <div className="choice-container">
             <label for={ name }>{ label }</label>
             <select
                 id        = { name }
                 name      = { name }
-                on-change = { (e) => set_api_value( updateState, state, e ) }
-                value     = { state.method }
-            >
-                { state.methods.map((option)=>{
-                    return <option value={option}>{option}</option>
-                })}
+                value     = { method }
+                on-change = { 
+                    (e) => setApiValue( updateState, state, e )
+                } >
+                    { methods.map((option)=>{
+                        return <option value={option}>{option}</option>
+                    })}
             </select>
         </div>
     )

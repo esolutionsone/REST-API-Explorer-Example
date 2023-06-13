@@ -11,7 +11,7 @@ import { ResponseTable } 	  from './components/ResponseTable';
 import { PostFields } 		  from './components/PostFields';
 import { Record } 			  from './components/ResponseTable/Record';
 import { LoadingIcon } 		  from './components/LoadingIcon/LoadingIcon';
-import { RequestDetails } from './components/RequestDetails';
+import { RequestDetails }	  from './components/RequestDetails';
 /* 
 	Importing ServiceNow now-button component, this can be installed by running npm -i @service-now/now-button and details 
 	can be found here https://developer.servicenow.com/dev.do#!/reference/next-experience/utah/now-components/now-button/overview 
@@ -23,7 +23,7 @@ import { nowButton }          from '@servicenow/now-button'
 	Helpers define functions to be called from our components (onclick, keydown, onchange, etc.) 
 */
 import actionHandlers         from './actionHandlers';
-import { send_rest }          from './helpers';
+import { sendRest }           from './helpers';
 /* END IMPORTS */
 
 
@@ -77,8 +77,15 @@ const view = (state, { updateState, dispatch }) => {
 							placeholder	='Add field to display' />
 						{
 							{
-								"GET":  <TextInput   state={ state } updateState={ updateState } label='Query'  name='query'  placeholder='Add query here > ex. active=true' />,
-								"POST": <PostFields  state={ state } updateState={ updateState } />
+								"GET":  <TextInput   
+											state		={ state } 
+											updateState ={ updateState } 
+											label		='Query'  
+											name		='query'  
+											placeholder	='Add query here > ex. active=true' />,
+								"POST": <PostFields  
+											state		={ state } 
+											updateState ={ updateState } />
 							}[state.method]
 						}
 					</form>
@@ -88,13 +95,13 @@ const view = (state, { updateState, dispatch }) => {
 				<h3>Request Details:</h3>
 				<RequestDetails state={ state }/>
 				<now-button 
-							label	 ="SEND" 
-							variant  ="primary" 
-							size	 ="md" 
-							on-click ={ 
-								() => send_rest( updateState, state, dispatch ) 
-							}>
-						</now-button>
+					label	 ="SEND" 
+					variant  ="primary" 
+					size	 ="md" 
+					on-click ={ 
+						() => sendRest( updateState, state, dispatch ) 
+					}>
+				</now-button>
 			</div>
 			<div className='response-area'>
 				{loading ?
@@ -107,7 +114,7 @@ const view = (state, { updateState, dispatch }) => {
 										<h4>POST Response:</h4>
 										<Record className="test" key={0} state={state} updateState={updateState} record={state.post_response}/>
 									</div>
-								: 
+									: 
 									<div className="response-container">
 											<div>No Results</div> 
 									</div>
@@ -140,13 +147,13 @@ createCustomElement('x-71146-testing-project', {
 		post_response:  	  null,
 	},
 	properties: {
-		backgroundColor:	  { default: '#000' },
-		color:				  { default: '#fff' },
-		headerTextColor:	  { default: '#fff' },
-		backgroundImageUrl:   { default: '' },
-		table: { default: "incident" },
-		query: { default: "" },
-		title: { default: "Component REST API Explorer Testing:"}
+		backgroundColor: 	{ default: '#000' },
+		color: 				{ default: '#fff' },
+		headerTextColor: 	{ default: '#fff' },
+		backgroundImageUrl: { default: '' },
+		table: 				{ default: "incident" },
+		query: 				{ default: "" },
+		title: 				{ default: "Component REST API Explorer Testing:" }
 	},
 	view,
 	styles,

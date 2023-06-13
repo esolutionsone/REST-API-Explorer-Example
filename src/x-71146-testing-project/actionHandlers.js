@@ -25,7 +25,7 @@ export default {
         successActionType: "POST_RESPONSE_VALUE",
         errorActionType:   "LOG_ERROR"
     }),
-    'FETCH_TABLES': createHttpEffect("api/now/table/:tableName", {
+    'fetchTables': createHttpEffect("api/now/table/:tableName", {
         method:            "GET",
         pathParams:        [ "tableName" ],
         queryParams:       [ "sysparm_limit", "sysparm_query" ],
