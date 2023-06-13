@@ -28,6 +28,8 @@ import { send_rest }          from './helpers';
 
 
 const view = (state, { updateState, dispatch }) => {
+
+    console.log(state);
 	const { loading, user } = state;
 	const { title, backgroundColor, color, headerTextColor, backgroundImageUrl } = state.properties;
 	//Load state while waiting for initial fetch
@@ -86,13 +88,13 @@ const view = (state, { updateState, dispatch }) => {
 				<h3>Request Details:</h3>
 				<RequestDetails state={ state }/>
 				<now-button 
-					label	 ="SEND" 
-					variant  ="primary" 
-					size	 ="md" 
-					on-click ={ 
-						() => send_rest( updateState, state, dispatch ) 
-					}>
-				</now-button>
+							label	 ="SEND" 
+							variant  ="primary" 
+							size	 ="md" 
+							on-click ={ 
+								() => send_rest( updateState, state, dispatch ) 
+							}>
+						</now-button>
 			</div>
 			<div className='response-area'>
 				{loading ?
@@ -120,6 +122,7 @@ createCustomElement('x-71146-testing-project', {
 	renderer: {type: snabbdom},
 	initialState: {
 		loading:			  true,
+		required: 			  false,
 		method:         	  'GET',
 		methods:			  ['GET','POST'],
 		table:          	  '',

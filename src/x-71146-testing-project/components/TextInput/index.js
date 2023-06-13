@@ -1,6 +1,7 @@
 import { set_api_value } from "../../helpers"
 
 export const TextInput = ({ state, updateState, label, name, placeholder, value = '' }) => {
+    const { required } = state;
     return (
         <div  className="text-input-container">
             <label for={ name }>{ label }</label>
@@ -22,6 +23,7 @@ export const TextInput = ({ state, updateState, label, name, placeholder, value 
                     placeholder ={ placeholder }
                     on-change   ={ (e) => set_api_value( updateState, state, e ) }
                     value       ={ value != '' || value != undefined ? value : state[name] }
+                    className={ required ? "denied" : "" }
                 ></input>
             }
         </div>

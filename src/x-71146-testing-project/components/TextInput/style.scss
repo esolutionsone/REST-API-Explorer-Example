@@ -2,4 +2,8 @@
     display: flex;
     justify-content: space-between;
     margin-bottom: 5px;
+    .denied {
+        border-color: red;
+    }
 }
+

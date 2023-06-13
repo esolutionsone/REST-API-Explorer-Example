@@ -4,6 +4,10 @@
     .type-ahead-container {
         display: flex;
         justify-content: space-between;
+        
+        .denied {
+            border-color: red;
+        }
     }
 }
 .type-ahead-reference input{

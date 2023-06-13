@@ -28,6 +28,9 @@ export const dropDownClicked = ( clickedKey, showJson, updateState ) => {
     });
 }
 export const set_api_value = ( updateState, state, event ) => {
+    updateState({
+        required: false
+    })
     /* If the name is in the state, it's one of the form values, if not it's one of the post fields! */
     if (event.target.name in state){updateState({[event.target.name]:event.target.value});}
     else if(state.methods.includes(event.target.value)){updateState({ method: event.target.value });}
@@ -42,11 +45,49 @@ export const set_api_value = ( updateState, state, event ) => {
     }
 }
 export const fetch_tables = debounce(( updateState, event, table, limit, dispatch) => {
+    if (event === '') {
+        updateState({
+            table: '',
+            selected_table: '',
+            tables: []
+        })
+        return
+    }
     processFetch(event, table, limit, dispatch);
     updateState({tables:[]});
 });
 export const send_rest = debounce(( updateState, state, dispatch) => {
-    updateState({loading: true});
+    console.log('form submitted');
+    const { table, query, displayField, method, request_fields } = state;
+    switch (method) {
+        case "POST":
+            if (table                   === '' || 
+                request_fields[0].field === '' || 
+                request_fields[0].value === '' || 
+                displayField            === '') {
+                    alert('Please fill out required fields. (Table, Display Field, Field, and Value)');
+                    updateState({
+                        required: true
+                    })
+                    return
+            }
+            break;
+        case "GET":
+            if (table === '' || query === '' || displayField === '') {
+                alert('Please fill out required fields. (Table, Display Field, and Query)');
+                updateState({
+                    required: true
+                })
+                return
+            }
+            break;
+        default:
+            break;
+    }
+    updateState({
+        loading: true,
+        required: false
+    });
     processREST(updateState, state, dispatch);
 });
 export const update_row_fields = ( updateState, state, action, index = 0 ) => {

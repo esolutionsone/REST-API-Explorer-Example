@@ -1,6 +1,7 @@
 import { fetch_tables, select_table } from "../../helpers"
 
 export const TypeAheadReference = ({ updateState, state, label, name, table, dispatch }) => {
+    const { required } = state;
     return (
         <div className="type-ahead-reference">
             <div className="type-ahead-container">
@@ -12,6 +13,7 @@ export const TypeAheadReference = ({ updateState, state, label, name, table, dis
                         (e) => fetch_tables( updateState, e.target.value, table, 20, dispatch ) 
                     }
                     value   ={ state[name] }
+                    className={ required ? "denied" : "" }
                 >
                 </input>
             </div>
