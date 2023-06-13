@@ -26,7 +26,7 @@ export const TypeAheadReference = ({ updateState, state, label, name, table, dis
                                         on-click={ 
                                             () => select_table( updateState, table.name, table.label ) 
                                         }>
-                                            {table.label}
+                                            {table.label} - ({table.name})
                                     </li>
                             )
                         }
