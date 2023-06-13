@@ -1,6 +1,6 @@
 .response-container {
-	border: 1px solid #fff;
-    margin: 2.5rem 5rem 0 5rem;
+	border:  1px solid #fff;
+    margin:  2.5rem 5rem 0 5rem;
     padding: 0.5rem 1rem;
     color: #fff;
 
@@ -12,11 +12,11 @@
 		.record-header {
 			font-size: larger;
 			.record-title {
-				font-size: x-large;
+				font-size:   x-large;
 				font-weight: bold;
 			}
 			.chevron-icon {
-				color: #fff;
+				color:    #fff;
 				transition: all 0.6s;
 				&:hover {
 					cursor: pointer;
@@ -31,19 +31,19 @@
 		}
 		.record-details {
 			transition: all 0.6s ;
-			width: 100%;
+			width:      100%;
 			overflow-y: scroll;
 			&.show {
 				height: 500px;
 			}
 			&.hide {
-				height: 0px;
+				height: 	0px;
 				visibility: hidden;
 			}
 		}
 		textarea {
-			height: 500px;		
-			resize: none; 
+			height:			    500px;		
+			resize: 			none; 
 			background-color: #dddddd;
 		}
 	}

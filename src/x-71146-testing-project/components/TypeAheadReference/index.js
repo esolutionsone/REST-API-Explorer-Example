@@ -1,7 +1,7 @@
 import { fetchTables, selectTable } from "../../helpers"
 
 export const TypeAheadReference = ({ updateState, state, label, name, table, dispatch }) => {
-    const { required } = state;
+    const { required, tables } = state;
     return (
         <div className="type-ahead-reference">
             <div className="type-ahead-container">
@@ -16,15 +16,15 @@ export const TypeAheadReference = ({ updateState, state, label, name, table, dis
                     } >
                 </input>
             </div>
-            { state.tables.length > 0 ?
+            { tables.length > 0 ?
                 <ul className="drop-down-list">
-                    { state.tables.map((table) =>
+                    { tables.map((table) =>
                         <li 
                             key={table.sys_id} 
                             on-click={ 
                                 () => selectTable( updateState, table.name, table.label ) 
                             } >
-                                {table.label}
+                                {table.label} - ({table.name})
                         </li>
                     )}
                 </ul>

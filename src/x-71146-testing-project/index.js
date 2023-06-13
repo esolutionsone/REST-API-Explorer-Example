@@ -50,39 +50,45 @@ const view = (state, { updateState, dispatch }) => {
 				<UserGreeting state={state} />
 				<div className="form-container">
 					<form>
-						<ChoiceInput
-							state		={ state } 
-							updateState ={ updateState } 
-							label		='Method:' 
-							name		='method' />
-						<TextInput
-							state		={ state } 
-							updateState ={ updateState } 
-							label		='Path:'   
-							name		='path'   
-							placeholder ='Enter path' />
-						<TypeAheadReference   
-							state		={ state } 
-							updateState ={ updateState } 
-							label		='Table:'  
-							name		='table'  
-							placeholder ='Enter table name here' 
-							table		='sys_db_object' 
-							dispatch	={dispatch} />
-						<TextInput
-							state		={ state } 
-							updateState ={ updateState } 
-							label		='Display Field:'  
-							name		='displayField'  
-							placeholder	='Add field to display' />
+						<div className="form-spacing">
+							<ChoiceInput
+								state		  ={ state } 
+								updateState   ={ updateState } 
+								label		  ='Method:' 
+								name		  ='method'
+								options       ={ state.methods }
+								defaultOption ={ state.method } />
+							<TextInput
+								state		={ state } 
+								updateState ={ updateState } 
+								label		='Path:'   
+								name		='path'   
+								placeholder ='Enter path' />
+							<TypeAheadReference   
+								state		={ state } 
+								updateState ={ updateState } 
+								label		='Table:'  
+								name		='table'  
+								placeholder ='Enter table name here' 
+								table		='sys_db_object' 
+								dispatch	={dispatch} />
+							<TextInput
+								state		={ state } 
+								updateState ={ updateState } 
+								label		='Display Field:'  
+								name		='displayField'  
+								placeholder	='Add field to display' />
+						</div>
 						{
 							{
-								"GET":  <TextInput   
-											state		={ state } 
-											updateState ={ updateState } 
-											label		='Query'  
-											name		='query'  
-											placeholder	='Add query here > ex. active=true' />,
+								"GET":  <div  className="form-spacing">
+											<TextInput   
+												state		={ state } 
+												updateState ={ updateState } 
+												label		='Query'  
+												name		='query'  
+												placeholder	='Add query here > ex. active=true' />
+										</div> ,
 								"POST": <PostFields  
 											state		={ state } 
 											updateState ={ updateState } />
