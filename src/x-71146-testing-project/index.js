@@ -49,10 +49,12 @@ const view = (state, { updateState, dispatch }) => {
 				<div className="form-container">
 					<form>
 						<ChoiceInput
-							state		={ state } 
-							updateState ={ updateState } 
-							label		='Method:' 
-							name		='method' />
+							state		  ={ state } 
+							updateState   ={ updateState } 
+							label		  ='Method:' 
+							name		  ='method'
+							options       ={ state.methods }
+							defaultOption ={ state.method } />
 						<TextInput
 							state		={ state } 
 							updateState ={ updateState } 
