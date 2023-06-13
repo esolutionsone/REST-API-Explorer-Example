@@ -2,24 +2,24 @@ export const RequestDetails = ({ state }) => {
     const { method, path, table, selected_table, query, request_fields } = state;
 
     let displayRequest = request_fields.map ( request => {
-            return (
-                {
-                    field: request['field'],
-                    value: request['value']
-                }
-            )
+        return (
+            {
+                field: request['field'],
+                value: request['value']
+            }
+        )
     })
 
     return (
         <div>
-            <div className='request-url'>{ method } - { path }{ table != '' ? 
+            <div className='request-url' >{ method } - { path }{ table != '' ? 
                                             selected_table 
                                             : 
                                             "<table>"
                                         }{ query != '' ?
-                                                '?sysparm_query=' + query 
-                                                : 
-                                                ''
+                                            '?sysparm_query=' + query 
+                                            : 
+                                            ''
                                         } </div>
             {
                 {
@@ -27,7 +27,7 @@ export const RequestDetails = ({ state }) => {
                     "POST": <textarea 
                                 className ="post-body" 
                                 value     =''
-                                readonly>
+                                readonly >
                                     {`{`}
                                     {
                                         displayRequest.map (item => {

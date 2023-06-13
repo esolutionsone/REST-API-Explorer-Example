@@ -9,7 +9,7 @@ export const ResponseTable = ({ state, updateState }) => {
     return (
         <div className="response-container">
             {/* this will conditionally render "No Results" if results list is empty */}
-            {results.length === 0 ? 
+            { results.length === 0 ? 
                 <div>No Results</div> 
                 : 
                 /* this will map through each record and display one at a time. 
@@ -19,11 +19,10 @@ export const ResponseTable = ({ state, updateState }) => {
                     { results.map ((record, index) => {
                         return (
                             <Record 
-                                key={index} 
-                                state={state} 
-                                updateState={updateState} 
-                                record={record} 
-                            />
+                                key         ={index} 
+                                state       ={state} 
+                                updateState ={updateState} 
+                                record      ={record} />
                         )
                     })}
                 </div>

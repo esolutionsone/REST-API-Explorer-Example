@@ -11,14 +11,14 @@ export const Record = ({ key, state, updateState, record }) => {
                 { record[displayField] ? record[displayField] : `" "` }
                 <now-icon 
                     value     ={ key } 
+                    icon      ="chevron-down-fill" 
+                    size      ="md" 
                     className ={ 
                         `chevron-icon ` + (showJson.indexOf(key) === -1 ? "active" : "inactive")
                     }
-                    icon      ="chevron-down-fill" 
-                    size      ="md" 
                     on-click  ={ 
                         (e) => dropDownClicked(e.target.value, showJson, updateState) 
-                    }>
+                    } >
                 </now-icon>
             </div>
             {/* using a ternary, we can conditionaly render the details for each record
@@ -28,13 +28,13 @@ export const Record = ({ key, state, updateState, record }) => {
                 <textarea 
                     className ="record-details hide" 
                     value     ={ JSON.stringify(record, undefined, "\t") } 
-                    readonly>
+                    readonly >
                 </textarea>
                 :
                 <textarea 
                     className ="record-details show" 
                     value     ={ JSON.stringify(record, undefined, "\t") } 
-                    readonly>
+                    readonly >
                 </textarea>
             }
         </div>

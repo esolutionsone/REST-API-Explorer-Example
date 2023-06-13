@@ -27,37 +27,95 @@ export const dropDownClicked = ( clickedKey, showJson, updateState ) => {
         }
     });
 }
-export const set_api_value = ( updateState, state, event ) => {
+export const setApiValue = ( updateState, state, event ) => {
+    const { methods, request_fields } = state;
+    updateState({
+        required: false,
+        query:    ''
+    })
     /* If the name is in the state, it's one of the form values, if not it's one of the post fields! */
-    if (event.target.name in state){updateState({[event.target.name]:event.target.value});}
-    else if(state.methods.includes(event.target.value)){updateState({ method: event.target.value });}
-    else {
-        const { request_fields } = state;
-        let new_request_fields = [...request_fields];
-        request_fields.forEach(( field, index ) => {
-            if      ( event.target.name == field['field_index'] ){ new_request_fields[index]['field'] = event.target.value; }
-            else if ( event.target.name == field['value_index'] ){ new_request_fields[index]['value'] = event.target.value; }
+    if (event.target.name in state){
+        updateState({
+            [event.target.name]: event.target.value
         });
-        updateState({request_fields:new_request_fields});
+    } else if (methods.includes(event.target.value)) {
+        updateState({
+            method: event.target.value 
+        });
+    } else {
+        let new_request_fields   = [...request_fields];
+        request_fields.forEach(( field, index ) => {
+            if (event.target.name == field['field_index']) {
+                new_request_fields[index]['field'] = event.target.value; 
+            } else if (event.target.name == field['value_index']) {
+                new_request_fields[index]['value'] = event.target.value;
+            }
+        });
+        updateState({
+            request_fields:new_request_fields
+        });
     }
 }
-export const fetch_tables = debounce(( updateState, event, table, limit, dispatch) => {
+export const fetchTables = debounce(( updateState, event, table, limit, dispatch) => {
+    if (event === '') {
+        updateState({
+            table:          '',
+            selected_table: '',
+            tables:         []
+        })
+        return;
+    }
     processFetch(event, table, limit, dispatch);
-    updateState({tables:[]});
+    updateState({
+        tables: []
+    });
 });
-export const send_rest = debounce(( updateState, state, dispatch) => {
-    updateState({loading: true});
+export const sendRest = debounce(( updateState, state, dispatch) => {
+    const { table, query, displayField, method, request_fields } = state;
+    switch (method) {
+        case "POST":
+            if (table                   === '' || 
+                request_fields[0].field === '' || 
+                request_fields[0].value === '' || 
+                displayField            === '') {
+                    alert('Please fill out required fields. (Table, Display Field, Field, and Value)');
+                    updateState({
+                        required: true
+                    })
+                    return;
+            }
+            break;
+        case "GET":
+            if (table === '' || query === '' || displayField === '') {
+                alert('Please fill out required fields. (Table, Display Field, and Query)');
+                updateState({
+                    required: true
+                })
+                return;
+            }
+            break;
+        default:
+            break;
+    }
+    updateState({
+        loading:  true,
+        required: false
+    });
     processREST(updateState, state, dispatch);
 });
-export const update_row_fields = ( updateState, state, action, index = 0 ) => {
-    const { request_fields } = state;
-    let index_num = state.request_fields_index;
+export const updateRowFields = ( updateState, state, action, index = 0 ) => {
+    const { request_fields, request_fields_index } = state;
+    let index_num          = request_fields_index;
     let new_request_fields = [...request_fields];
-    if ( action === "add" ){
+    if (action === "add"){
         index_num += 1;
-        new_request_fields.push({"field_index":("field"+index_num),"value_index":("value"+index_num),"field":"","value":""});     
-    }
-    else if ( action === "remove" ){
+        new_request_fields.push({
+            "field_index": ("field"+index_num),
+            "value_index": ("value"+index_num),
+            "field":       "",
+            "value":       ""
+        });
+    } else if (action === "remove"){
         let temp_list      = new_request_fields.slice(0,index).concat(new_request_fields.slice(index+1));
         new_request_fields = [...temp_list];
     }
@@ -67,37 +125,39 @@ export const update_row_fields = ( updateState, state, action, index = 0 ) => {
     })
 }
 let processFetch = ( event, table, limit, dispatch ) => {
-    dispatch("FETCH_TABLES", {
-        tableName: table,
+    dispatch("fetchTables", {
+        tableName:     table,
         sysparm_limit: limit,
         sysparm_query: 'labelSTARTSWITH'+event
     });
 }
 let processREST =  ( updateState, state, dispatch ) => {
-    if ( state.method === "GET"){
+    const { method, selected_table, query, request_fields } = state;
+    if (method === "GET"){
         dispatch("REST_GET", {
-            tableName:     state.selected_table,
-            sysparm_query: state.query
+            tableName:     selected_table,
+            sysparm_query: query
         })   
-    }
-    else if ( state.method === "POST"){
+    } else if (method === "POST"){
         let post_request_body = {};
-        state.request_fields.forEach( field => {
+        request_fields.forEach( field => {
             post_request_body[field['field']] = field['value'];
         });
-        updateState({ request_body: post_request_body });
+        updateState({
+            request_body: post_request_body
+        });
         dispatch("REST_POST", {
-            tableName: state.selected_table,
+            tableName: selected_table,
             data:      post_request_body
         })
     }
 }
-export const select_table = ( updateState, name, label ) => {
+export const selectTable = ( updateState, name, label ) => {
     updateState({
-                    table:          label,
-                    selected_table: name,
-                    tables:         []
-                });
+        table:          label,
+        selected_table: name,
+        tables:         []
+    });
 }
 function debounce(func, timeout = 300){
     let timer;

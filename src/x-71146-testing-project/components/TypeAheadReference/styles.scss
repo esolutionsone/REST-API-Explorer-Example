@@ -3,6 +3,9 @@
     .type-ahead-container {
         display:         flex;
         justify-content: space-between;
+        .denied {
+            border-color: rgb(247, 139, 139);
+        }
     }
 }
 .type-ahead-reference ul::before{
@@ -10,7 +13,7 @@
 }
 .type-ahead-reference ul {
     list-style-type: none;
-    margin:          -1.08rem 0 0 12rem;
+    margin:          -0.3rem 0 0 12rem;
     border:          1px solid grey;
     padding:         0;
     max-height:      6rem;
