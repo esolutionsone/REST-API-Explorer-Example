@@ -21,7 +21,7 @@ This README will describe our **file structure, tips and tricks, and the high-le
     - [Text Input](#text-input)
     - [TypeAheadReference](#type-ahead-reference)
     - [User Greeting](#user-greeting)
-- [Helpers & ActionHandlers](#helpers-&-action-handlers)
+- [Helpers and ActionHandlers](#helpers-and-actionhandlers)
 - [Properties](#properties)
 - [Considerations](#considerations)
 
@@ -114,9 +114,18 @@ Inputs:
     - defaultOption > String - Default choice from list of options 
 
 ### Post Fields
+The post fields components renders a field / value REST body builder for the post request. This will dynamically build your rest body, will allow you to add any number of field + value pairs, and will allow you to remove a row with the trash can (after you have more than 1 row). This component can be seen at the bottom of the form when POST is the selected method. 
 
+Inputs: 
+
+    - state
+    - updateState
 
 ### Loading Icon
+The loading icon component renders a loading spinner and is displayed used while the component itself is loading and when records are being fetched. It's comprised of the LoadingIcon.js and LoadingIcon.scss files. To properly leverage this component you'll have to setup a loading state in your component with logic to display the loading icon when loading state is true and the component when loading state is false. 
+
+Inputs:
+  - style > String - used to set the background color, scale, etc. of the loading spinner
 
 ### Response Table
 text
@@ -132,7 +141,7 @@ text
 
 ---
 
-### Helpers & ActionHandlers
+### Helpers and ActionHandlers
 
 **helpers.js**
 
@@ -143,199 +152,213 @@ text
 ### Properties
 Properties can be added to your component to allow for In Platform configuration! In this component we have a title, background color, body text color, heading text color, hero image url override, table, and query. These values can be configured in UI Builder to change the styling, header text, and default values for the fields.
 
-Properties can be a string, boolean, choice, JSON, or even table / reference select value. Here are a few examples from the ServiceNow Button component for how properties can be set in the now-ui.json file.
+Properties can be a string, boolean, choice, JSON, or even table / reference select value. Here are a few examples from the ServiceNow Button component and this component for how properties can be set in the now-ui.json file.
 
 *Choice*
 ```
+  {
+    "defaultValue": "navigation",
+    "description": "Sets the button style",
+    "fieldType": "choice",
+    "label": "Variant",
+    "name": "variant",
+    "readOnly": false,
+    "required": false,
+    "selectable": false,
+    "typeMetadata": {
+      "choices": [
         {
-          "defaultValue": "navigation",
-          "description": "Sets the button style",
-          "fieldType": "choice",
-          "label": "Variant",
-          "name": "variant",
-          "readOnly": false,
-          "required": false,
-          "selectable": false,
-          "typeMetadata": {
-            "choices": [
-              {
-                "label": "Primary",
-                "value": "primary"
-              },
-              {
-                "label": "Navigation",
-                "value": "navigation"
-              },
-              {
-                "label": "Add Record",
-                "value": "add-record"
-              }
-            ],
-            "schema": {
-              "type": "string",
-              "enum": ["primary", "navigation", "add-record"]
-            }
-          }
+          "label": "Primary",
+          "value": "primary"
+        },
+        {
+          "label": "Navigation",
+          "value": "navigation"
+        },
+        {
+          "label": "Add Record",
+          "value": "add-record"
         }
+      ],
+      "schema": {
+        "type": "string",
+        "enum": ["primary", "navigation", "add-record"]
+      }
+    }
+  }
 ```
 
 *String*
 ```
-        {
-          "defaultValue": "Button",
-          "description": "Text displayed inside the button",
-          "fieldType": "string",
-          "label": "Label",
-          "name": "label",
-          "readOnly": false,
-          "required": true,
-          "selectable": false,
-          "typeMetadata": {
-            "translatable": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        }
+  {
+    "defaultValue": "Button",
+    "description": "Text displayed inside the button",
+    "fieldType": "string",
+    "label": "Label",
+    "name": "label",
+    "readOnly": false,
+    "required": true,
+    "selectable": false,
+    "typeMetadata": {
+      "translatable": true,
+      "schema": {
+        "type": "string"
+      }
+    }
+  }
 ```
 
 *Boolean*
 ```
-        {
-          "defaultValue": false,
-          "description": "When true, disables user click interactions",
-          "fieldType": "boolean",
-          "label": "Disabled",
-          "name": "disabled",
-          "readOnly": false,
-          "required": false,
-          "selectable": false,
-          "typeMetadata": {
-            "schema": {
-              "type": "boolean"
-            }
-          }
-        }
+  {
+    "defaultValue": false,
+    "description": "When true, disables user click interactions",
+    "fieldType": "boolean",
+    "label": "Disabled",
+    "name": "disabled",
+    "readOnly": false,
+    "required": false,
+    "selectable": false,
+    "typeMetadata": {
+      "schema": {
+        "type": "boolean"
+      }
+    }
+  }
 ```
 
+*Table Lookup*
+```
+  {
+    "name": "table",
+    "label": "Table",
+    "fieldType": "table_name",
+    "readOnly": false,
+    "defaultValue": "",
+    "description": "Select the table data to display in the list.",
+    "selectable": false,
+    "valueType": "string",
+    "mandatory": true
+  }
+```
 *JSON*
 ```
-        {
-          "defaultValue": "{}",
-          "description": "Configures ARIA properties",
-          "fieldType": "json",
-          "label": "ARIA properties",
-          "name": "configAria",
-          "readOnly": false,
-          "required": false,
-          "selectable": false,
-          "typeMetadata": {
-            "schema": {
-              "oneOf": [
-                {
-                  "type": "object",
-                  "properties": {
-                    "button": {
-                      "type": "object",
-                      "properties": {
-                        "aria-braillelabel": {
-                          "type": "string",
-                          "translatable": true
-                        },
-                        "aria-brailleroledescription": {
-                          "type": "string",
-                          "translatable": true
-                        },
-                        "aria-colindextext": {
-                          "type": "string",
-                          "translatable": true
-                        },
-                        "aria-description": {
-                          "type": "string",
-                          "translatable": true
-                        },
-                        "aria-label": {
-                          "type": "string",
-                          "translatable": true
-                        },
-                        "aria-placeholder": {
-                          "type": "string",
-                          "translatable": true
-                        },
-                        "aria-roledescription": {
-                          "type": "string",
-                          "translatable": true
-                        },
-                        "aria-rowindextext": {
-                          "type": "string",
-                          "translatable": true
-                        },
-                        "aria-valuetext": {
-                          "type": "string",
-                          "translatable": true
-                        }
-                      },
-                      "patternProperties": {
-                        "^aria-": {
-                          "type": "string"
-                        }
-                      },
-                      "additionalProperties": false
-                    }
+  {
+    "defaultValue": "{}",
+    "description": "Configures ARIA properties",
+    "fieldType": "json",
+    "label": "ARIA properties",
+    "name": "configAria",
+    "readOnly": false,
+    "required": false,
+    "selectable": false,
+    "typeMetadata": {
+      "schema": {
+        "oneOf": [
+          {
+            "type": "object",
+            "properties": {
+              "button": {
+                "type": "object",
+                "properties": {
+                  "aria-braillelabel": {
+                    "type": "string",
+                    "translatable": true
                   },
-                  "additionalProperties": false
+                  "aria-brailleroledescription": {
+                    "type": "string",
+                    "translatable": true
+                  },
+                  "aria-colindextext": {
+                    "type": "string",
+                    "translatable": true
+                  },
+                  "aria-description": {
+                    "type": "string",
+                    "translatable": true
+                  },
+                  "aria-label": {
+                    "type": "string",
+                    "translatable": true
+                  },
+                  "aria-placeholder": {
+                    "type": "string",
+                    "translatable": true
+                  },
+                  "aria-roledescription": {
+                    "type": "string",
+                    "translatable": true
+                  },
+                  "aria-rowindextext": {
+                    "type": "string",
+                    "translatable": true
+                  },
+                  "aria-valuetext": {
+                    "type": "string",
+                    "translatable": true
+                  }
                 },
-                {
-                  "type": "object",
-                  "properties": {
-                    "aria-braillelabel": {
-                      "type": "string",
-                      "translatable": true
-                    },
-                    "aria-brailleroledescription": {
-                      "type": "string",
-                      "translatable": true
-                    },
-                    "aria-colindextext": {
-                      "type": "string",
-                      "translatable": true
-                    },
-                    "aria-description": {
-                      "type": "string",
-                      "translatable": true
-                    },
-                    "aria-label": {
-                      "type": "string",
-                      "translatable": true
-                    },
-                    "aria-placeholder": {
-                      "type": "string",
-                      "translatable": true
-                    },
-                    "aria-roledescription": {
-                      "type": "string",
-                      "translatable": true
-                    },
-                    "aria-rowindextext": {
-                      "type": "string",
-                      "translatable": true
-                    },
-                    "aria-valuetext": {
-                      "type": "string",
-                      "translatable": true
-                    }
-                  },
-                  "patternProperties": {
-                    "^aria-": {
-                      "type": "string"
-                    }
-                  },
-                  "additionalProperties": false
-                }
-              ]
-            }
+                "patternProperties": {
+                  "^aria-": {
+                    "type": "string"
+                  }
+                },
+                "additionalProperties": false
+              }
+            },
+            "additionalProperties": false
+          },
+          {
+            "type": "object",
+            "properties": {
+              "aria-braillelabel": {
+                "type": "string",
+                "translatable": true
+              },
+              "aria-brailleroledescription": {
+                "type": "string",
+                "translatable": true
+              },
+              "aria-colindextext": {
+                "type": "string",
+                "translatable": true
+              },
+              "aria-description": {
+                "type": "string",
+                "translatable": true
+              },
+              "aria-label": {
+                "type": "string",
+                "translatable": true
+              },
+              "aria-placeholder": {
+                "type": "string",
+                "translatable": true
+              },
+              "aria-roledescription": {
+                "type": "string",
+                "translatable": true
+              },
+              "aria-rowindextext": {
+                "type": "string",
+                "translatable": true
+              },
+              "aria-valuetext": {
+                "type": "string",
+                "translatable": true
+              }
+            },
+            "patternProperties": {
+              "^aria-": {
+                "type": "string"
+              }
+            },
+            "additionalProperties": false
           }
-        }
+        ]
+      }
+    }
+  }
 ```
 
 
@@ -347,21 +370,35 @@ Properties can be a string, boolean, choice, JSON, or even table / reference sel
 
 **Why did you do that like that?**
 
-    As the goal of this component is split between showing how to do various things in a custom component AND a neat little component to use in your UI builder environment...some things may not be optimal (or may seem completely unnecessary). We've tried to illustrate why we're doing things the way we are inline in each component file. While there may be more optimal / "react-ish" ways to write some of the code, we determined they could be harder to read through and understand for someone new to Custom SN Components / React / Snabdom!
+    As the goal of this component is split between showing how to do various things in a custom 
+    component AND a neat little component to use in your UI builder environment...some things may 
+    not be optimal (or may seem completely unnecessary). We've tried to illustrate why we're doing 
+    things the way we are inline in each component file. While there may be more optimal / "react-ish" 
+    ways to write some of the code, we determined they could be harder to read through and understand 
+    for someone new to Custom SN Components / React / Snabdom!
 
 
 **Ok but if I wanted to make it better how could I?**
 
-    You could break out the form, results, etc. into their own sub-component. You could create a Views folder to contain different views for GET & POST. You could add additonal methods PUT, DELETE, & PATCH (this would require updating the actionHandlers too! How fun 😃). You could make the post fields look up values from the table you are sending the POST to (this would require updating the post fields component to leverage the TypeAheadReference component and would require some actionHandlers work as well). Basically, the world is your oyster. 
+    You could break out the form, results, etc. into their own sub-component. You could create a Views 
+    folder to contain different views for GET & POST. You could add additonal methods PUT, DELETE, 
+    & PATCH (this would require updating the actionHandlers too! How fun 😃). You could make the 
+    post fields look up values from the table you are sending the POST to (this would require updating 
+    the post fields component to leverage the TypeAheadReference component and would require some 
+    actionHandlers work as well). Basically, the world is your oyster. 
 
 
 **Views**
 
-    This folder could be defined with various views within to display a different view dependent on the state. Views can be an invaluable tool to de-clutter / simplify your core component as it grows in scope or complexity
+    This folder could be defined with various views within to display a different view dependent on the
+    state. Views can be an invaluable tool to de-clutter / simplify your core component as it grows in 
+    scope or complexity
 
 
 **Styles**
 
-    This folder could be defined with various style sheets to include in your main style sheet >> This could be a folder where your view styles (and potentially sub-component styles) could be defined >> This could make working with style sheets easier as they're all in one spot!
+    This folder could be defined with various style sheets to include in your main style sheet >> This 
+    could be a folder where your view styles (and potentially sub-component styles) could be 
+    defined >> This could make working with style sheets easier as they're all in one spot!
 
 ---
