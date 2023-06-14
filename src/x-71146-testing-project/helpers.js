@@ -56,7 +56,7 @@ export const setApiValue = ( updateState, state, event ) => {
         });
     }
 }
-export const fetchTables = debounce(( updateState, event, table, limit, dispatch) => {
+export const fetchValues = debounce(( updateState, event, table, limit, dispatch) => {
     if (event === '') {
         updateState({
             table:          '',
@@ -125,7 +125,7 @@ export const updateRowFields = ( updateState, state, action, index = 0 ) => {
     })
 }
 let processFetch = ( event, table, limit, dispatch ) => {
-    dispatch("fetchTables", {
+    dispatch("FETCH_VALUES", {
         tableName:     table,
         sysparm_limit: limit,
         sysparm_query: 'labelSTARTSWITH'+event
@@ -151,6 +151,12 @@ let processREST =  ( updateState, state, dispatch ) => {
             data:      post_request_body
         })
     }
+}
+export const selectValue = ( updateState, name, label, item ) => {
+    if ( item === 'table' ){
+        selectTable( updateState, name, label );
+    }
+    //else if ( item === 'ex.' ){}
 }
 export const selectTable = ( updateState, name, label ) => {
     updateState({

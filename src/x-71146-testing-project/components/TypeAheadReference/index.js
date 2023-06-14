@@ -1,7 +1,7 @@
-import { fetchTables, selectTable } from "../../helpers"
+import { fetchValues, selectValue } from "../../helpers"
 
-export const TypeAheadReference = ({ updateState, state, label, name, table, dispatch }) => {
-    const { required, tables } = state;
+export const TypeAheadReference = ({ updateState, state, label, name, table, choices, dispatch }) => {
+    const { required } = state;
     return (
         <div className="type-ahead-reference">
             <div className="type-ahead-container">
@@ -12,19 +12,19 @@ export const TypeAheadReference = ({ updateState, state, label, name, table, dis
                     value     ={ state[name] }
                     className ={ required ? "denied" : "" }
                     onkeyup   ={ 
-                        (e) => fetchTables( updateState, e.target.value, table, 20, dispatch ) 
+                        (e) => fetchValues( updateState, e.target.value, table, 20, dispatch ) 
                     } >
                 </input>
             </div>
-            { tables.length > 0 ?
+            { choices.length > 0 ?
                 <ul className="drop-down-list">
-                    { tables.map((table) =>
+                    { choices.map((choice) =>
                         <li 
-                            key={table.sys_id} 
+                            key={choice.sys_id} 
                             on-click={ 
-                                () => selectTable( updateState, table.name, table.label ) 
+                                () => selectValue( updateState, choice.name, choice.label, 'table' ) 
                             } >
-                                {table.label} - ({table.name})
+                                {choice.label} - ({choice.name})
                         </li>
                     )}
                 </ul>

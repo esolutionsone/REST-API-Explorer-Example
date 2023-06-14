@@ -17,6 +17,7 @@ This README will describe our **file structure, tips and tricks, and the high-le
     - [Rest API Explorer](#rest-api-explorer)
     - [Choice Input](#choice-input)
     - [Post Fields](#post-fields)
+    - [Request Details](#request-details)
     - [Response Table](#response-table)
     - [Text Input](#text-input)
     - [TypeAheadReference](#type-ahead-reference)
@@ -75,6 +76,7 @@ This README will describe our **file structure, tips and tricks, and the high-le
                 - ChoiceInput        ➜ Folder containing all ChoiceInput component files
                 - LoadingIcon        ➜ Folder containing all LoadingIcon component files
                 - Post Fields        ➜ Folder containing all PostFields component files
+                - RequestDetails     ➜ Folder containing all REquestDetails component files
                 - ResponseTable      ➜ Folder containing all ResponseTable component files
                 - TextInput          ➜ Folder containing all TextInput component files
                 - TypeAheadReference ➜ Folder containing all TypeAheadReference component files
@@ -98,11 +100,11 @@ The Styles.scss file is your main SCSS file *any sub-component SCSS file should 
 ## Components
 The "Testing Project" Component (ie. the REST API Explorer component) and the sub-components it's comprised of are detailed in this section. 
 
-### Rest API Explorer
-text
+## Rest API Explorer
+This is the "parent" component! It's what is selectable in UI Builder, it leverages all of the sub-components below, and it sets up the key information like initial state, properties, etc. This is comprised of the index.js and styles.scss files in the src directory. 
 
 ## Choice Input
-The choice input component renders a select / choice box. It is comprised of an index.js & style.css file. The REST API component uses this component handle the Method: GET / POST selection. 
+The choice input component renders a select / choice box. It is comprised of an index.js & style.css file. The REST API component uses this component handle the Method: GET / POST selection. To properly leverage this component, it should be nested within a `<form>` tag.
 
 Inputs:
     
@@ -113,39 +115,137 @@ Inputs:
     - options       > Array  - Select Options / Choices
     - defaultOption > String - Default choice from list of options 
 
-### Post Fields
-The post fields components renders a field / value REST body builder for the post request. This will dynamically build your rest body, will allow you to add any number of field + value pairs, and will allow you to remove a row with the trash can (after you have more than 1 row). This component can be seen at the bottom of the form when POST is the selected method. 
+## Post Fields
+The post fields components renders a field / value REST body builder for the post request. This will dynamically build your rest body, will allow you to add any number of field + value pairs, and will allow you to remove a row with the trash can (after you have more than 1 row). This component can be seen at the bottom of the form when POST is the selected method. To properly leverage this component, it should be nested within a `<form>` tag.
+*This component leverages the Text Input component to create the post fields*
 
 Inputs: 
 
     - state
     - updateState
 
-### Loading Icon
+## Loading Icon
 The loading icon component renders a loading spinner and is displayed used while the component itself is loading and when records are being fetched. It's comprised of the LoadingIcon.js and LoadingIcon.scss files. To properly leverage this component you'll have to setup a loading state in your component with logic to display the loading icon when loading state is true and the component when loading state is false. 
 
 Inputs:
+
   - style > String - used to set the background color, scale, etc. of the loading spinner
 
-### Response Table
+## Request Details
 text
 
-### Text Input
+Inputs:
+
+    - state
+
+## Response Table
 text
 
-### Type Ahead Reference
-text 
+Inputs:
 
-### User Greeting
-text
+    - state
+    - updateState
+
+## Text Input
+The text input component renders an input field to be used in a form. This is used in the REST API explorer component to capture path, display field, query, and all of the post fields in the PostFields component. It's comprised of an index.js and style.scss. To properly leverage this component, it should be nested within a `<form>` tag.
+
+Inputs:
+
+    - state       
+    - updateState 
+    - label       > String - field display value
+    - name        > String - field name
+    - placeholder > String - placeholder value in input field
+    - value       > String - (optional with default of '') value of the input field
+
+## Type Ahead Reference
+The type ahead reference component renders a lookup select / reference field. This is used in the REST API explorer component to capture table. It's comprised of  Index.js and style.scss. This component leverages the helper to fetch records from your ServiceNow instance. The function call is wrapped in a debounce function to reduce the calls to the server. To add / leverage this component an "options" array (similar to tables in our state) would need to be created and a function (similar to selectTable in our helpers file) would need to be created to set the value on select. To properly leverage this component, it should be nested within a `<form>` tag.
+
+Inputs: 
+
+    - updateState
+    - state
+    - dispatch
+    - label    > String - field display value
+    - name     > String - field name
+    - table    > String - name of the table to fetch the values from for the lookup
+
+## User Greeting
+The user greeting component renders `Hello, <User first and last name>` and can be seen under the heading text. This component fetches the user details on bootstrap and is largely included to show you how to fetch details on bootstrap! 
+
+Inputs:
+
+    - state
 
 ---
 
-### Helpers and ActionHandlers
+## Helpers and ActionHandlers
 
-**helpers.js**
+### helpers.js
+**dropDownClicked**
 
-**actionHandlers.js**
+    Will either add the clicked records index to showJson or remove it from showJson. Called from the Record component with is a subcomponent of the Response Table component. This handles the opening / closing of the json details of the response.
+
+**setApiValue**
+
+    Sets values for the POST or GET request. It handles setting the form values, post field values, and the methods. It's called from the Choice Input & Text Input components. 
+
+
+**fetchValues**
+
+    Calls the ProcessFetch function to fetch table values, it also leverages the debounce function to limit the calls it makes to the server. If the value is an empty string it will reset the state of the lookup field. This is leveraged by the Type Ahead Reference component.
+
+
+**sendRest**
+
+    Handles the POST and GET requests and sends the dispatch requests to make REST API requests to your ServiceNow instance. It also handles (simple) form validation and will enforce mandatory fields. This also leverages the debounce function to limit the calls it makes to the server. If the mandatory fields check passes the processREST function will be called. 
+
+**updateRowFields**
+
+    Adds / Removes rows for the Post Fields component. It dynamically adds fields by incrementing the index number and also andles updating the state object that the fields are stored in. This is called each time the plus or trash can buttons are clicked on the  Post Fields component. 
+
+**processFetch**
+
+    Called by the fetchValues function. It sends the dispatch "FETCH_VALUES" to the actionHandlers with the required inputs. 
+
+**processREST**
+
+    Determines if it is a GET or POST request and sends the appropriate dispatch "REST_GET" or "REST_POST" to the actionHandlers with the required inputs. This function is called by the sendRest function.
+
+**selectValue**
+
+    Called by the Type Ahead Reference component and will call the function to update the state for the specific type ahead in question. In this case there is only one function to call (selectTable).
+
+**selectTable**
+
+    Called by selectValue function. Updates the state to select a specific table.
+
+**debounce**
+
+    Leveraged by the fetchValues and sendRest functions to limit the calls each function makes to the server. For the fetchValues function it limits the number of lookups as it would continually lookup with each keypress and for the sendRest it limits multiple lookups if a user spam clicks the send button. 
+
+### actionHandlers.js
+**COMPONENT_BOOTSTRAPPED**
+
+**REST_GET**
+
+**REST_POST**
+
+**FETCH_VALUES**
+
+**GET_USER**
+
+**SET_TABLES_VALUE**
+
+**GET_RESPONSE_VALE**
+
+**POST_RESPONSE_VALUE**
+
+**SET_USER_ID**
+
+**LOG_ERROR**
+
+    
 
 ---
 

@@ -68,8 +68,9 @@ const view = (state, { updateState, dispatch }) => {
 								label		='Table:'  
 								name		='table'  
 								placeholder ='Enter table name here' 
-								table		='sys_db_object' 
-								dispatch	={dispatch} />
+								table		='sys_db_object'
+								choices		={ state.tables }
+								dispatch	={ dispatch } />
 							<TextInput
 								state		={ state } 
 								updateState ={ updateState } 
