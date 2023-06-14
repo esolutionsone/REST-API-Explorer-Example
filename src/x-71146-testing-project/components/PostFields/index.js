@@ -2,10 +2,10 @@ import { TextInput }      from "../TextInput";
 import { updateRowFields } from "../../helpers";
 
 export const PostFields = ({ state, updateState }) => {
-    const { request_fields } = state;
+    const { requestFields } = state;
     return (
         <div className="post-fields-container">
-            { state.request_fields.map((field, index) => {
+            { state.requestFields.map((field, index) => {
                 return (
                     <div className="post-fields-row">
                         <TextInput  
@@ -23,7 +23,7 @@ export const PostFields = ({ state, updateState }) => {
                             name        ={ field["value_index"] } 
                             placeholder ='Value' 
                             value       ={ field["value"] } />
-                        { (request_fields.length > 1) ? 
+                        { (requestFields.length > 1) ? 
                             <span className="post-fields-spacing">
                                 <now-button-iconic 
                                     icon     ="trash-outline" 

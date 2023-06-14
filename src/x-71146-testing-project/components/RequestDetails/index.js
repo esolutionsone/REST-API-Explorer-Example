@@ -5,10 +5,10 @@ created for POSTs and GETs */
 we need to destructure them. First, destructure state from props */
 export const RequestDetails = ({ state }) => {
     /* Next, we destrucure all the variables needed from state */
-    const { method, path, table, selected_table, query, request_fields } = state;
+    const { method, path, table, selected_table, query, requestFields } = state;
 
-    /* Creating a new array using the field and values stored on "request_fields" */
-    let displayRequest = request_fields.map ( request => {
+    /* Creating a new array using the field and values stored on "requestFields" */
+    let displayRequest = requestFields.map ( request => {
         return (
             {
                 field: request['field'],

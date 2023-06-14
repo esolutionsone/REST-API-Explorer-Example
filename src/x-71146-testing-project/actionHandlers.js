@@ -52,7 +52,7 @@ export default {
     },
     'POST_RESPONSE_VALUE': ({ action, updateState }) => {
         updateState({
-            post_response: action.payload.result,
+            postResponse: action.payload.result,
             loading: false
         })
     },

@@ -115,10 +115,10 @@ const view = (state, { updateState, dispatch }) => {
 					:
 					{
 						"GET": 	<ResponseTable state={state} updateState={updateState} />,
-						"POST": state.post_response != null ?
+						"POST": state.postResponse != null ?
 									<div className='post-response response-container'>
 										<h4>POST Response:</h4>
-										<Record className="test" key={0} state={state} updateState={updateState} record={state.post_response}/>
+										<Record className="test" key={0} state={state} updateState={updateState} record={state.postResponse}/>
 									</div>
 									: 
 									<div className="response-container">
@@ -147,10 +147,10 @@ createCustomElement('x-71146-testing-project', {
 		results:        	  [],
 		showJson: 			  [],
 		user:           	  null,
-		request_fields: 	  [{"field_index":"field1","value_index":"value1","field":"","value":""}],
-		request_fields_index: 1,
-		request_body:   	  {short_description:"hello testing"},
-		post_response:  	  null,
+		requestFields: 	      [{"field_index":"field1","value_index":"value1","field":"","value":""}],
+		requestFieldsIndex:   1,
+		requestBody:   	  	  {short_description:"hello testing"},
+		postResponse:  	  	  null,
 	},
 	properties: {
 		backgroundColor: 	{ default: '#000' },
