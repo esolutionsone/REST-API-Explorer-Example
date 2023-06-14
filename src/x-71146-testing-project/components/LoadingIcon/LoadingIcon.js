@@ -1,3 +1,4 @@
+/* Loading icon component */
 export const LoadingIcon = ({style}) => {
     return (
         <div className="loading-icon" style={style}>
