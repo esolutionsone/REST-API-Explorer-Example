@@ -1,3 +1,4 @@
+/* importing function from helpers */
 import { setApiValue } from "../../helpers"
 
 export const TextInput = ({ state, updateState, label, name, placeholder, value = '' }) => {

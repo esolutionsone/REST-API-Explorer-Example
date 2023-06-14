@@ -1,7 +1,12 @@
+/* Importing "child component" */
 import { TextInput }      from "../TextInput";
+/* importing function from helpers */
 import { updateRowFields } from "../../helpers";
 
+/* In order to access the props("state", "updateState") that were passed down from the parent component(view)
+we need to destructure them. */
 export const PostFields = ({ state, updateState }) => {
+    /* Next, we destrucure all the variables needed from state */
     const { requestFields } = state;
     return (
         <div className="post-fields-container">
@@ -12,7 +17,7 @@ export const PostFields = ({ state, updateState }) => {
                             state       ={ state } 
                             updateState ={ updateState } 
                             label       ='' 
-                            name        ={ field["field_index"] } 
+                            name        ={ field["fieldIndex"] } 
                             placeholder ='Field' 
                             value       ={ field["field"] } /> 
                         <span className="post-fields-spacing">-</span> 
@@ -20,7 +25,7 @@ export const PostFields = ({ state, updateState }) => {
                             state       ={ state } 
                             updateState ={ updateState } 
                             label       ='' 
-                            name        ={ field["value_index"] } 
+                            name        ={ field["valueIndex"] } 
                             placeholder ='Value' 
                             value       ={ field["value"] } />
                         { (requestFields.length > 1) ? 

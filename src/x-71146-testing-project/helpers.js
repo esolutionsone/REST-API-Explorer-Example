@@ -28,7 +28,9 @@ export const dropDownClicked = ( clickedKey, showJson, updateState ) => {
     });
 }
 export const setApiValue = ( updateState, state, event ) => {
+    /* we destrucure all the variables needed from state */
     const { methods, requestFields } = state;
+    /* updating state variables reinitialize whenever user switches Methods on UI */
     updateState({
         required: false,
         query:    ''
@@ -43,24 +45,26 @@ export const setApiValue = ( updateState, state, event ) => {
             method: event.target.value 
         });
     } else {
-        let new_request_fields   = [...requestFields];
+        let newRequestFields   = [...requestFields];
         requestFields.forEach(( field, index ) => {
-            if (event.target.name == field['field_index']) {
-                new_request_fields[index]['field'] = event.target.value; 
-            } else if (event.target.name == field['value_index']) {
-                new_request_fields[index]['value'] = event.target.value;
+            if (event.target.name == field['fieldIndex']) {
+                newRequestFields[index]['field'] = event.target.value; 
+            } else if (event.target.name == field['valueIndex']) {
+                newRequestFields[index]['value'] = event.target.value;
             }
         });
         updateState({
-            requestFields:new_request_fields
+            requestFields: newRequestFields
         });
     }
 }
 export const fetchTables = debounce(( updateState, event, table, limit, dispatch) => {
+    /* event is a string being pass as a parameter when this function is called */
     if (event === '') {
+        /* updating state to reinitialize variables */
         updateState({
             table:          '',
-            selected_table: '',
+            selectedTable:  '',
             tables:         []
         })
         return;
@@ -71,14 +75,18 @@ export const fetchTables = debounce(( updateState, event, table, limit, dispatch
     });
 });
 export const sendRest = debounce(( updateState, state, dispatch) => {
+    /* we destrucure all the variables needed from state */
     const { table, query, displayField, method, requestFields } = state;
+    /* this switch statement handles the required fields functionality. */
     switch (method) {
         case "POST":
-            if (table                   === '' || 
+            if (table                  === '' || 
                 requestFields[0].field === '' || 
                 requestFields[0].value === '' || 
-                displayField            === '') {
+                displayField           === '') {
                     alert('Please fill out required fields. (Table, Display Field, Field, and Value)');
+                    /* while "required" is equal to true, the input boxes will turn red to show users
+                     which fields must be filled out */
                     updateState({
                         required: true
                     })
@@ -88,6 +96,8 @@ export const sendRest = debounce(( updateState, state, dispatch) => {
         case "GET":
             if (table === '' || query === '' || displayField === '') {
                 alert('Please fill out required fields. (Table, Display Field, and Query)');
+                /* while "required" is equal to true, the input boxes will turn red to show users
+                 which fields must be filled out */
                 updateState({
                     required: true
                 })
@@ -97,6 +107,9 @@ export const sendRest = debounce(( updateState, state, dispatch) => {
         default:
             break;
     }
+    /* updating state to begin loading state while the REST call is being made(it is reset
+        after the response is recieved) and the required fields reset to their original
+        color */
     updateState({
         loading:  true,
         required: false
@@ -104,24 +117,25 @@ export const sendRest = debounce(( updateState, state, dispatch) => {
     processREST(updateState, state, dispatch);
 });
 export const updateRowFields = ( updateState, state, action, index = 0 ) => {
+    /* we destrucure all the variables needed from state */
     const { requestFields, requestFieldsIndex } = state;
-    let index_num          = requestFieldsIndex;
-    let new_request_fields = [...requestFields];
+    let indexNum          = requestFieldsIndex;
+    let newRequestFields = [...requestFields];
     if (action === "add"){
-        index_num += 1;
-        new_request_fields.push({
-            "field_index": ("field"+index_num),
-            "value_index": ("value"+index_num),
+        indexNum += 1;
+        newRequestFields.push({
+            "fieldIndex": ("field"+indexNum),
+            "valueIndex": ("value"+indexNum),
             "field":       "",
             "value":       ""
         });
     } else if (action === "remove"){
-        let temp_list      = new_request_fields.slice(0,index).concat(new_request_fields.slice(index+1));
-        new_request_fields = [...temp_list];
+        let tempList      = newRequestFields.slice(0,index).concat(newRequestFields.slice(index+1));
+        newRequestFields = [...tempList];
     }
     updateState({
-        requestFields:       new_request_fields,
-        requestFieldsIndex: index_num       
+        requestFields:       newRequestFields,
+        requestFieldsIndex:  indexNum      
     })
 }
 let processFetch = ( event, table, limit, dispatch ) => {
@@ -132,30 +146,31 @@ let processFetch = ( event, table, limit, dispatch ) => {
     });
 }
 let processREST =  ( updateState, state, dispatch ) => {
-    const { method, selected_table, query, requestFields } = state;
+    /* we destrucure all the variables needed from state */
+    const { method, selectedTable, query, requestFields } = state;
     if (method === "GET"){
         dispatch("REST_GET", {
-            tableName:     selected_table,
+            tableName:     selectedTable,
             sysparm_query: query
         })   
     } else if (method === "POST"){
-        let post_request_body = {};
+        let postRequestBody = {};
         requestFields.forEach( field => {
-            post_request_body[field['field']] = field['value'];
+            postRequestBody[field['field']] = field['value'];
         });
         updateState({
-            requestBody: post_request_body
+            requestBody: postRequestBody
         });
         dispatch("REST_POST", {
-            tableName: selected_table,
-            data:      post_request_body
+            tableName: selectedTable,
+            data:      postRequestBody
         })
     }
 }
 export const selectTable = ( updateState, name, label ) => {
     updateState({
         table:          label,
-        selected_table: name,
+        selectedTable:  name,
         tables:         []
     });
 }

@@ -122,7 +122,7 @@ Inputs:
 text
 
 ### Text Input
-text
+textq
 
 ### Type Ahead Reference
 text 

@@ -28,14 +28,16 @@ import { sendRest }           from './helpers';
 
 
 const view = (state, { updateState, dispatch }) => {
-
     console.log(state);
-	const { loading, user } = state;
+	 /* we destrucure all the variables needed from state and properties*/
+	const { loading, user, methods, method, postResponse } = state;
 	const { title, backgroundColor, color, headerTextColor, backgroundImageUrl } = state.properties;
-	//Load state while waiting for initial fetch
+
+	/* Load state while waiting for initial fetch */
 	if (user === null){
-		return <LoadingIcon style={{transform: 'scale(.5)', backgroundColor: 'white'}}/>
+		return <LoadingIcon style={{ transform: 'scale(.5)', backgroundColor: 'white' }}/>;
 	}
+
 	return (
 		<div 
 			style={{
@@ -44,8 +46,8 @@ const view = (state, { updateState, dispatch }) => {
 			}} 
 			className="main-container">
 			<div 
-				style={ backgroundImageUrl != '' ? { backgroundImage: `url(${ backgroundImageUrl })` }: '' } 
-				className="hero-container">
+				style	  ={ backgroundImageUrl != '' ? { backgroundImage: `url(${ backgroundImageUrl })` }: '' } 
+				className ="hero-container">
 				<h1 style={{ color: headerTextColor, margin: '1rem 2rem' }}>{ title }</h1>
 				<UserGreeting state={state} />
 				<div className="form-container">
@@ -56,8 +58,8 @@ const view = (state, { updateState, dispatch }) => {
 								updateState   ={ updateState } 
 								label		  ='Method:' 
 								name		  ='method'
-								options       ={ state.methods }
-								defaultOption ={ state.method } />
+								options       ={ methods }
+								defaultOption ={ method } />
 							<TextInput
 								state		={ state } 
 								updateState ={ updateState } 
@@ -71,7 +73,7 @@ const view = (state, { updateState, dispatch }) => {
 								name		='table'  
 								placeholder ='Enter table name here' 
 								table		='sys_db_object' 
-								dispatch	={dispatch} />
+								dispatch	={ dispatch } />
 							<TextInput
 								state		={ state } 
 								updateState ={ updateState } 
@@ -92,7 +94,7 @@ const view = (state, { updateState, dispatch }) => {
 								"POST": <PostFields  
 											state		={ state } 
 											updateState ={ updateState } />
-							}[state.method]
+							}[method]
 						}
 					</form>
 				</div>
@@ -114,15 +116,20 @@ const view = (state, { updateState, dispatch }) => {
 					<LoadingIcon style={{transform: 'scale(.5)'}}/>
 					:
 					{
-						"GET": 	<ResponseTable state={state} updateState={updateState} />,
-						"POST": state.postResponse != null ?
+						"GET": 	<ResponseTable state={ state } updateState={ updateState } />,
+						"POST": postResponse != null ?
 									<div className='post-response response-container'>
 										<h4>POST Response:</h4>
-										<Record className="test" key={0} state={state} updateState={updateState} record={state.postResponse}/>
+										<Record 
+											className	="test" 
+											key			={ 0 } 
+											state		={ state } 
+											updateState ={ updateState } 
+											record		={ postResponse }/>
 									</div>
 									: 
 									<div className="response-container">
-											<div>No Results</div> 
+										<div>No Results</div> 
 									</div>
 					}[state.method]
 				}
@@ -140,16 +147,23 @@ createCustomElement('x-71146-testing-project', {
 		methods:			  ['GET','POST'],
 		table:          	  '',
 		tables:         	  [],
-		selected_table: 	  '',
+		selectedTable: 	  	  '',
 		query:          	  '',
 		displayField:		  '',
 		path:           	  'api/now/table/',
 		results:        	  [],
 		showJson: 			  [],
 		user:           	  null,
-		requestFields: 	      [{"field_index":"field1","value_index":"value1","field":"","value":""}],
+		requestFields: 	      [
+			{
+				"fieldIndex": "field1",
+				"valueIndex": "value1",
+				"field":	  "",
+				"value": 	  ""
+			}
+		],
 		requestFieldsIndex:   1,
-		requestBody:   	  	  {short_description:"hello testing"},
+		requestBody:   	  	  {},
 		postResponse:  	  	  null,
 	},
 	properties: {
