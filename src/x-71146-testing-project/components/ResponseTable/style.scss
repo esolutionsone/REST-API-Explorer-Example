@@ -1,0 +1,46 @@
+.response-container {
+    margin:  2.5rem 5rem 0 5rem;
+    padding: 0.5rem 1rem;
+
+	.record-container {
+		&:last-child{
+			border-bottom: none;
+		}
+		.record-header {
+			font-size: larger;
+			.record-title {
+				font-size:   x-large;
+				font-weight: bold;
+			}
+			.chevron-icon {
+				transition: all 0.6s;
+				&:hover {
+					cursor: pointer;
+				}
+				&.active {
+					transform: rotate(0deg);
+				}
+				&.inactive {
+					transform: rotate(180deg);
+				}
+			}
+		}
+		.record-details {
+			transition: all 0.6s ;
+			width:      100%;
+			overflow-y: scroll;
+			&.show {
+				height: 500px;
+			}
+			&.hide {
+				height: 	0px;
+				visibility: hidden;
+			}
+		}
+		textarea {
+			height:			    500px;		
+			resize: 			none; 
+			background-color: #dddddd;
+		}
+	}
+}

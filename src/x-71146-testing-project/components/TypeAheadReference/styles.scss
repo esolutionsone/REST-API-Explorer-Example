@@ -1,0 +1,34 @@
+.type-ahead-reference{
+    margin-bottom: 5px;
+    .type-ahead-container {
+        display:         flex;
+        justify-content: space-between;
+        .denied {
+            border-color: rgb(247, 139, 139);
+        }
+    }
+}
+.type-ahead-reference ul::before{
+    content: '';
+}
+.type-ahead-reference ul {
+    list-style-type: none;
+    margin:          -0.3rem 0 0 12rem;
+    border:          1px solid grey;
+    padding:         0;
+    max-height:      6rem;
+    overflow-y:      scroll;
+    overflow-x:      auto;
+    border-radius:   4px;
+}
+.type-ahead-reference li{
+    padding:     5px 5px;
+    cursor:      pointer;
+    font-size:   .75rem;
+    font-weight: 500;
+    font-size:   .83rem;
+}
+.type-ahead-reference li:hover{
+    background:    lightgray;
+    text-decoration: underline;
+}
