@@ -16,11 +16,13 @@ export const RequestDetails = ({ state }) => {
         <div>
             {/* displaying the request url using variable we created above */}
             <div className='request-url' >{ requestUrl } </div>
-            {/* this will dynamically generate the JSON object that will be sent as the post body.
+            
+            { /* below we are using an Object Literal which is what I can only describe as a shorthanded switch statement 
+            for jsx. it looks at "method" and will render the one that matches.*/
+            
+            /* this will dynamically generate the JSON object that will be sent as the post body.
             Using "requestFields", the array that stores each "field" and its "value", we can map
-            through it and display each "field" and "value" pair */}
-            { /* below we are using what I can only describe as a shorthanded switch statement for jsx.
-                it looks at "method" and will render the one that matches.*/
+            through it and display each "field" and "value" pair */
                 {
                     "GET":  '',
                     "POST": <textarea 

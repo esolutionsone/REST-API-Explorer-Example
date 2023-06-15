@@ -33,13 +33,17 @@ const view = (state, { updateState, dispatch }) => {
 	const { loading, user, methods, method, postResponse } = state;
 	const { title, backgroundColor, color, headerTextColor, backgroundImageUrl } = state.properties;
 
-	/* Load state while waiting for initial fetch */
+	/* Load state while waiting for initial fetch for logged in user */
 	if (user === null){
 		return <LoadingIcon style={{ transform: 'scale(.5)', backgroundColor: 'white' }}/>;
 	}
 
 	return (
 		<div 
+			/* 
+				in-line styling is used here in order to allow user to use component properties to change the 
+				background and text color.
+			*/ 
 			style={{
 				backgroundColor : backgroundColor,
 				color: 			  color
@@ -47,9 +51,17 @@ const view = (state, { updateState, dispatch }) => {
 			className="main-container">
 			<div 
 				style	  ={ backgroundImageUrl != '' ? { backgroundImage: `url(${ backgroundImageUrl })` }: '' } 
-				className ="hero-container">
+				className ="hero-container" >
+				{/*
+					this will dislay a header text using property "title". in-line styling is used here in order to 
+					allow user to use component properties to change the text color.
+				*/}
 				<h1 style={{ color: headerTextColor, margin: '1rem 2rem' }}>{ title }</h1>
+
+				{/* component that greets the logged in user */}
 				<UserGreeting state={state} />
+
+				{/* the area below captures all of the user inputs */}
 				<div className="form-container">
 					<form>
 						<div className="form-spacing">
@@ -81,7 +93,11 @@ const view = (state, { updateState, dispatch }) => {
 								name		='displayField'  
 								placeholder	='Add field to display' />
 						</div>
-						{
+
+						{ /* 
+							below we are using an Object Literal which is what I can only describe as a shorthanded switch statement. 
+							it looks at "method" and will render the one that matches.
+						  */
 							{
 								"GET":  <div  className="form-spacing">
 											<TextInput   
@@ -99,9 +115,20 @@ const view = (state, { updateState, dispatch }) => {
 					</form>
 				</div>
 			</div>
+
+			{/* 
+				the area below will show the details of the request being made and the button that sends the request.
+			*/}
 			<div className='request-container'>
 				<h3>Request Details:</h3>
+
+				{/*
+					Child component that renders the url that is dynamically built based on user inputs and 
+					if REST request is a POST, it will render the POST body for the request.
+				*/}
 				<RequestDetails state={ state }/>
+
+				{/* out-of-box ServiceNow component */}
 				<now-button 
 					label	 ="SEND" 
 					variant  ="primary" 
@@ -111,27 +138,54 @@ const view = (state, { updateState, dispatch }) => {
 					}>
 				</now-button>
 			</div>
+
+			{/* the area below is where the REST request response is displayed. */}
 			<div className='response-area'>
+
+				{/*
+					we use a ternary operator to check if the response are should show loading icon, "loading" is set to true 
+					when user clicks on submit button and is set to false as soon as a response is recieved. when "loading" 
+					equals true, the ternary will return the loading icon otherwise, when its false it will return the object literal.
+				*/}
 				{loading ?
+					/* Load state while waiting for REST response */
 					<LoadingIcon style={{transform: 'scale(.5)'}}/>
 					:
+					/* 
+						below we are using an Object Literal which is what I can only describe as a shorthanded switch statement. 
+						it looks at "method" and will render the one that matches.
+					*/
 					{
+						/*
+							if user is creating a GET request, then this object literal will return the value assigned to "GET".
+							"ResponseTable" is a child component that will take care of the response from the GET request. This 
+							component can deal with multiple records and display each one.
+						*/
 						"GET": 	<ResponseTable state={ state } updateState={ updateState } />,
+						/*
+							if user is creating a POST request, then this object literal will return the value assigned to "POST".
+							The ternay will check to see if there is a response from the POST request, if none exists than "No Results"
+							will be displayed at the bottom, otherwise if a response exists then it will display the record.
+						*/
 						"POST": postResponse != null ?
 									<div className='post-response response-container'>
 										<h4>POST Response:</h4>
+										{/*
+											"Record" is a child component that will take care of the response from the POST request. This component 
+											deals with the single record that was created by the user. 
+										*/}
 										<Record 
-											className	="test" 
 											key			={ 0 } 
 											state		={ state } 
 											updateState ={ updateState } 
 											record		={ postResponse }/>
 									</div>
 									: 
+									/* blank state if no response exists */ 
 									<div className="response-container">
 										<div>No Results</div> 
 									</div>
-					}[state.method]
+					}[method]
 				}
 			</div>
 		</div>
@@ -140,6 +194,7 @@ const view = (state, { updateState, dispatch }) => {
 
 createCustomElement('x-71146-testing-project', {
 	renderer: {type: snabbdom},
+
 	initialState: {
 		loading:			  true,
 		required: 			  false,
@@ -166,14 +221,15 @@ createCustomElement('x-71146-testing-project', {
 		requestBody:   	  	  {},
 		postResponse:  	  	  null,
 	},
+
 	properties: {
+		title: 				{ default: "Component REST API Explorer Testing:" },
 		backgroundColor: 	{ default: '#000' },
 		color: 				{ default: '#fff' },
 		headerTextColor: 	{ default: '#fff' },
 		backgroundImageUrl: { default: '' },
 		table: 				{ default: "incident" },
 		query: 				{ default: "" },
-		title: 				{ default: "Component REST API Explorer Testing:" }
 	},
 	view,
 	styles,
