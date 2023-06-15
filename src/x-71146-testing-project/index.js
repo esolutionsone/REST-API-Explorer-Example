@@ -28,8 +28,6 @@ import { sendRest }           from './helpers';
 
 
 const view = (state, { updateState, dispatch }) => {
-
-    console.log(state);
 	const { loading, user } = state;
 	const { title, backgroundColor, color, headerTextColor, backgroundImageUrl } = state.properties;
 	//Load state while waiting for initial fetch
@@ -70,8 +68,9 @@ const view = (state, { updateState, dispatch }) => {
 								label		='Table:'  
 								name		='table'  
 								placeholder ='Enter table name here' 
-								table		='sys_db_object' 
-								dispatch	={dispatch} />
+								table		='sys_db_object'
+								choices		={ state.tables }
+								dispatch	={ dispatch } />
 							<TextInput
 								state		={ state } 
 								updateState ={ updateState } 
@@ -111,17 +110,17 @@ const view = (state, { updateState, dispatch }) => {
 			</div>
 			<div className='response-area'>
 				{loading ?
-					<LoadingIcon style={{transform: 'scale(.5)'}}/>
+					<LoadingIcon style={{transform: 'scale(.5)', backgroundColor: backgroundColor}}/>
 					:
 					{
 						"GET": 	<ResponseTable state={state} updateState={updateState} />,
 						"POST": state.post_response != null ?
-									<div className='post-response response-container'>
+									<div className='post-response response-container' style={{ color:  color, border: `1px solid ${color}` }}>
 										<h4>POST Response:</h4>
 										<Record className="test" key={0} state={state} updateState={updateState} record={state.post_response}/>
 									</div>
 									: 
-									<div className="response-container">
+									<div className="response-container" style={{ color:  color, border: `1px solid ${color}` }}>
 											<div>No Results</div> 
 									</div>
 					}[state.method]
