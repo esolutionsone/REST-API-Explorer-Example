@@ -1,9 +1,12 @@
 import { dropDownClicked } from "../../helpers";
 
+/* In order to access the props("key", "state", "updateState", "record") that were passed down from the parent 
+component(ResponseTable/index.js) we need to destructure them. */
 export const Record = ({ key, state, updateState, record }) => {
-    /* showJson is an array in state that will hold the index number for the records
-    that were clicked on to show json details.  */
+    /* Next, we destrucure all the variables needed from state */
     const { showJson, displayField } = state;
+    /* showJson is an array in state that will hold the index number for the records
+    that were clicked on to show json details. */
     const { color } = state.properties;
 
     return (
@@ -26,7 +29,7 @@ export const Record = ({ key, state, updateState, record }) => {
             {/* using a ternary, we can conditionaly render the details for each record
             if they're index number exist in showJson */}
             { showJson.indexOf(key) === -1 ? 
-                /* using classes "hide" and "show" I can animate the collapse/uncollapse of the details */
+                /* using classes "hide" and "show" we can animate the collapse/uncollapse of the details. */
                 <textarea 
                     className ="record-details hide" 
                     value     ={ JSON.stringify(record, undefined, "\t") } 

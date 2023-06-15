@@ -1,7 +1,10 @@
 /* Import fetchValues and selectValue function from the helpers script */
 import { fetchValues, selectValue } from "../../helpers"
 
-export const TypeAheadReference = ({ updateState, state, label, name, table, choices, dispatch }) => {
+/* In order to access the props("updateState", "state", "label", "name", "table", "dispatch") that were passed down from the parent component(view)
+we need to destructure them. */
+export const TypeAheadReference = ({ updateState, state, placeholder, label, name, table, choices, dispatch }) => {
+    /* Next, we destrucure all the variables needed from state */
     /* Destructure required from state */
     const { required } = state;
     return (
@@ -13,11 +16,12 @@ export const TypeAheadReference = ({ updateState, state, label, name, table, cho
                 */}
                 <label for={ name }>{ label }</label>
                 <input
-                    id        ={ name }
-                    name      ={ name }
-                    value     ={ state[name] }
-                    className ={ required ? "denied" : "" }
-                    onkeyup   ={ 
+                    id          ={ name }
+                    name        ={ name }
+                    value       ={ state[name] }
+                    placeholder ={ placeholder }
+                    className   ={ required ? "denied" : "" }
+                    onkeyup     ={ 
                         (e) => fetchValues( updateState, e.target.value, table, 20, dispatch ) 
                     } >
                 </input>
@@ -32,8 +36,8 @@ export const TypeAheadReference = ({ updateState, state, label, name, table, cho
                 <ul className="drop-down-list">
                     { choices.map((choice) =>
                         <li 
-                            key={choice.sys_id} 
-                            on-click={ 
+                            key      ={choice.sys_id} 
+                            on-click ={ 
                                 () => selectValue( updateState, choice.name, choice.label, 'table' ) 
                             } >
                                 {choice.label} - ({choice.name})

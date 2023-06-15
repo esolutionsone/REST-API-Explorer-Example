@@ -1,10 +1,12 @@
 /* Importing "child component" */
 import { Record } from "./Record";
 
-/* state and updateState are props that were passed down from the "parent component" (view) */
+/* In order to access the props("state", "updateState") that were passed down from the parent component(view)
+we need to destructure them. */
 export const ResponseTable = ({ state, updateState }) => {
-    /* results will hold the array of records that was requested by the user */
+    /* Next, we destrucure all the variables needed from state */
     const { results, displayField } = state;
+    /* results will hold the array of records that was requested by the user */
     const { color } = state.properties;
     
     return (

@@ -84,7 +84,7 @@ export default {
     when the screen re-renders. */
     'POST_RESPONSE_VALUE': ({ action, updateState }) => {
         updateState({
-            post_response: action.payload.result,
+            postResponse: action.payload.result,
             loading: false
         })
     },

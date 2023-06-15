@@ -30,8 +30,9 @@ export const dropDownClicked = ( clickedKey, showJson, updateState ) => {
 }
 /* Called by ChoiceInput & TextInput */
 export const setApiValue = ( updateState, state, event ) => {
-    /* Destructure methods and request_fields from state */
-    const { methods, request_fields } = state;
+    /* we destrucure all the variables needed from state */
+    const { methods, requestFields } = state;
+    /* updating state variables reinitialize whenever user switches Methods on UI */
     updateState({
         required: false,
         query:    ''
@@ -62,16 +63,16 @@ export const setApiValue = ( updateState, state, event ) => {
             method: event.target.value 
         });
     } else {
-        let new_request_fields   = [...request_fields];
-        request_fields.forEach(( field, index ) => {
-            if (event.target.name == field['field_index']) {
-                new_request_fields[index]['field'] = event.target.value; 
-            } else if (event.target.name == field['value_index']) {
-                new_request_fields[index]['value'] = event.target.value;
+        let newRequestFields   = [...requestFields];
+        requestFields.forEach(( field, index ) => {
+            if (event.target.name == field['fieldIndex']) {
+                newRequestFields[index]['field'] = event.target.value; 
+            } else if (event.target.name == field['valueIndex']) {
+                newRequestFields[index]['value'] = event.target.value;
             }
         });
         updateState({
-            request_fields:new_request_fields
+            requestFields: newRequestFields
         });
     }
 }
@@ -83,9 +84,10 @@ export const fetchValues = debounce(( updateState, event, table, limit, dispatch
     /* If the event is an empty string, the lookup field has been cleared out,
     in this case clear the state values associated with the lookup field & return */
     if (event === '') {
+        /* updating state to reinitialize variables */
         updateState({
             table:          '',
-            selected_table: '',
+            selectedTable:  '',
             tables:         []
         })
         return;
@@ -103,16 +105,18 @@ export const sendRest = debounce(( updateState, state, dispatch) => {
     called. It should only call once every 300ms. */
 
     /* Destructure state to get table, query, displayField, method, and request_fields */
-    const { table, query, displayField, method, request_fields } = state;
+    const { table, query, displayField, method, requestFields } = state;
     /* Handle POST and GET mandatory field validation. If mandatory fields are not populated
     add alert, highlight mandatory fields, and return prior to updating state. */
     switch (method) {
         case "POST":
-            if (table                   === '' || 
-                request_fields[0].field === '' || 
-                request_fields[0].value === '' || 
-                displayField            === '') {
+            if (table                  === '' || 
+                requestFields[0].field === '' || 
+                requestFields[0].value === '' || 
+                displayField           === '') {
                     alert('Please fill out required fields. (Table, Display Field, Field, and Value)');
+                    /* while "required" is equal to true, the input boxes will turn red to show users
+                     which fields must be filled out */
                     updateState({
                         required: true
                     })
@@ -122,6 +126,8 @@ export const sendRest = debounce(( updateState, state, dispatch) => {
         case "GET":
             if (table === '' || query === '' || displayField === '') {
                 alert('Please fill out required fields. (Table, Display Field, and Query)');
+                /* while "required" is equal to true, the input boxes will turn red to show users
+                 which fields must be filled out */
                 updateState({
                     required: true
                 })
@@ -131,7 +137,9 @@ export const sendRest = debounce(( updateState, state, dispatch) => {
         default:
             break;
     }
-    /* Set loading to true and required to false update state. Call processREST function and  */
+    /* updating state to begin loading state while the REST call is being made(it is reset
+        after the response is recieved) and the required fields reset to their original
+        color */
     updateState({
         loading:  true,
         required: false
@@ -148,28 +156,28 @@ export const updateRowFields = ( updateState, state, action, index = 0 ) => {
             The request_fields hold the index values and the actual field name and values to be used
             in the post request. 
     */
-    const { request_fields, request_fields_index } = state;
-    let index_num          = request_fields_index;
-    let new_request_fields = [...request_fields];
+    const { requestFields, requestFieldsIndex } = state;
+    let indexNum          = requestFieldsIndex;
+    let newRequestFields = [...requestFields];
     /* If adding, we increment the index and we build a new empty row with the new index > this will
     trigger a re-render to add a new set of empty field and value input fields on the PostFields Component*/
     if (action === "add"){
-        index_num += 1;
-        new_request_fields.push({
-            "field_index": ("field"+index_num),
-            "value_index": ("value"+index_num),
+        indexNum += 1;
+        newRequestFields.push({
+            "fieldIndex": ("field"+indexNum),
+            "valueIndex": ("value"+indexNum),
             "field":       "",
             "value":       ""
         });
     } else if (action === "remove"){
         /* else if we're removing, simply slice the clicked trashcan index out of the array */
-        let temp_list      = new_request_fields.slice(0,index).concat(new_request_fields.slice(index+1));
-        new_request_fields = [...temp_list];
+        let tempList      = newRequestFields.slice(0,index).concat(newRequestFields.slice(index+1));
+        newRequestFields = [...tempList];
     }
     /* Update state with teh new request fields and new/current index number (depending on add or remove) */ 
     updateState({
-        request_fields:       new_request_fields,
-        request_fields_index: index_num       
+        requestFields:       newRequestFields,
+        requestFieldsIndex:  indexNum      
     })
 }
 /* Called by fetchValues function above */
@@ -185,14 +193,14 @@ let processFetch = ( event, table, limit, dispatch ) => {
 /* Called by the sendRest function above */
 let processREST =  ( updateState, state, dispatch ) => {
     /* Destructuring method, selected_table, query, and rest_fields from state*/
-    const { method, selected_table, query, request_fields } = state;
+    const { method, selectedTable, query, requestFields } = state;
     /* Send either a GET or POST dispatch depending on the selected method */
     if (method === "GET"){
         /*  if GET 
             Dispatch the REST_GET action to the actionHandlers with the tableName 
             and sysparm_query variables */
         dispatch("REST_GET", {
-            tableName:     selected_table,
+            tableName:     selectedTable,
             sysparm_query: query
         })   
     } else if (method === "POST"){
@@ -202,16 +210,16 @@ let processREST =  ( updateState, state, dispatch ) => {
             request_fields object and creates the POST body for the REST message. 
             The request body is updated in the state and then the REST_POST action is 
             dispatched to the actionHandlers */
-        let post_request_body = {};
-        request_fields.forEach( field => {
-            post_request_body[field['field']] = field['value'];
+        let postRequestBody = {};
+        requestFields.forEach( field => {
+            postRequestBody[field['field']] = field['value'];
         });
         updateState({
-            request_body: post_request_body
+            requestBody: postRequestBody
         });
         dispatch("REST_POST", {
-            tableName: selected_table,
-            data:      post_request_body
+            tableName: selectedTable,
+            data:      postRequestBody
         })
     }
 }
@@ -233,7 +241,7 @@ export const selectTable = ( updateState, name, label ) => {
     dropdown value in the tables array */
     updateState({
         table:          label,
-        selected_table: name,
+        selectedTable:  name,
         tables:         []
     });
 }

@@ -45,8 +45,8 @@
 					"mandatory": false
 				},
 				{
-					"name": "Background Color",
-					"label": "background_color",
+					"name": "background_color",
+					"label": "Background Color",
 					"fieldType": "string",
 					"readOnly": false,
 					"defaultValue": "#000",
@@ -56,8 +56,8 @@
 					"mandatory": false
 				  },
 				  {
-					"name": "Text Color",
-					"label": "color",
+					"name": "color",
+					"label": "Text Color",
 					"fieldType": "string",
 					"readOnly": false,
 					"defaultValue": "#fff",
@@ -67,8 +67,8 @@
 					"mandatory": false
 				  },
 				  {
-					"name": "Header Text Color",
-					"label": "header_text_color",
+					"name": "header_text_color",
+					"label": "Header Text Color",
 					"fieldType": "string",
 					"readOnly": false,
 					"defaultValue": "#fff",
@@ -78,8 +78,8 @@
 					"mandatory": false
 				  },
 				  {
-					"name": "Hero Image URL",
-					"label": "background_image_url",
+					"name": "background_image_url",
+					"label": "Hero Image URL",
 					"fieldType": "string",
 					"readOnly": false,
 					"defaultValue": "",
@@ -88,7 +88,7 @@
 					"valueType": "string",
 					"mandatory": false
 				    }
-			  ]
+			]
 	    }
 	},
 	"scopeName": "x_71146_testing_2"
