@@ -192,8 +192,12 @@ const view = (state, { updateState, dispatch }) => {
 };
 
 createCustomElement('x-71146-testing-project', {
+	/* only renderer that currently works. */ 
 	renderer: {type: snabbdom},
-
+	/* 
+		intialState holds all state variables being used throughout component. To 
+		use any state variable, you must initialize it here 
+	*/
 	initialState: {
 		loading:			  true,
 		required: 			  false,
@@ -220,7 +224,13 @@ createCustomElement('x-71146-testing-project', {
 		requestBody:   	  	  {},
 		postResponse:  	  	  null,
 	},
-
+	/* 
+		properties holds all property variables being used throughout component. To 
+		use any property variable, you must initialize it here and include it in 
+		"now-ui.json". A default value must be given and they can also be changed
+		in the configuration section inside of UI Builder when customizing the
+		component.
+	*/
 	properties: {
 		title: 				{ default: "Component REST API Explorer Testing:" },
 		backgroundColor: 	{ default: '#000' },

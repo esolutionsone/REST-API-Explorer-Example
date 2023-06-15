@@ -19,6 +19,7 @@ This README will describe our **file structure, tips and tricks, and the high-le
     - [Post Fields](#post-fields)
     - [Request Details](#request-details)
     - [Response Table](#response-table)
+    - [Record](#record)
     - [Text Input](#text-input)
     - [TypeAheadReference](#type-ahead-reference)
     - [User Greeting](#user-greeting)
@@ -132,19 +133,30 @@ Inputs:
   - style > String - used to set the background color, scale, etc. of the loading spinner
 
 ## Request Details
-text
+The Request Details component renders the URL that is dynamically built based on user inputs. It also checks what REST method is being used, if POST is chosen, then component will render a POST body that displays all the field and value pairs being sent in the request.
 
 Inputs:
 
     - state
 
 ## Response Table
-text
+The Response Table component will take care of the response from the GET request. The state variable "results" holds the response array recieved after a successful GET request. This component can deal with multiple records and display each one by iterating through "results" array with array.map() function. Each record will return the record component that takes in key, state, updateState, and record as a prop. 
+*This component leverages the Record component to display a record on the DOM*
 
 Inputs:
 
     - state
     - updateState
+
+## Record
+the Record component is used to display a single record that is passed down as a prop. Each record it takes in will use the "displayField" that the user inputs to display a header. When clicked, it will also render a JSON object that contains the record that was passed to the component.
+
+Inputs:
+
+    - key    > Integer - unique number assigned to each record
+    - state
+    - updateState
+    - record > Object - holds details used to display 
 
 ## Text Input
 The text input component renders an input field to be used in a form. This is used in the REST API explorer component to capture the path, display field, query, and all of the post fields in the PostFields component. It's comprised of an index.js and style.scss. To properly leverage this component, it should be nested within a `<form>` tag.
