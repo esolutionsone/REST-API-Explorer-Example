@@ -6,6 +6,7 @@ export const UserGreeting = ({ state }) => {
     /* Next, we destrucure all the variables needed from state and properties*/
     const { user } = state;
     const { headerTextColor } = state.properties;
+    /* Render the greeting to the user & dynamically set color based on properties */
     return (
         user != null ?
             <div  style={{ color: headerTextColor }} className="user-greeting">

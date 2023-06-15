@@ -1,4 +1,4 @@
-/* Importing "child component" */
+/* Import TextInput component and updateRowFields function from helpers */
 import { TextInput }      from "../TextInput";
 /* importing function from helpers */
 import { updateRowFields } from "../../helpers";
@@ -10,6 +10,8 @@ export const PostFields = ({ state, updateState }) => {
     const { requestFields } = state;
     return (
         <div className="post-fields-container">
+            {/* For each row in request fields, render a field and value input
+            to capture the values to build the JSON request body. */}
             { state.requestFields.map((field, index) => {
                 return (
                     <div className="post-fields-row">
@@ -28,6 +30,10 @@ export const PostFields = ({ state, updateState }) => {
                             name        ={ field["valueIndex"] } 
                             placeholder ='Value' 
                             value       ={ field["value"] } />
+                        {/* If there is more than 1 row of post fields, add the trash
+                        can button to allow for the removal of rows. updateRowFields function
+                        removes rows on click when given "remove" option at the index the trash can
+                        is clicked. */}
                         { (requestFields.length > 1) ? 
                             <span className="post-fields-spacing">
                                 <now-button-iconic 
@@ -44,6 +50,7 @@ export const PostFields = ({ state, updateState }) => {
                     </div>
                 )
             })}
+            {/* Button to add additional rows, calls updateRowFields with add */}
             <now-button-iconic 
                 icon     ="plus-outline" 
                 variant  ="primary" 

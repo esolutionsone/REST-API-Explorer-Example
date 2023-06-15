@@ -28,9 +28,8 @@ import { sendRest }           from './helpers';
 
 
 const view = (state, { updateState, dispatch }) => {
-    console.log(state);
 	 /* we destrucure all the variables needed from state and properties*/
-	const { loading, user, methods, method, postResponse } = state;
+	const { loading, user, methods, method, postResponse, tables } = state;
 	const { title, backgroundColor, color, headerTextColor, backgroundImageUrl } = state.properties;
 
 	/* Load state while waiting for initial fetch for logged in user */
@@ -84,7 +83,8 @@ const view = (state, { updateState, dispatch }) => {
 								label		='Table:'  
 								name		='table'  
 								placeholder ='Enter table name here' 
-								table		='sys_db_object' 
+								table		='sys_db_object'
+								choices		={ tables }
 								dispatch	={ dispatch } />
 							<TextInput
 								state		={ state } 
@@ -148,8 +148,7 @@ const view = (state, { updateState, dispatch }) => {
 					equals true, the ternary will return the loading icon otherwise, when its false it will return the object literal.
 				*/}
 				{loading ?
-					/* Load state while waiting for REST response */
-					<LoadingIcon style={{transform: 'scale(.5)'}}/>
+					<LoadingIcon style={{transform: 'scale(.5)', backgroundColor: backgroundColor}}/>
 					:
 					/* 
 						below we are using an Object Literal which is what I can only describe as a shorthanded switch statement. 
@@ -168,7 +167,7 @@ const view = (state, { updateState, dispatch }) => {
 							will be displayed at the bottom, otherwise if a response exists then it will display the record.
 						*/
 						"POST": postResponse != null ?
-									<div className='post-response response-container'>
+									<div className='post-response response-container' style={{ color:  color, border: `1px solid ${color}` }}>
 										<h4>POST Response:</h4>
 										{/*
 											"Record" is a child component that will take care of the response from the POST request. This component 
@@ -182,7 +181,7 @@ const view = (state, { updateState, dispatch }) => {
 									</div>
 									: 
 									/* blank state if no response exists */ 
-									<div className="response-container">
+									<div className="response-container" style={{ color:  color, border: `1px solid ${color}` }}>
 										<div>No Results</div> 
 									</div>
 					}[method]

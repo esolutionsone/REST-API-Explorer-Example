@@ -40,7 +40,7 @@
 					"label": "Title",
 					"fieldType": "string",
 					"readOnly": false,
-					"defaultValue": "",
+					"defaultValue": "Component REST API Explorer Testing:",
 					"description": "Enter a title for the component.",
 					"mandatory": false
 				},

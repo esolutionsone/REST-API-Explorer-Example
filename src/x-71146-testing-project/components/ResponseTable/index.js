@@ -7,9 +7,10 @@ export const ResponseTable = ({ state, updateState }) => {
     /* Next, we destrucure all the variables needed from state */
     const { results, displayField } = state;
     /* results will hold the array of records that was requested by the user */
+    const { color } = state.properties;
     
     return (
-        <div className="response-container">
+        <div className="response-container" style={{ color:  color, border: `1px solid ${color}` }}>
             {/* this will conditionally render "No Results" if results list is empty */}
             { results.length === 0 ? 
                 <div>No Results</div> 

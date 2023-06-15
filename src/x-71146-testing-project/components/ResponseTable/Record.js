@@ -7,9 +7,10 @@ export const Record = ({ key, state, updateState, record }) => {
     const { showJson, displayField } = state;
     /* showJson is an array in state that will hold the index number for the records
     that were clicked on to show json details. */
+    const { color } = state.properties;
 
     return (
-        <div className="record-container">
+        <div className="record-container" style={{ borderBottom: `solid 1px ${color}` }}>
             <div className="record-header">
                 { record[displayField] ? record[displayField] : `" "` }
                 <now-icon 
@@ -19,6 +20,7 @@ export const Record = ({ key, state, updateState, record }) => {
                     className ={ 
                         `chevron-icon ` + (showJson.indexOf(key) === -1 ? "active" : "inactive")
                     }
+                    style = {{ color: color }}
                     on-click  ={ 
                         (e) => dropDownClicked(e.target.value, showJson, updateState) 
                     } >
