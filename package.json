@@ -35,5 +35,5 @@
 		"start": "npm run kill && echo 'Successfully Killed Port' && sleep 2; npm dev",
 		"deploy": "snc ui-component deploy --force",
 		"kill": "killall node"
-	  }
+	}
 }

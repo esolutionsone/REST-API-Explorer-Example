@@ -191,7 +191,7 @@ const view = (state, { updateState, dispatch }) => {
 	);
 };
 
-createCustomElement('x-71146-testing-project', {
+createCustomElement('x-853443-testing-project', {
 	/* only renderer that currently works. */ 
 	renderer: {type: snabbdom},
 	/* 

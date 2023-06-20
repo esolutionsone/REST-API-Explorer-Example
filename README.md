@@ -71,7 +71,7 @@ This README will describe our **file structure, tips and tricks, and the high-le
 
 ## File structure
     - src                            ➜ Source code for our custom component!
-        - x-71146-testing-project    ➜ Our Component (all custom code should be in here)
+        - x-853443-testing-project    ➜ Our Component (all custom code should be in here)
             - tests                  ➜ Component tests 
             - components             ➜ Folder that holds all sub-components
                 - ChoiceInput        ➜ Folder containing all ChoiceInput component files

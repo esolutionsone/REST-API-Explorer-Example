@@ -1,8 +1,8 @@
-import '../src/x-71146-testing-project';
+import '../src/x-853443-testing-project';
 
 const el = document.createElement('DIV');
 document.body.appendChild(el);
 
 el.innerHTML = `		
-<x-71146-testing-project></x-71146-testing-project>
+<x-853443-testing-project></x-853443-testing-project>
 `;

@@ -1,6 +1,6 @@
 {
 	"components": {
-	    "x-71146-testing-project": {
+	    "x-853443-testing-project": {
 	        "innerComponents": [],
 			"uiBuilder": {
 				"associatedTypes": ["global.core", "global.landing-page"],
@@ -91,5 +91,5 @@
 			]
 	    }
 	},
-	"scopeName": "x_71146_testing_2"
+	"scopeName": "x_853443_testing_2"
 }
