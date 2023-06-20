@@ -25,6 +25,11 @@ This README will describe our **file structure, tips and tricks, and the high-le
     - [User Greeting](#user-greeting)
 - [Helpers and ActionHandlers](#helpers-and-actionhandlers)
 - [Properties](#properties)
+- [Troubleshooting](#troubleshooting)
+- [SNC Command Cheat Sheet](#snc-command-cheat-sheet)
+    - [Most Useful Commands](#most-useful-commands)
+    - [SNC Commands](#snc-commands)
+    - [UI-Component](#ui-component)
 - [Considerations](#considerations)
 
 ---
@@ -33,7 +38,7 @@ This README will describe our **file structure, tips and tricks, and the high-le
 
 1) Ensure your sn-cli is configured/installed correctly 
     -> You can review our [Mac OS](https://creator-dna.com/blog/macos-setup) & [Windows OS](https://creator-dna.com/blog/1hj866nlrwslzlesekt0c14grhh8u1) instillation guides
-1) Clone this repository `git clone <url here plz>` (to the folder you want to work out of locally)
+1) Clone this repository `git clone https://github.com/esolutionsone/REST-API-Explorer-Example.git` (to the folder you want to work out of locally)
 2) Run `npm install`
 
 **To run/use this component locally**
@@ -52,7 +57,7 @@ This README will describe our **file structure, tips and tricks, and the high-le
 4) Navigate to *UI Builder* in your *ServiceNow Instance* (Now Experience Framework > UI Builder)
 5) Click on the experience you'd like to add the component to OR create an experience with the Portal App Shell
 6) Create a new UI Builder Page (or open an existing page to add the component to)
-7) Search for `<update with component name>` in the Components List, Drag and Drop it onto the page, and click save!
+7) Search for `REST API Explorer` in the Components List, Drag and Drop it onto the page, and click save!
 
 **Voilà, your component is deployed to your ServiceNow instance!**
 
@@ -314,7 +319,7 @@ Properties can be added to your component to allow for In Platform configuration
 Properties can be a string, boolean, choice, JSON, or even table/reference select value. Here are a few examples from the ServiceNow Button component and this component for how properties can be set in the now-ui.json file.
 
 *Choice*
-```
+```json
   {
     "defaultValue": "navigation",
     "description": "Sets the button style",
@@ -348,7 +353,7 @@ Properties can be a string, boolean, choice, JSON, or even table/reference selec
 ```
 
 *String*
-```
+```json
   {
     "defaultValue": "Button",
     "description": "Text displayed inside the button",
@@ -368,7 +373,7 @@ Properties can be a string, boolean, choice, JSON, or even table/reference selec
 ```
 
 *Boolean*
-```
+```json
   {
     "defaultValue": false,
     "description": "When true, disables user click interactions",
@@ -387,7 +392,7 @@ Properties can be a string, boolean, choice, JSON, or even table/reference selec
 ```
 
 *Table Lookup*
-```
+```json
   {
     "name": "table",
     "label": "Table",
@@ -401,7 +406,7 @@ Properties can be a string, boolean, choice, JSON, or even table/reference selec
   }
 ```
 *JSON*
-```
+```json
   {
     "defaultValue": "{}",
     "description": "Configures ARIA properties",
@@ -522,7 +527,148 @@ Properties can be a string, boolean, choice, JSON, or even table/reference selec
 
 
 ---
+## Troubleshooting
+*Common erros that may occur:*
 
+**When attempting to `deploy` or `develop`, the cli is trying to connect to the wrong instance**
+
+We still don't have an exact answer as to why this happens, but it has happened to us many times. It seems like there is some where that stores the instance URL and tries to use it even though it might not exist in any of your profiles you've created in the cli. Below are some steps we take if it keeps trying to connect to the wrong instance:
+
+A quick fix(hopefully), can be done by using a simple terminal command:
+```bash
+killall node
+```
+this can help most of the time, but if it doesn't, then try checking the instance assigned to the profile you are using by typing the following into your terminal to see the list of profiles. 
+  ```bash
+  snc configure profile list
+  ```
+  a list like this should appear, if you have a couple profiles set, this is how it might look:
+  ```json
+  {
+   "default": {
+      "appversion": "",
+      "host": "https://<INSTANCE-NAME>.service-now.com",
+      "hostversion": "",
+      "loginmethod": "basic",
+      "output": "json",
+      "username": "user.name"
+   },
+   "new-instance": {
+      "appversion": "",
+      "host": "https://<INSTANCE-NAME-2>.service-now.com",
+      "hostversion": "",
+      "loginmethod": "basic",
+      "output": "json",
+      "username": "admin"
+   }
+  }
+  ```
+Check to make sure the instance you are trying to connect to is assigned to one of the profiles on the list. If it is not, add it with this:
+```bash
+snc configure profile set --profile profile-name
+```
+make sure to replace profile-name with whatever name you want to name the profile. After verifying that one of your profiles has the instance you are trying to use, try using the --profile command to use the appropriate profile and instance. ex:
+```bash
+# using the profile from the example list above
+snc ui-component develop --profile new-instance
+#or
+snc ui-component deploy --profile new-instance
+```
+<span style="color:red"> Make sure to use the `killall node` command each time before trying to connect to the instance.</span>
+
+using the `deploy` or `develop` command without the --profile attribute will result in the cli using the default profile. If the cli is still using the wrong instance name after these steps, try refreshing the connection:
+```bash
+# using the profile from the example list above
+snc configure profile refresh --profile new-instance
+```
+If after refreshing your connection, the cli is still pointing to the wrong instance, there are still a couple more things to try. Next try relogging into the instance you are trying to use:
+```bash
+# your password should have quotes around it
+snc ui-component login {instance_url} basic {username} "{password}"
+```
+After this, you should try `develop` or `deploy` again. Still seeing that old instance name and not the one you are trying to use? then last thing to try is to delete all of your profiles, even the default one:
+```bash
+# using the profiles from the example list above
+snc configure profile remove --profile new-instance
+
+snc configure profile remove --profile default
+```
+typing the profile list command should now display an empty list. Set up a new profile like before and then use the `killall node` command again, maybe even restart your VSCode applicaiton just in case. After all that, try the `develop` or `deploy`. With any luck, this should hopefully connect you to the right instance! If you made it this far into troubleshooting your instance connection, I am sorry. 
+
+
+---
+## SNC Command Cheat Sheet
+
+#### Most Useful Commands
+
+```bash
+# Creates a profile with the name specified
+snc configure profile set --profile [profile name]
+
+# Creates a component
+# Example
+# snc ui-component project --name "REST-API-Explorer" --scope "x_853443_testing_2"
+# scope name must be 18 characters or less and snake_case
+# default scope name: x_customerprefix_componentname
+snc ui-component project --name [name] --scope [scope] --description [description]
+
+# Opens the component in your default browser
+snc ui-component develop --open --profile [profile name]
+
+# Deploys the component to your specified profile's instance if you have permissions to do so.
+# Force argument is for redeployment
+snc ui-component deploy --profile [profile name] --force
+```
+
+#### SNC Commands
+**Profile**
+```bash
+# Creates a default profile if no other profile exists
+snc configure profile set
+
+# Creates a profile with the name specified
+snc configure profile set --profile [profile-name]
+
+# Displays all configured profiles
+snc configure profile list
+
+# Removes the configured profile using the name specified
+snc configure profile remove --profile [profile-name]
+
+# CLI refreshes the connection for default profile
+snc configure profile refresh
+
+# CLI refreshes the connection for named profile
+snc configure profile refresh --profile [profile-name]
+```
+
+#### UI-Component
+**Development**
+```bash
+# Will run component using default profile instance. 
+snc ui-component develop
+
+# Opens the component in your default browser.
+snc ui-component develop --open 
+
+# Runs component using instance associated with named profile.
+snc ui-component develop --profile [profile name]
+
+# --open argument opens the component in your default browser
+# --profile argument uses instance associated with named profile.
+snc ui-component develop --open --profile [profile name]
+```
+**Deployment**
+```bash
+# Deploys component to default profile instance.
+snc ui-component deploy
+
+# --profile uses named profile's instance if you have permissions to do so.
+# --force argument is for redeployment
+snc ui-component deploy --profile [profile name] --force
+```
+
+---
 ## Considerations
 
 *Other folders that may be included in more complex projects:*
