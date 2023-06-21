@@ -622,6 +622,7 @@ snc ui-component deploy --profile [profile name] --force
 
 #### SNC Commands
 **Profile**
+Commands can be found here -> [Configure and Manage your ServiceNow CLI Profiles](https://docs.servicenow.com/bundle/utah-application-development/page/build/servicenow-cli/task/configure-profile.html)
 ```bash
 # Creates a default profile if no other profile exists
 snc configure profile set
@@ -643,6 +644,7 @@ snc configure profile refresh --profile [profile-name]
 ```
 
 #### UI-Component
+Commands can be found here -> [Set Up Project](https://docs.servicenow.com/bundle/utah-application-development/page/build/components/task/setup-component-project.html)
 **Development**
 ```bash
 # Will run component using default profile instance. 
