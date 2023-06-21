@@ -23,14 +23,27 @@ def rename_dirs_and_files(paths, old_scope_name, new_scope_name):
  
 def prGreen(skk): print("\033[92m {}\033[00m" .format(skk))
 def prLightPurple(skk): print("\033[94m {}\033[00m" .format(skk))
+def prRed(skk): print("\033[91m {}\033[00m" .format(skk))
 
 # Specify the root directory and the old_scope_name you want to match
 scope_name     = '853443' # old_scope_name from our original working file
 prGreen("\nCurrent appcreator copmany code: x-" + scope_name + "-")
 prLightPurple("\nThis can be found by navigating to \"sys_properties.list\" in the filter navigator of your ServiceNow instance and searching for the property named \"glide.appcreator.company.code\".")
-prLightPurple("\nFor a developer instance, this will likely be a string of numbers! If you're using an organizational instance, it will most likely be a shorthand for your company (for example, ours is esg). \n\nIf you can't find your copmany code, you can try to deploy the component and an error should show the company code.\nFor example, here's an example of the error when deploying to the wrong Personal Developer Instance\n\"ERROR in Component tag name \"x-<scopename>-testing-project\" \nmust start with the vendor prefix \"x-71146-\" \nIn this case, 71146 would be the code you enter for scope name!")
+prLightPurple("\nFor a developer instance, this will likely be a string of numbers! If you're using an organizational instance, it will most likely be a shorthand for your company (for example, ours is esg). \n\nIf you can't find your copmany code, you can try to deploy the component and an error should show the company code.\nFor example, here's an example of the error when deploying to the wrong Personal Developer Instance\n\"ERROR in Component tag name \"x-<scopename>-testing-project\" \nmust start with the vendor prefix \"x-71146-\" \nIn this case, 71146 would be the code you enter for scope name!\n")
 
-new_scope_name = input("Enter your appcreator company code: ")  # User Input to get new instance scope Use raw_input() in Python 2
+#Run check to ensure appcreator company code is valid
+input_valid = False
+new_scope_name = ''
+while input_valid == False:
+    new_scope_name = input("Enter your appcreator company code: ").strip()  # User Input to get new instance scope Use raw_input() in Python 2
+    if new_scope_name == "":
+        prRed("Please enter an appcreator copmany code, an empty string is invalid")
+    elif "/" in new_scope_name:
+        prRed("Invalid appcreator copmany code, please enter a valid company code (should not contain /)")
+    elif  "\\" in new_scope_name:
+        prRed("Invalid appcreator copmany code, please enter a valid company code (should not contain \\)")
+    else:
+        input_valid = True
 print("\n")
 
 # Call functions to replace scope old_scope_namees in file contents & to rename directories, & files
@@ -80,3 +93,5 @@ if  os.name == 'posix':
 elif os.name == 'nt':
     replace_old_scope_name_in_file(win_files, scope_name, new_scope_name)
     rename_dirs_and_files(win_dirs_and_files, scope_name, new_scope_name)
+
+prGreen("\nCleanup Complete!\n")
