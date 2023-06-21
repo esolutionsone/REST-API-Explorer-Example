@@ -50,7 +50,7 @@ This README will describe our **file structure, tips and tricks, and the high-le
 &ensp;
 2) Clone this repository `git clone https://github.com/esolutionsone/REST-API-Explorer-Example.git` (to the folder you want to work out of locally)
 
->**NOTE:** Double check you are in the correct folder before moving on to the next step. "REST-API-Explorer-Example" should be the folder you are in. You can chack by looking at your terminal command line to verify.
+>**NOTE:** Double check you are in the correct folder before moving on to the next step. "REST-API-Explorer-Example" should be the folder you are in. You can check by looking at your terminal command line to verify.
 
 3) Run `npm install` in your terminal
 
