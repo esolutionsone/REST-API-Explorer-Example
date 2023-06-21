@@ -32,7 +32,7 @@
 	},
 	"scripts": {
 		"dev": "snc ui-component develop",
-		"start": "npm run kill && echo 'Successfully Killed Port' && sleep 2; npm dev",
+		"start": "npm run kill && echo 'Successfully Killed Port' && sleep 2; npm run dev",
 		"deploy": "snc ui-component deploy --force",
 		"kill": "killall node"
 	}
