@@ -36,32 +36,63 @@ This README will describe our **file structure, tips and tricks, and the high-le
 
 ## How to use this component
 
+**Prerequisites**
+
+- sn-cli
+- Python3
+- Git
+- VSCode (strongly recommended)
+
+**Getting Started**
+
 1) Ensure your sn-cli is configured/installed correctly 
-    -> You can review our [Mac OS](https://creator-dna.com/blog/macos-setup) & [Windows OS](https://creator-dna.com/blog/1hj866nlrwslzlesekt0c14grhh8u1) instillation guides
-1) Clone this repository `git clone https://github.com/esolutionsone/REST-API-Explorer-Example.git` (to the folder you want to work out of locally)
-2) Run `npm install`
+    &rarr; You can review our [Mac OS](https://creator-dna.com/blog/macos-setup) & [Windows OS](https://creator-dna.com/blog/1hj866nlrwslzlesekt0c14grhh8u1) instillation guides
+&ensp;
+2) Clone this repository `git clone https://github.com/esolutionsone/REST-API-Explorer-Example.git` (to the folder you want to work out of locally)
+
+>**NOTE:** Double check you are in the correct folder before moving on to the next step. "REST-API-Explorer-Example" should be the folder you are in. You can chack by looking at your terminal command line to verify.
+
+3) Run `npm install` in your terminal
+
+>**NOTE:** If the **`npm install`** only takes a few seconds, you are most likely in the wrong folder. Change directory **`cd`** into the appropriate folder and retry **`npm install`** command. If you changed into the right folder, you will be waiting a few minutes for all the modules to install.
+
+4) Locate your company code by navigating to `sys_properties.list` in the filter navigator of your ServiceNow instance and searching for the property named `glide.appcreator.company.code`. 
+
+>**NOTE:** For a developer instance, this will likely be a string of numbers! If you're using an organizational instance, it will most likely be a shorthand for your company (for example, ours is esg). 
+
+If you can't find your copmany code, you can try to deploy the component and an error should show the company code. Here's an example of the error when deploying to the wrong Personal Developer Instance:
+><span style="color:red"> ERROR in Component tag name "x-853443-testing-project" must start with the vendor prefix "x-71146-"</span>
+
+In this case, 71146 would be the code you enter for scope name!
+
+5) Once you have the company code, run `npm run rename` in your terminal and you will be prompted to enter your scope name. Enter the company code and hit `ENTER` on your keyboard. You will notice a couple files will be updated with the appropriate company code. 
+
 
 **To run/use this component locally**
 
-3) Run `snc ui-component develop`
+6) Run `snc ui-component develop`
 
-    *You can also use* `npm run dev` *as we've created a run dev script in package.json!*
+>**NOTE:** *You can also use* **`npm run dev`** *as we've created a run dev script in package.json!*
+&ensp;
+7) Navigate to [http://localhost:8081/](http://localhost:8081/)
 
-4) Navigate to [http://localhost:8081/](http://localhost:8081/)
-
-    *Any updates/changes you make to your files locally will be reflected in real-time here!* 🙌
+>**NOTE:** *Any updates/changes you make to your files locally will be reflected in real-time here!* 🙌
 
 **To deploy this component for use in your ServiceNow instance**
 
-3) Run `snc ui-component deploy`
-4) Navigate to *UI Builder* in your *ServiceNow Instance* (Now Experience Framework > UI Builder)
-5) Click on the experience you'd like to add the component to OR create an experience with the Portal App Shell
-6) Create a new UI Builder Page (or open an existing page to add the component to)
-7) Search for `REST API Explorer` in the Components List, Drag and Drop it onto the page, and click save!
+8) Run `snc ui-component deploy`
+&ensp;
+9) Navigate to *UI Builder* in your *ServiceNow Instance* (Now Experience Framework > UI Builder)
+&ensp;
+10) Click on the experience you'd like to add the component to OR create an experience with the Portal App Shell
+&ensp;
+11) Create a new UI Builder Page (or open an existing page to add the component to)
+&ensp;
+12) Search for `REST API Explorer` in the Components List, Drag and Drop it onto the page, and click save!
 
 **Voilà, your component is deployed to your ServiceNow instance!**
 
-*(If you make changes to your component down the road, you'll have to redeploy. In our experience this always requires you force deploy your changes.)*
+>**NOTE:** *If you make changes to your component down the road, you'll have to redeploy. In our experience this always requires you force deploy your changes.*
 
 
 **Assumptions**
@@ -95,8 +126,8 @@ This README will describe our **file structure, tips and tricks, and the high-le
     - now-ui.json                    ➜ Add properties to configure the Component in UI Builder here
     - package.json                   ➜ Can add dependencies & scripts to make dev easier here
 
-*For a project of this size and complexity we recommend defining a "Components" folder to contain any subcomponents to use in your "core" component, a helpers.js file, and an actionHandlers.js file. The helper file will contain helper functions to be used in your core and sub-components whereas the actionHandler will be used to manage dispatch requests and send REST messages.*
-
+>**NOTE:** *For a project of this size and complexity we recommend defining a "Components" folder to contain any subcomponents to use in your "core" component, a helpers.js file, and an actionHandlers.js file. The helper file will contain helper functions to be used in your core and sub-components whereas the actionHandler will be used to manage dispatch requests and send REST messages.*
+&ensp; 
 *There are other files in a default component file structure (such as now-cli.json, package-lock.json, etc.) but you'll generally not need to touch those.*
 
 The Styles.scss file is your main SCSS file *any sub-component SCSS file should be included in this file & core component SCSS can be defined here
@@ -534,10 +565,12 @@ Properties can be a string, boolean, choice, JSON, or even table/reference selec
 
 We still don't have an exact answer as to why this happens, but it has happened to us many times. It seems like there is some where that stores the instance URL and tries to use it even though it might not exist in any of your profiles you've created in the cli. Below are some steps we take if it keeps trying to connect to the wrong instance:
 
-A quick fix(hopefully), can be done by using a simple terminal command:
+A quick fix, hopefully, can be done by using a simple terminal command:
 ```bash
 killall node
 ```
+>**NOTE:** The command **killall node** might just be for MacOS. Windows might have a different command for shutting down any node process that is currently running.
+
 this can help most of the time, but if it doesn't, then try checking the instance assigned to the profile you are using by typing the following into your terminal to see the list of profiles. 
   ```bash
   snc configure profile list
@@ -574,7 +607,7 @@ snc ui-component develop --profile new-instance
 #or
 snc ui-component deploy --profile new-instance
 ```
-<span style="color:red"> Make sure to use the `killall node` command each time before trying to connect to the instance.</span>
+>**NOTE:** <span style="color:red"> Make sure to use the `killall node` command each time before trying to connect to the instance.</span>
 
 using the `deploy` or `develop` command without the --profile attribute will result in the cli using the default profile. If the cli is still using the wrong instance name after these steps, try refreshing the connection:
 ```bash
