@@ -58,6 +58,7 @@ mac_files           = [ './now-ui.json',
                         './src/x-853443-testing-project/index.js',
                         './src/x-853443-testing-project/__tests__/test.x-853443-testing-project.js',
                         './README.md',
+                        './example/element.js'
                         './_update_instance_details.py' ]
 mac_dirs_and_files  = [ './src/x-853443-testing-project/__tests__/test.x-853443-testing-project.js',
                         './src/x-853443-testing-project' ]
@@ -67,6 +68,7 @@ win_files           = [ '.\\now-ui.json',
                         '.\\src\\x-853443-testing-project\\index.js',
                         '.\\src\\x-853443-testing-project\\__tests__\\test.x-853443-testing-project.js',
                         '.\\README.md',
+                        '.\\example\\element.js'
                         '.\\_update_instance_details.py' ]
 win_dirs_and_files = [  '.\\src\\x-853443-testing-project\\__tests__\\test.x-853443-testing-project.js',
                         '.\\src\\x-853443-testing-project' ]
