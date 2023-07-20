@@ -26,6 +26,8 @@ This README will describe our **file structure, tips and tricks, and the high-le
 - [Helpers and ActionHandlers](#helpers-and-actionhandlers)
 - [Properties](#properties)
 - [Troubleshooting](#troubleshooting)
+    - [Connecting To The Wrong Instance](#connecting-to-the-wrong-instance)
+    - [Not Seeing Your Deployed Component On UI Builder](#not-seeing-your-deployed-component-on-ui-builder)
 - [SNC Command Cheat Sheet](#snc-command-cheat-sheet)
     - [Most Useful Commands](#most-useful-commands)
     - [SNC Commands](#snc-commands)
@@ -38,16 +40,20 @@ This README will describe our **file structure, tips and tricks, and the high-le
 
 **Prerequisites**
 
-- sn-cli
-- Python3
-- Git
-- VSCode (strongly recommended)
+- sn-cli (Installation for [MacOS](https://creator-dna.com/blog/macos-setup) and [Windows](https://creator-dna.com/blog/1hj866nlrwslzlesekt0c14grhh8u1))
+- Python3 (Installation for [MacOS](https://www.python.org/downloads/macos/) and [Windows](https://www.python.org/downloads/windows/))
+- Git (Installation for [MacOS](https://git-scm.com/download/mac) and [Windows](https://git-scm.com/download/win))
+- VSCode (strongly recommended - Installation found [here](https://code.visualstudio.com/download))
 
 **Getting Started**
 
-1) Ensure your sn-cli is configured/installed correctly 
-    &rarr; You can review our [Mac OS](https://creator-dna.com/blog/macos-setup) & [Windows OS](https://creator-dna.com/blog/1hj866nlrwslzlesekt0c14grhh8u1) instillation guides
-&ensp;
+1) Ensure all prerequisites are installed by checking their versions using your terminal 
+    &rarr; sn-cli : `snc ui-component --version`
+    &rarr; Python3 : `python3 --version`
+    &rarr; Git : `git --version`
+
+>**NOTE:** If any of those commands are not found, then you will likely need to install them. Follow the links provided in the Prequisites section.
+
 2) Clone this repository `git clone https://github.com/esolutionsone/REST-API-Explorer-Example.git` (to the folder you want to work out of locally)
 
 >**NOTE:** Double check you are in the correct folder before moving on to the next step. "REST-API-Explorer-Example" should be the folder you are in. You can check by looking at your terminal command line to verify.
@@ -561,9 +567,9 @@ Properties can be a string, boolean, choice, JSON, or even table/reference selec
 ## Troubleshooting
 *Common erros that may occur:*
 
-**When attempting to `deploy` or `develop`, the cli is trying to connect to the wrong instance**
+#### Connecting to the wrong instance
 
-We still don't have an exact answer as to why this happens, but it has happened to us many times. It seems like there is some where that stores the instance URL and tries to use it even though it might not exist in any of your profiles you've created in the cli. Below are some steps we take if it keeps trying to connect to the wrong instance:
+When attempting to `deploy` or `develop`, the cli is trying to connect to the wrong instance. We still don't have an exact answer as to why this happens, but it has happened to us many times. It seems like there is some where that stores the instance URL and tries to use it even though it might not exist in any of your profiles you've created in the cli. Below are some steps we take if it keeps trying to connect to the wrong instance:
 
 A quick fix, hopefully, can be done by using a simple terminal command:
 ```bash
@@ -628,6 +634,9 @@ snc configure profile remove --profile default
 ```
 typing the profile list command should now display an empty list. Set up a new profile like before and then use the `killall node` command again, maybe even restart your VSCode applicaiton just in case. After all that, try the `develop` or `deploy`. With any luck, this should hopefully connect you to the right instance! If you made it this far into troubleshooting your instance connection, I am sorry. 
 
+#### Not seeing your deployed component on UI Builder
+
+After successfully deploying your component, you attempt to use it on UI Builder and you can't find it but someone else with access to your instance can see and use it. This issue has happened a couple times where the one who deployed the component can't seem to find and use the component. A solution that we found to work is to go to your filter navigator in your ServiceNow instance and running `cache.do` then logging out and back into your instance. This should allow you to see your component in UI Builder.
 
 ---
 ## SNC Command Cheat Sheet
